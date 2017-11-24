@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>trial&</title>
+    
+    <!-- <link href='http://fonts.googleapis.com/css?family=Roboto:100,300,400,700,500' rel='stylesheet' type='text/css'> -->
+   <!-- <link href='https://fonts.googleapis.com/css?family=Comfortaa:400,700' rel='stylesheet' type='text/css'> -->
+   <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+</head>
+<body >
+  <!-- BackToTop Button -->
+<div style="text-align:center;"><a href="javascript:void(0);" id="scroll" title="Scroll to Top" style="display: none;">Top<span></span></a></div>
+  <div class="wrapper">
+    <div id="mySidenav" class="sidenav">
+      <% if current_user %>
+        <div class="sidenav_top">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+          <div class="email"><%= current_user.email %></div>
+          <div class="logout_profile">
+          <%= link_to "Logout", logout_path, method: "delete" %> | <%= link_to "Profile", current_user %></br>
+          </div>
+          <div class="sidemenu">
+            <p><%= link_to "Analyze", myproducts_path %></p>
+            <p><%= link_to "Faves", favorites_path %></p>
+          </div>
+        </div>
+        <div class="sidenav_bottom">
+          <p><%= link_to "How It Works", how_it_works_path %></p>
+          <p><%= link_to "Suggest Product", new_suggest_path %></p>
+          <p><%= link_to "Report Error", new_suggest_path %></p>
+          <p><%= image_tag "if_icon-6-mail-envelope-closed_314900.png", size: "30", alt: "Email" %>&nbsp;admin@trialn.com</p>
+          <p><%= link_to image_tag("if_1_social_2609541.png", height: "30px", width: "30px"), "https://facebook.com", target: :_blank, size: "15", alt: "Facebook" %>&nbsp;<%= link_to image_tag("if_25_social_2609558.png", height: "30px", width: "30px"), "https://instagram.com", target: :_blank, size: "20", alt: "Instagram" %></p>
+          <div class="fineprints">
+              &copy; 2017 All Rights Reserved</br>
+              <%= link_to "Privacy Policy", privacy_policy_path %></br>
+              <%= link_to "Terms of Use", terms_of_use_path %>
+          </div>
+        </div>
+      <% else %>
+        <div class="sidenav_top">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+          <div class="sidemenu">
+            <%= link_to "Sign Up", signup_path %> | <%= link_to "Login", login_path %>
+          </div>
+        </div>
+        <div class="sidenav_bottom">
+          <p><%= image_tag "if_icon-6-mail-envelope-closed_314900.png", size: "30", alt: "Email" %>&nbsp;admin@trialn.com</p>
+          <p><%= link_to image_tag("if_1_social_2609541.png", height: "30px", width: "30px"), "https://facebook.com", target: :_blank, size: "15", alt: "Facebook" %>&nbsp;<%= link_to image_tag("if_25_social_2609558.png", height: "30px", width: "30px"), "https://instagram.com", target: :_blank, size: "20", alt: "Instagram" %></p>
+          <div class="fineprints">
+              &copy; 2017 All Rights Reserved</br>
+              <%= link_to "Privacy Policy", privacy_policy_path %></br>
+              <%= link_to "Terms of Use", terms_of_use_path %>
+          </div>
+        </div>
+      <% end %>
+    </div>           
+  	<div class="header">
+      <div class="container">
+        <%= link_to(root_path) do %>
+        <div class="logo">
+        trial&amp;
+        </div>
+        <% end %>
+        <div class="openbtn" onclick="openNav()">&#9776;</div>
+      </div>
+  	</div>
+    <div class="main">
+      <div class="container">
+          <%= yield %>  
+      </div>
+    </div>
+    <div class="footer">
+      <div class="container">
+        &#9632; &#9632; &#9632;
+      </div>
+  </div>
+  
+  
+</body>
+</html>
+

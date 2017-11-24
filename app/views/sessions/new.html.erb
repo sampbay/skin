@@ -1,0 +1,24 @@
+<div class="login">
+  <h3>Login</h3>
+  <div class="row">
+	<div class="why_login">
+		>>> Why do you need an account? We save your past products and analysis results so that you can come back here anytime and analyze another product/brand without having to re-enter all your past products!
+	</div>
+	    <%= form_for(:session, url: login_path) do |f| %>
+	    <% if @login_error %>
+	    <div id="error_explanation">
+	    	<div class="alert alert-danger">
+	    		<%= @login_error %>
+	    	</div>
+	    </div>
+	    <% end %>
+	    <p><%= f.email_field :email, class: 'form-control', :placeholder => "Email" %></p>
+	    <p><%= f.password_field :password, class: 'form-control', :placeholder => "Password" %></p>
+	    <%= f.submit "Login", class: "submit_btn" %>
+	    <% end %>
+	 	<div>&nbsp;&nbsp;&nbsp;<%= link_to "Forgot Password?", new_password_reset_path %> | <%= link_to "Click Here To Sign Up", signup_path %></div>
+	 	
+  </div>
+</div>
+
+

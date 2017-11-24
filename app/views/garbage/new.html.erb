@@ -1,0 +1,26 @@
+<h1>Add Products</h1>
+
+<%= form_for @profile.products, url: profile_path(@profile), method: :patch, format: :json do |f| %>
+ 
+  <p>
+    <div id="the-basics">
+    <%= f.label :product %><br>
+    <%= f.text_field :product, class: 'typeahead', :placeholder => "Product or Brand" %>
+   </div>
+  </p>
+  <p>
+    <%= f.label :breakout, "Caused breakouts?" %><br>
+    <%= f.label :breakout, "Yes", :value => "yes" %>
+    <%= f.radio_button :breakout, "Yes" %>
+    <%= f.label :breakout, "No", :value => "no" %>
+    <%= f.radio_button :breakout, "No" %>
+  </p>
+  <p><%= f.submit 'Submit', :class => "btn btn-primary" %></p>
+ 
+<% end %>
+ 
+<%= link_to 'Back', profiles_path %><br><br><br>
+
+<% @products.each do |p| %>
+<%= p.brand %> | <%= p.name %> | <%= p.product_type %><br>
+<% end %>

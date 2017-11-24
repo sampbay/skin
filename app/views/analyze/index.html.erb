@@ -1,0 +1,182 @@
+<div class="row">
+<%= tabs %>
+    <div class="tips">
+            TIPS: Ingredients potentially causing breakout are colored <span style="color:red;">RED</span>. If you know certain ingredients are actually safe for you, go back to the previous page and de-select those ingredients to update recommendation list.
+    </div>
+
+    <div class="brand_product">In <span style="color:rgba(255,0,0,1); font-size:15px;"><%= params[:product_type] %></span> category of <span style="color:rgba(255,0,0,1); font-size: 15px;"><%= params[:brand] %></span> brand you selected, these are the most frequently found breakout-causing ingredients:</div>
+    <div class="results">    
+          
+        <div class="chart_container">
+            <canvas id="barChart"></canvas>
+        </div>
+     <!--   <div class="chart_container">
+            <p>Overall Hazard</p>
+            <canvas id="overall_hazard" width="500" height="500"></canvas>
+        </div>-->
+    <!-- collect all potential ingredients of recommended products for graphic display -->
+
+    <% @total = [] %>
+    <% if @ingredient_hash.present? %>
+        <div class="brand_product">
+        <span style="color:rgba(255,0,0,1); font-size: 15px;"><%= @products.map(&:product).count %></span> products found:
+    </div>
+       <!-- for data_target attribute for ingredient collapse id per loop, i.e. id = 1_5 for first result_list & fifth ingredient for that group -->
+       <% result_list_counter=0 %>
+       
+       <% @ingredient_hash.each do |key, value| %>
+       <div class="result_list">
+       <!-- p for each product -->
+       <p>
+            <div class="product"><%= key %></div></br>
+            <div class="product_img"><%= image_tag("product_images/#{@products.where(product: key).map(&:img).first}", size: "200", alt: "no image available") %></div></br>
+            <div class="product_claims"><%= @products.where(product: key).map(&:claims).first %></div>
+            <div class="amazon_buy">Amazon Buy</div>
+            <div class="add_faves"><% unless current_user.favorites.exists?(Product.where(product: key).map(&:id).first) %>
+   <%= link_to "Add to Faves", favorite_product_path(Product.where(product: key).map(&:id).first), method: :put %>
+   <% else %>
+   <%= link_to "Remove from Faves", favorite_product_path(Product.where(product: key).map(&:id).first), method: :delete %>
+<% end %></div>
+            <div class="report_error">Error?</div>
+
+            <!-- use i as a counter for data-target & collapse id matching -->
+            <% i=0 %>
+            <div class="ingredients_list">
+                <% value.map(&:CAS_No).zip(value.map(&:INCI_name)).each do |cas, inci| %>
+
+                <% unless inci.nil? %>
+                <div class="collapse_view" data-toggle="collapse" data-target="#<%= result_list_counter %>_<%= i %>" aria-expanded="false" aria-controls="collapseExample" style="color: <%= @potential_product.include?(cas) ? 'red' : 'rgba(0,0,0,0.8)' %>"><%= inci %></div>
+              
+                <div class="collapse" id="<%= result_list_counter %>_<%= i %>">
+                  <div class="well">
+                    <%= Cosing.where(CAS_No: cas).map(&:Function).first %>
+                    
+                  </div>
+                </div>
+                <% end %>
+                <!-- count no of ingredients flagged RED in product category/brand selected -->
+                    <% @count_hash = Hash.new(0) %>
+                    <% if @potential_product.include?(cas) %>
+                    <% @total << inci %> 
+                    <% end %>
+                    <% @total.each do |v| %>
+                        <% @count_hash[v] += 1 %>
+                    <% end %>
+                    <% i+=1 %>
+                <% end %>
+            </div>
+        <% result_list_counter+=1 %>
+        
+      </p>
+       <% end %>
+       </div>
+    <%= @potential_product %>
+    <%= @potential_product.count %>
+    <% else %>
+      <p>There are no posts containing the term(s) <%= params[:brand] %>.</p>
+    <% end %>
+
+
+        <%#= link_to 'Back', analyze_path %>
+
+        <!-- testing purposes -->
+        <%# if @count_hash.present? %>
+        <%# @count_hash.each do |k, v| %>
+        <%#= v %>
+        <%# end %>
+        <%# end %>
+    
+        <%# @total.each do |t| %>
+        <%#= t %>
+        <%# end %>
+    </div>
+</div>
+
+<% if @count_hash.present? %>
+    <script>
+
+      var bar_data = {
+        labels: [<% @count_hash.each_key do |key| %>
+            "<%= key %>",
+            <% end %>],
+        datasets: [
+            {      
+                barThickness: "5px",
+                backgroundColor: "rgba(255,99,132,0.2)",
+                borderColor: "rgba(255,99,132,1)",
+                borderWidth: 1,
+                hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                hoverBorderColor: "rgba(255,99,132,1)",
+                data: [<% @count_hash.each_value do |value| %>
+            <%= value %>,
+            <% end %>],
+            }
+        ]
+    };
+    var overall_hazard_polarArea_data = {
+       labels: [
+            <% @count_hash.each_key do |key| %>
+            "<%= key %>",
+            <% end %>
+           ],
+        datasets: [
+            {
+                data: [
+            <% @count_hash.each_value do |value| %>
+            <%= value %>,
+            <% end %>
+                    ]
+            }]
+    };
+
+    // Global Configuration
+
+     // Get the context of the canvas element we want to select
+    var ctx = document.getElementById("barChart").getContext("2d");
+    var myBarChart = new Chart(ctx, {
+        type: 'horizontalBar', 
+        data: bar_data,
+        options: {
+            scales: {
+                xAxes: [{
+                    stacked: true
+                }],
+                yAxes: [{
+                    stacked: true
+                }]
+            },
+            legend: {
+            display: false
+            }
+        }
+    });
+
+    var ctx = document.getElementById("overall_hazard").getContext("2d");
+    var myPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: overall_hazard_polarArea_data
+    });
+
+    var ctx = document.getElementById("cancer").getContext("2d");
+    var myPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: cancer_pie_data
+    });
+
+    var ctx = document.getElementById("developmental").getContext("2d");
+    var myPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: developmental_pie_data
+    });
+    var ctx = document.getElementById("allergies").getContext("2d");
+    var myPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: allergies_pie_data
+    });
+    var ctx = document.getElementById("restrictions").getContext("2d");
+    var myPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: restrictions_pie_data
+    });
+    </script>
+<% end %>

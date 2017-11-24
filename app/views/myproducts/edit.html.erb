@@ -1,0 +1,45 @@
+
+<div class="row">
+
+<%= tabs %>
+  
+<h3>New Product</h3>
+
+<%= form_for @myproduct, url: myproduct_path(@myproduct), method: :patch do |f| %>
+<div id="search">
+    <p>
+        <div id="the-basics">
+            
+        <%= f.label :products, "Search a Product:" %><br>
+        <%= f.select :products, [], {}, class: "e11", style:"width:600px" %>
+       </div> 
+      </p>
+      
+
+    <div style="clear: both;">
+        <br>
+      <p><%= f.submit 'Submit', :class => "btn btn-primary" %></p>
+
+    <% end %>
+     
+        <%= link_to 'Back', myproducts_path %><br><br><br>
+    </div>
+
+
+
+<!-- 
+<select input id="e11" multiple="multiple">
+  <optgroup label="Alaskan/Hawaiian Time Zone">
+    <option value="AK">Alaska</option>
+    <option value="HI">Hawaii</option>
+  </optgroup>
+  <optgroup label="Pacific Time Zone">
+    <option value="CA">California</option>
+    <option value="NV">Nevada</option>
+    <option value="OR">Oregon</option>
+    <option value="WA">Washington</option>
+</select>
+-->
+
+</div>
+</div>

@@ -1,0 +1,29 @@
+<h1>Add Products</h1>
+
+<%= form_for @profile, url: profile_path(@profile), method: :patch do |f| %>
+ 
+  <p>
+    <div id="the-basics">
+  
+    <%= f.label :product_breakout_nil, "Did not cuase breakouts :)" %><br>
+    <%= f.text_field :product_breakout_nil, class: 'typeahead', :placeholder => "Product" %>
+   </div>
+  </p>
+<p>
+    <div id="the-basics">
+    
+    <%= f.label :product_breakout, "Caused breakouts :(" %><br>
+    <%= f.text_field :product_breakout, class: 'typeahead', :placeholder => "Product" %>
+   </div>
+  </p>
+
+  
+  <p><%= f.submit 'Submit', :class => "btn btn-primary" %></p>
+ 
+<% end %>
+ 
+<%= link_to 'Back', profiles_path %><br><br><br>
+
+<% @products.each do |p| %>
+<%= p.brand %> | <%= p.name %> | <%= p.product_type %><br>
+<% end %>

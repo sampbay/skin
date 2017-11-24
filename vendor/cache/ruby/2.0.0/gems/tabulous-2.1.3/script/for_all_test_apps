@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+# Run a command for all test apps.  Examples:
+#
+#  $ script/for_all_test_apps bundle install
+#  $ script/for_all_test_apps bundle exec rake db:migrate
+#  $ script/for_all_test_apps bundle exec rake test
+#
+#  Set the RUBY_COMPATIBILITY environment variable to limit the action to
+#  only those test apps that are compatible with that version of Ruby.
+
+require 'colored'
+require 'rake' # in order to get the nice sh method, which allows system
+               # command output to be streamed in real time
+include FileUtils
+
+command = ARGV.join(' ')
+
+if ENV['RUBY_COMPATIBILITY'] == '2.2'
+  apps_to_test = Dir['spec/applications/*/rails_4-1*'] + Dir['spec/applications/*/rails_4-2*']
+elsif ENV['RUBY_COMPATIBILITY'] == '2.1'
+  apps_to_test = Dir['spec/applications/*/rails_4*']
+elsif ENV['RUBY_COMPATIBILITY'] == '2.0'
+  apps_to_test = Dir['spec/applications/*/rails_3-2*'] + Dir['spec/applications/*/rails_4*']
+else
+  apps_to_test = Dir['spec/applications/*/rails*']
+end
+
+apps_to_test.each do |filename|
+  if File.directory?(filename)
+    name = filename.split('/')[-2..-1].join('/')
+    print "Running".magenta
+    print " #{command} ".yellow
+    print "in test app".magenta
+    print " #{name} ".yellow
+    puts
+    sh "cd #{filename} && #{command}"
+  end
+end

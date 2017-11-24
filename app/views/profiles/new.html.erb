@@ -1,0 +1,28 @@
+<div class="row">
+
+<%= tabs %>
+
+<h3>New Profile</h3>
+
+<%= form_for @profile, url: profiles_path do |f| %>
+  <p>
+    <%= f.label :age %><br>
+    <%= f.text_field :age %>
+  </p>
+  <p>
+    <%= f.label :skin_type %><br>
+    <%= f.select :skin_type, options_for_select([['Normal', 'Normal'] , ['Sensitive', 'Sensitive'] ,['Dry', 'Dry'], ['Oily', 'Oily'], ['Combination', 'Combination']]) %>
+  </p>
+  <p> 
+    <%= f.label :skin_color %><br>
+    <%= f.select :skin_color, options_for_select([['Black', 'Black'] , ['Brown', 'Brown'] ,['White', 'White']]) %>
+  </p>
+  <p>
+    <%= f.label :concerns %><br>
+    <%= f.select :concerns, options_for_select([['None', 'None'] , ['Acne/Blemish', 'Acne/Blemish'] ,['Eczema', 'Eczema'], ['Sun-damaged', 'Sun-damaged'], ['Aging/Wrinkles', 'Aging/Wrinkles'], ['Blackheads', 'Blackheads'], ['Dryness', 'Dryness'], ['Oiliness', 'Oiliness'], ['Pores', 'Pores'], ['Redness', 'Redness'], ['Dark Spots', 'Dark Spots']]) %>
+  </p>
+  <p><%= f.submit 'Submit', :class => "btn btn-primary" %></p>
+<% end %>
+ 
+<%= link_to 'Back', profiles_path %>
+</div>

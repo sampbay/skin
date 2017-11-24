@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ingredient: 
+  cas: MyText
+  synonyms: 
+  status: MyText
+  ingredient_original: 
+  conditions_of_use: MyText
+  maximum_concentration_permitted: MyText
+  warnings_and_cautions: MyText
+  update_date: 2017-03-14 21:42:56
+
+two:
+  ingredient: 
+  cas: MyText
+  synonyms: 
+  status: MyText
+  ingredient_original: 
+  conditions_of_use: MyText
+  maximum_concentration_permitted: MyText
+  warnings_and_cautions: MyText
+  update_date: 2017-03-14 21:42:56

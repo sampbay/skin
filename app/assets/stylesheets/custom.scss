@@ -1,0 +1,621 @@
+// Place all the styles related to the Users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+html, body {
+	background-color: rgba(255,255,255,1);
+	min-height: 100%;
+	margin: 0;
+	padding: 0;
+	font-family: 'Inconsolata';
+	font-weight: 400;
+	color: rgba(0, 0, 0, 1);
+}
+
+.main {
+	padding-top: 120px;
+  padding-bottom: 90px;
+}
+
+.main a:link {
+    color: rgba(1,1,1,1);
+}
+
+.main a:visited {
+    color: rgba(1,1,1,1);
+}
+
+.main a:hover {
+    color: rgba(1,1,1,0.5);
+}
+
+.main a:active {
+    color: rgba(1,1,1,1);
+}
+
+.header {
+	margin-bottom: 20px;
+	overflow: hidden;
+	position: fixed;
+	width: 100%;
+	z-index: 998;
+  background: rgba(255,255,255,0.9);
+  height: 106px;
+}
+
+.header .logo {
+	z-index: 998;
+	font-family: 'Inconsolata'; 
+	font-weight: 400;
+  font-size: 30px;
+  color: rgba(0, 0, 0, 1);
+	display: inline-block;
+	position: relative;
+  border: 3px solid rgba(0, 0, 0, 1);
+  padding: 25px 5px 25px 5px;
+  background-color:rgba(255,255,255,0.8);
+  margin: 5px 0 5px 0;
+}
+
+.wrapper {
+	height: auto !important;
+	min-height: 100%;
+
+}
+
+.logo a:hover, .logo a:link, .logo a:active, logo a.visited {
+	text-decoration: none;
+}
+
+/* tabulous menu - override navs.css */
+.nav-tabs {
+	padding: none;
+	border: none;
+	color: #333;
+	font-size: 18px;
+  border-bottom: 1px solid rgba(1,1,1,1); 
+}
+
+.nav-tabs > li > a {
+  border-radius: 0px;
+}
+
+.nav-tabs > li a:hover {
+	background-color: transparent;
+	color: #333;	
+}
+
+.nav-tabs > li a:link, .nav-tabs > li.a:focus {
+	background-color: transparent;
+	border: none;
+  color: #a9a9a9;
+}
+
+.nav-tabs > li a:link:hover {
+
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+	border: 1px solid rgba(1,1,1,1);
+  border-bottom: 1px solid rgba(255,255,255,1) !important;
+	background-color: rgba(255,255,255,1);
+	color: #333;
+}
+
+.nav > li > a {
+  padding: 4px;
+}
+
+.nav > li {
+  width: 50%;
+  text-align: center;
+}
+
+
+.step123 {
+  text-align: center;
+}
+
+.step123_each {
+  font-size: 20px; 
+  display: inline-block;
+  margin: 10px;
+
+}
+
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1001; /* Stay on top */
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(1,1,1,1); /* Black*/
+    opacity: 0.93;
+    overflow: hidden; /* Disable both horizontal and vertical scroll */
+    padding-top: 0; /* Place content 0px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    color: rgba(255, 255, 255, 1);
+}
+
+/* The navigation menu links */
+.sidenav a {
+    text-decoration: none;
+    color: #818181;
+    transition: 0.3s;
+}
+
+.sidenav a:link:hover {
+    color: rgba(255,255,255,1);
+}
+
+.sidenav_top {
+  font-size: 24px;
+  padding-left: 30px;
+}
+
+.sidenav_bottom {
+   font-size: 17px;
+   position: absolute;
+   bottom: 30px;
+   padding-left: 30px;
+}
+
+.fineprints {
+  font-size: 14px;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover, .offcanvas a:focus{
+    color: #818181;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: relative;
+    top: 0;
+    right: 25px;
+    font-size: 80px;
+    margin-left: 20px;
+}
+
+.openbtn {
+	display: inline-block;
+	float: right;
+  margin-top: 20px;
+  font-size: 50px;
+  cursor:pointer;
+}
+
+/* On smaller screens, where height is less than 550px, change the style of the sidenav (less padding and a smaller font size) */
+@media only screen and (max-height: 550px) {
+  .sidenav_top {font-size: 18px; line-height: 1.1;}
+  .sidenav_bottom {font-size: 14px; line-height: 1.1;}
+  .fineprints {font-size: 12px; line-height: 1.1;}
+  .header.shrink {height: 74px;}
+  .header .logo.shrink {font-size: 18px; padding: 16px 3px 16px 3px; margin-top: 5px;}
+  .openbtn.shrink {font-size: 40px; margin-top: 10px;}
+  // Animation
+  .header, .header .logo, .openbtn {-webkit-transition: all 0.2s ease; transition: all 0.2s ease;}
+}
+
+@media (min-width: 1200px) { 
+  .container {width: 970px;}
+}
+
+.start {
+	text-align:center;	
+  margin-top: 60px;
+}
+
+.start_btn {
+	display:inline-block;
+    width:200px;
+    height:200px;
+    line-height:50px;
+    border: 4px solid #f5f5f5;
+    border-radius: 50%;
+    opacity: 0.6;
+    margin: 0 auto;
+    text-decoration:none;
+    background: #444444;
+    padding-top: 45px;
+    text-align:center;
+    vertial-align:middle;
+    font-size:30px;
+    font-weight:bold;
+    box-shadow: 0 9px #999;
+}
+
+.start_btn a:hover, a:visited, a:link, a:active
+{
+    text-decoration: none;
+}
+
+.start_btn:hover {
+	background: #262626;
+	text-decoration:none;
+}
+
+.start_btn:active {
+  box-shadow: 0 3px #666;
+  transform: translateY(3px);
+}
+
+/* sliding arrow effect upon hover
+.start_btn span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.start_btn span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.start_btn:hover span {
+  padding-right: 25px;
+}
+
+.start_btn:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+*/ 
+
+.start_msg {
+	font-size: 25px;
+	margin-bottom: 60px;
+}
+
+.sub_msg {
+  margin-bottom: 60px;
+}
+
+/* welcome page buttons */
+.welcome_btn {
+  border: 2px solid rgba(1,1,1,1);
+  margin: 0 0 30px 0;
+  padding: 6px;
+  background-color: rgba(255,255,255,1);
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+  color: rgba(1,1,1,1);
+  width: 100%;
+}
+
+.welcome_btn:hover {
+  background-color: rgba(1,1,1,0.07);
+}
+
+.btn_text {
+  margin-bottom: 20px;
+}
+
+.btn_wrapper {
+}
+
+/* progress bar at the top */
+#nprogress .bar {
+  background: rgba(255,0,0,1);
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px rgba(0,0,0,1), 0 0 5px rgba(0,0,0,1);
+}
+
+// display:none added to remove spinner
+#nprogress .spinner {
+  top: 20px;
+  right: 20px;
+  display: none;
+}
+
+#nprogress .spinner-icon {
+  border-top-color: rgba(255,0,0,1);
+  border-left-color: rgba(255,0,0,1);
+  width: 30px;
+  height: 30px;
+}
+
+/* overwrite grid-framework.less row */
+.row {
+  background-color: rgba(255,255,255,0.15);
+}
+
+.results { 
+  margin: 20px 10px 20px 10px;
+}
+
+.result_list {
+  width: 100%;
+  display: inline-block;
+  color: rgba(0,0,0,1);
+  background-color: rgba(255,255,255,1);
+  padding: 8px;
+}
+
+.logout_profile {
+  font-size: 15px;
+}
+
+.sidemenu {
+  margin-top: 15px;
+}
+
+.tips {
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.tips a:link {
+  color: red;
+}
+
+.next_btn {
+  border: 2px solid rgba(255,0,0,1);
+  margin-right: 15px;
+  padding: 6px;
+  background-color: rgba(255,255,255,0.3);
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+  color: rgba(255,0,0,1) !important;
+  width: 100%;
+  display: inline-block;
+}
+
+.next_btn:hover {
+  background-color: rgba(255,0,0,0.1);
+}
+
+.next_btn:disabled, .next_btn[disabled] {
+  border: 2px solid rgba(171,171,171,1);
+  margin-right: 15px;
+  padding: 6px;
+  background-color: rgba(218,218,218,1);
+  text-align: center;
+  font-size: 20px;
+  cursor: not-allowed;
+  color: rgba(255,0,0,1);
+  width: 100%;
+  display: inline-block;
+  pointer-events: none;
+  color: rgba(171,171,171,1) !important
+}
+
+/* BackToTop button css */
+#scroll {
+    position:fixed;
+    left:50%;
+    bottom:50px;
+    margin:0 0 0 -25px;
+    cursor:pointer;
+    width:50px;
+    height:50px;
+    background-color:rgba(255,0,0,0.5);
+    text-indent:-9999px;
+    display:none;
+    -webkit-border-radius:60px;
+    -moz-border-radius:60px;
+    border-radius:60px;
+    z-index: 1000;
+}
+
+#scroll span {
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin-left:-8px;
+    margin-top:-12px;
+    height:0;
+    width:0;
+    border:8px solid transparent;
+    border-bottom-color:#ffffff
+}
+
+#scroll:hover {
+    background-color:rgba(255,0,0,0.65);
+    opacity:1;filter:"alpha(opacity=100)";
+    -ms-filter:"alpha(opacity=100)";
+}
+
+/* search drop down bars */
+.the-basics {
+  display: inline-block;
+  width: 100%;
+  float: left;
+  padding-bottom: 20px;
+  
+}
+
+.the-basics input, .the-basics textarea {
+  padding-left: 7px;
+}
+
+/* general submit button */
+.submit_btn {
+  border: 2px solid rgba(1,1,1,1);
+  margin: 0 0 30px 0;
+  padding: 6px;
+  background-color: rgba(255,255,255,1);
+  text-align: center;
+  font-size: 20px;
+  cursor: pointer;
+  color: rgba(1,1,1,1);
+  width: 100%;
+}
+
+.submit_btn:hover {
+  background-color: rgba(1,1,1,0.07);
+}
+
+h3 {
+  padding: 0 5px 0 5px;
+}
+
+.product {
+  font-size: 18px;
+}
+
+.product_img {
+  width: 250px;
+  height: 250px;
+  text-align: center;
+  line-height: 250px;
+  display: inline-block;
+  border: 2px dashed rgba(1,1,1,1);
+}
+
+.product_img img {
+  max-width: 100%;
+  max-height: 100%;
+  vertical-align: baseline;
+}
+
+.product_img_manual {
+  border: 2px dashed rgba(1,1,1,1);
+  width: 250px;
+  height: 250px;
+  text-align: center;
+  line-height: 250px; 
+}
+
+.product_img_manual img {
+  vertical-align: baseline;
+}
+
+.product_claims {
+  margin: 15px 0 15px 0;
+}
+
+.footer {
+  bottom: 0;
+  height: 50px;
+  width: 100%;
+  text-align:center;
+  font-size: 18px;
+}
+
+.legend {
+  text-align: center;
+  padding: 10px;
+  display: inline-block;
+  border: 1px solid rgba(1,1,1,1);
+  margin: 15px 0 10px 0;
+  width: 100%;
+}
+
+.ingredients_list {
+  clear: both;
+}
+
+.why_login {
+  margin: 20px;
+}
+
+#add, #remove {
+  display: inline-block;
+  width: 100%;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1001; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* loader */
+.loader {
+  border: 6px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 6px solid rgba(0,0,0,0.5);
+  width: 50px;
+  height: 50px;
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+  position: fixed; /* or absolute */
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader_msg {
+  font-size: 18px;
+  color: rgba(255,255,255,1);
+  width: 400px;
+  height: 30px;
+  position: fixed;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  transform: translate(30px, -60px);
+}
+
+/* override grid-framework.less */
+.row {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.no_line_break {
+  white-space: nowrap;
+}
+

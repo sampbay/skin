@@ -1,0 +1,93 @@
+// Place all the styles related to the recommend controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.select2-container {
+	color: #333;
+}
+
+.brand {
+	width: 100%;
+}
+
+.product_type {
+	width: 100%;
+}
+
+.brand_product {
+	display: inline-block;
+	width: 100%;
+	margin: 10px 0 5px 0;
+}
+
+.chart_container {
+	position: relative;
+}
+
+.chart_container p {
+	text-align: center;
+	color: rgba(0,0,0,1);
+	font-family: 'Inconsolata';
+	font-weight: 400;
+	font-size: 20px;
+}
+
+.collapse_view {
+	width: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    margin-top:1px;
+}
+
+// overwrite some of .well from bootstrap for expanded view
+.well {
+	border-radius: 0;
+	padding: 0 0 0 8px;
+	margin-bottom: 0;
+	background-color: rgba(180,180,180,1);
+}
+
+.product_claims {
+	
+}
+
+.amazon_buy {
+	border: 1px solid rgba(0,0,0,1);
+	padding: 12px;
+	float: left;
+	margin: 5px;
+}
+
+.amazon_buy:hover {
+	background-color:rgba(1,1,1,0.1);
+}
+
+.report_error {
+	border: 1px solid rgba(0,0,0,1);
+	padding: 12px;
+	float: left;
+	margin: 5px 0 0 5px;
+}
+
+.report_error:hover {
+  background-color: rgba(1,1,1,0.1);
+}
+
+.remove_faves, .add_faves {
+	color: rgba(0,0,0,1);
+	border: 1px solid rgba(0,0,0,1);
+	padding: 12px;
+	float: left;
+	margin: 5px 5px 0 0;
+	width: 46px;
+	text-align: center;
+}
+
+.remove_faves:hover, .add_faves:hover {
+	background-color: rgba(1,1,1,0.1);
+}
+
+.title {
+	color: rgba(255,255,255,1);
+	display: inline-block;
+}

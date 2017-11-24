@@ -1,0 +1,333 @@
+<div class="row">
+
+    <%= tabs %>
+
+    <div class="chart_container">
+        <canvas id="barChart" width="400" height="400"></canvas>
+    </div>
+    <div class="chart_container">
+        <p>Overall Hazard</p>
+        <canvas id="overall_hazard" width="500" height="500"></canvas>
+    </div>
+    <div class="chart_container">
+        <p>Cancer</p>
+        <canvas id="cancer" width="500" height="500"></canvas>
+    </div> 
+    <div class="chart_container">
+        <p>Developmental & Reproductive Toxicology</p>
+        <canvas id="developmental" width="500" height="500"></canvas>
+    </div>
+    <div class="chart_container">
+        <p>Allergy</p>
+        <canvas id="allergies" width="500" height="500"></canvas>
+    </div>
+    <div class="chart_container">
+        <p>Use Restriction</p>
+        <canvas id="restrictions" width="500" height="500"></canvas>
+    </div>
+
+    <div class="results">
+        <h3>Your Results</h3>
+            <p><%= link_to 'Back', edit_analyze_path(@myproduct) %></p>
+                <div class="result_list">
+                    <p>Breakout Count: <%= @breakout_name.count %></p>   
+                    <% @breakout_name.each do |r| %>
+                    <li><%= r %></li>
+                    <% end %>
+                </div>
+        
+                <div class="result_list">
+                    <p>Safe Count: <%= @safe_name.count %></p>   
+                    <% @safe_name.each do |r| %>
+                    <li><%= r %></li>
+                    <% end %>
+                </div>
+        
+                <div class="result_list">
+                    <p>Possible Cause Count: <%= @cause.count %></p>   
+                    <% @cause.each do |r| %>
+                    <li><%= r %></li>
+                    <% end %>
+                </div>
+
+            <p><%= link_to 'Back', edit_analyze_path(@myproduct) %></p>
+
+    </div>
+</div>
+<script>
+  var bar_data = {
+    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    datasets: [
+        {
+            label: "My First dataset",
+            backgroundColor: "rgba(255,99,132,0.2)",
+            borderColor: "rgba(255,99,132,1)",
+            borderWidth: 1,
+            hoverBackgroundColor: "rgba(255,99,132,0.4)",
+            hoverBorderColor: "rgba(255,99,132,1)",
+            data: [65, 59, 80, 81, 56, 55, 40],
+        }
+    ]
+};
+var overall_hazard_polarArea_data = {
+   labels: [
+        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
+       ],
+    datasets: [
+        {
+            data: [
+                <%= @ewg.where(overall_hazard: "width:19px").count %>, 
+                <%= @ewg.where(overall_hazard: "width:38px").count %>,
+                <%= @ewg.where(overall_hazard: "width:57px").count %>,
+                <%= @ewg.where(overall_hazard: "width:76px").count %>,
+                <%= @ewg.where(overall_hazard: "width:95px").count %>,
+                <%= @ewg.where(overall_hazard: "width:114px").count %>,
+                <%= @ewg.where(overall_hazard: "width:133px").count %>,
+                <%= @ewg.where(overall_hazard: "width:152px").count %>,
+                <%= @ewg.where(overall_hazard: "width:171px").count %>,
+                <%= @ewg.where(overall_hazard: "width:190px").count %>
+                ],
+            backgroundColor: [
+                "#009900",
+                "#00CC00",
+                "#9900CC",
+                "#CC66FF",
+                "#003399",
+                "#0099FF",
+                "#FFFF66",
+                "#FF9900",
+                "#CC6600",
+                "#FF0000"
+            ],
+            hoverBackgroundColor: [
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC"
+            ]
+        }]
+};
+var cancer_pie_data = {
+   labels: [
+        "1", "2", "3", "4", "5", "6", "7", "8"
+       ],
+    datasets: [
+        {
+            data: [
+                <%= @ewg.where(cancer: "width:0px").count %>, 
+                <%= @ewg.where(cancer: "width:9.5px").count %>,
+                <%= @ewg.where(cancer: "width:19px").count %>,
+                <%= @ewg.where(cancer: "width:28.5px").count %>,
+                <%= @ewg.where(cancer: "width:38px").count %>,
+                <%= @ewg.where(cancer: "width:57px").count %>,
+                <%= @ewg.where(cancer: "width:104.5px").count %>,
+                <%= @ewg.where(cancer: "width:190px").count %>
+                ],
+            backgroundColor: [
+                "#009900",
+                "#00CC00",
+                "#9900CC",
+                "#CC66FF",
+                "#003399",
+                "#0099FF",
+                "#FFFF66",
+                "#FF9900",
+                "#CC6600",
+                "#FF0000"
+            ],
+            hoverBackgroundColor: [
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC"
+            ]
+        }]
+};
+var developmental_pie_data = {
+   labels: [
+        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
+       ],
+    datasets: [
+        {
+            data: [
+                <%= @ewg.where(developmental: "width:0px").count %>, 
+                <%= @ewg.where(developmental: "width:9.5px").count %>,
+                <%= @ewg.where(developmental: "width:15.2px").count %>,
+                <%= @ewg.where(developmental: "width:19px").count %>,
+                <%= @ewg.where(developmental: "width:28.5px").count %>,
+                <%= @ewg.where(developmental: "width:38px").count %>,
+                <%= @ewg.where(developmental: "width:47.5px").count %>,
+                <%= @ewg.where(developmental: "width:57px").count %>,
+                <%= @ewg.where(developmental: "width:104.5px").count %>,
+                <%= @ewg.where(developmental: "width:190px").count %>
+                ],
+            backgroundColor: [
+                "#009900",
+                "#00CC00",
+                "#9900CC",
+                "#CC66FF",
+                "#003399",
+                "#0099FF",
+                "#FFFF66",
+                "#FF9900",
+                "#CC6600",
+                "#FF0000"
+            ],
+            hoverBackgroundColor: [
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC"
+            ]
+        }]
+};
+var allergies_pie_data = {
+   labels: [
+        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
+       ],
+    datasets: [
+        {
+            data: [
+                <%= @ewg.where(allergies: "width:0px").count %>, 
+                <%= @ewg.where(allergies: "width:6.3333333333333px").count %>,
+                <%= @ewg.where(allergies: "width:10.133333333333px").count %>,
+                <%= @ewg.where(allergies: "width:12.666666666667px").count %>,
+                <%= @ewg.where(allergies: "width:19px").count %>,
+                <%= @ewg.where(allergies: "width:25.333333333333px").count %>,
+                <%= @ewg.where(allergies: "width:31.666666666667px").count %>,
+                <%= @ewg.where(allergies: "width:38px").count %>,
+                <%= @ewg.where(allergies: "width:69.666666666667px").count %>,
+                <%= @ewg.where(allergies: "width:126.66666666667px").count %>
+                ],
+            backgroundColor: [
+                "#009900",
+                "#00CC00",
+                "#9900CC",
+                "#CC66FF",
+                "#003399",
+                "#0099FF",
+                "#FFFF66",
+                "#FF9900",
+                "#CC6600",
+                "#FF0000"
+            ],
+            hoverBackgroundColor: [
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC"
+            ]
+        }]
+};
+var restrictions_pie_data = {
+   labels: [
+        "1", "2", "3", "4", "5", "6", "7"
+       ],
+    datasets: [
+        {
+            data: [
+                <%= @ewg.where(restrictions: "width:0px").count %>, 
+                <%= @ewg.where(restrictions: "width:12.666666666667px").count %>,
+                <%= @ewg.where(restrictions: "width:63.333333333333px").count %>,
+                <%= @ewg.where(restrictions: "width:76px").count %>,
+                <%= @ewg.where(restrictions: "width:88.666666666667px").count %>,
+                <%= @ewg.where(restrictions: "width:114px").count %>,
+                <%= @ewg.where(restrictions: "width:126.66666666667px").count %>
+                ],
+            backgroundColor: [
+                "#009900",
+                "#00CC00",
+                "#9900CC",
+                "#CC66FF",
+                "#003399",
+                "#0099FF",
+                "#FFFF66",
+                "#FF9900",
+                "#CC6600",
+                "#FF0000"
+            ],
+            hoverBackgroundColor: [
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC",
+                "#CCFFCC"
+            ]
+        }]
+};
+// Global Configuration
+
+ // Get the context of the canvas element we want to select
+var ctx = document.getElementById("barChart").getContext("2d");
+var myBarChart = new Chart(ctx, {
+    type: 'horizontalBar', 
+    data: bar_data,
+    options: {
+        scales: {
+            xAxes: [{
+                stacked: true
+            }],
+            yAxes: [{
+                stacked: true
+            }]
+        }
+    }
+});
+
+var ctx = document.getElementById("overall_hazard").getContext("2d");
+var myPieChart = new Chart(ctx, {
+    type: 'polarArea',
+    data: overall_hazard_polarArea_data
+});
+
+var ctx = document.getElementById("cancer").getContext("2d");
+var myPieChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: cancer_pie_data
+});
+
+var ctx = document.getElementById("developmental").getContext("2d");
+var myPieChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: developmental_pie_data
+});
+var ctx = document.getElementById("allergies").getContext("2d");
+var myPieChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: allergies_pie_data
+});
+var ctx = document.getElementById("restrictions").getContext("2d");
+var myPieChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: restrictions_pie_data
+});
+</script>

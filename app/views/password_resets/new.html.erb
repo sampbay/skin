@@ -1,0 +1,14 @@
+<h3>Reset Password</h1>
+</br>
+<p>
+	A password reset email will be sent to your email address shortly:
+</p>
+<%= form_tag password_resets_path, :method => :post do %>
+  <div class="field">
+    <%= label_tag :email %>
+    <%= text_field_tag :email, params[:email], :size => "50" %>
+  </div>
+  <p>
+  	<div class="actions"><%= submit_tag "Reset Password", :class => "submit_btn" %></div>
+  </p>
+<% end %>

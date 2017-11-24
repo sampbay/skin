@@ -1,0 +1,30 @@
+<div class="row">
+
+<h3>Suggest Product / Report Errors</h3>
+<div class="tips">
+    We frequently update our product database.</br>
+    If you don't see your product or see an error, please let us know.
+  </div>
+  <div class="suggest_content">
+  <%= form_for @suggest, url: suggest_path do |f| %>
+    <p>
+      <%= f.label :brand %></br>
+      <%= f.text_field :brand %>
+    </p>
+    <p>
+      <%= f.label :product %></br>
+      <%= f.text_field :product %>
+    </p>
+    <p> 
+      <%= f.label :link, 'Website Link' %> (optional)</br>
+      <%= f.text_field :link %>
+    </p>
+    <p>
+      <%= f.label :ingredients, 'Ingredients or Errors' %> (optional)</br>
+      <%= f.text_area :ingredients %>
+    </p>
+    <p><%= f.submit 'Submit', :class => "submit_btn" %></p>
+  <% end %>
+  </div>
+</div>
+

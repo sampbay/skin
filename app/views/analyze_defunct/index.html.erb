@@ -1,0 +1,43 @@
+
+<div class="row">
+
+<%= tabs %>
+
+<h3>Analyze My Ingredients</h3>	
+	<div class="analyze_product_content"> 
+		<% if @myproduct %>
+			<p><h4>Caused breakouts: </h4></p>
+			<p><h5>Yes | No</h5></p>
+
+	<% form_for :Myproducts do |f| %>
+
+   	<% @myproduct.product.each do |item| %>
+   				<%= f.label item %>		
+   				<%= fields_for :SafeProducts do |u| %>
+   					<%= u.check_box item %> | 
+				<% end %>
+				<%= fields_for :BreakoutProducts do |u| %>
+					<%= u.check_box item %>
+   				<% end %>
+   					
+					<br>
+					
+	<% end %>
+	<br />
+  
+  <p><%= f.submit 'Submit', :class => "btn btn-primary" %></p>
+
+	<% end %>
+			
+
+		<% elsif @myproduct == nil %>
+		<br>
+		No product added yet. Please add your products!<br>
+		<%= link_to 'Add My Products', myproducts_path, :class => "btn btn-primary" %>
+		<% end %>
+	</div>
+
+	    <br />
+	    
+	 
+</div>

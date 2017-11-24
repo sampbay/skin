@@ -1,0 +1,31 @@
+<div class="row">
+
+<h3>Product Information</h3>
+  <div id="brand">
+   Brand: <%= @breakout_product_manual.brand %>
+	</div>
+  </p>
+  <p>
+  	<div id="product">
+    Product: <%= @breakout_product_manual.product %>
+	</div>
+	</p>
+  <p>
+    <div id="product_type">
+    Category: <%= @breakout_product_manual.product_type.split(";").map(&:strip) %>
+  </div>
+  </p>
+  <p>
+  	<div id="ingredient">
+  	Ingredients: 
+    <% if @breakout_product_manual.ingredients %>
+    <%= @breakout_product_manual.ingredients %>
+    <% else %>
+    No ingredient list found.
+    <% end %> 
+  </div>
+  </p>
+ 
+<%= link_to 'Back', myproducts_path %>
+
+</div>

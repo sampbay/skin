@@ -1,0 +1,25 @@
+
+<div class="row">
+
+<%= tabs %>
+	
+<h3>Add Safe Product</h3>
+
+<%= form_for @safe_product, url: safe_products_path do |f| %>
+<p>
+    <div id="the-basics">
+    
+    <%= f.label :product, "Search a Product:" %><br>
+    <%= f.select :product, [], {}, class: "e11", style:"width:600px" %>
+   </div>
+  </p>
+
+  <br>
+  <br><br><br>
+  <p><%= f.submit 'Submit', :class => "btn btn-primary" %></p>
+
+<% end %>
+ 
+<%= link_to 'Back', myproducts_path %><br><br><br>
+
+</div>

@@ -1,0 +1,2 @@
+class CosingsController < ApplicationController
+end

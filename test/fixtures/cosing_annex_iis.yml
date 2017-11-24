@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  reference_number: 1
+  chemical_name_inn: 
+  cas_number: MyText
+  ec_number: MyText
+  regulation: MyText
+  regulated_by: MyText
+  other_directives_regulations: MyText
+  sccs_opinions: MyText
+  chemical_iupac_name: 
+  identified_ingredients_or_substances: 
+  cmr: MyText
+  update_date: 2017-03-14 20:50:57
+
+two:
+  reference_number: 1
+  chemical_name_inn: 
+  cas_number: MyText
+  ec_number: MyText
+  regulation: MyText
+  regulated_by: MyText
+  other_directives_regulations: MyText
+  sccs_opinions: MyText
+  chemical_iupac_name: 
+  identified_ingredients_or_substances: 
+  cmr: MyText
+  update_date: 2017-03-14 20:50:57

@@ -1,0 +1,2 @@
+module SafeProductManualsHelper
+end

@@ -1,0 +1,20 @@
+$(document).ready(function(){ 
+    $(window).scroll(function(){ 
+        if ($(this).scrollTop() > 100) { 
+            $('#scroll').fadeIn(); 
+            $('.header').addClass('shrink');
+            $('.header .logo').addClass('shrink');
+            $('.openbtn').addClass('shrink');
+        } else { 
+            $('#scroll').fadeOut(); 
+            $('.header').removeClass('shrink');
+            $('.header .logo').removeClass('shrink');
+            $('.openbtn').removeClass('shrink');
+        } 
+    }); 
+    $('#scroll').click(function(){ 
+        $("html, body").animate({ scrollTop: 0 }, 600); 
+        return false; 
+    }); 
+});
+

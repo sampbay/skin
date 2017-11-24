@@ -1,0 +1,2 @@
+module SafeProductHelper
+end

@@ -1,0 +1,10 @@
+--exclude lib/generators/tabs/templates/tabulous.rb
+--readme README.md
+lib/**/*.rb
+-
+CHANGELOG.md
+CHANGES_FROM_VERSION_ONE.md
+CONTRIBUTING.md
+OVERVIEW.md
+README.md
+REFERENCE.md

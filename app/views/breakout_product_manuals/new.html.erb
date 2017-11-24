@@ -1,0 +1,35 @@
+<div class="row">
+
+
+<h3>Add Breakout Product</h3>
+
+<div class="tips">
+ >>> For accurate analysis, ingredients must be separated by one comma and one character space like this ', '. For example: water, glycerin, citric acid, and so on. Or, try copying & pasting the product's ingredients from the brand's website.
+</div>
+<%= form_for @breakout_product_manual, url: breakout_product_manuals_path do |f| %>
+<p>
+    <div class="the-basics">
+    
+    <%= f.label :brand, "Brand: " %>
+    <%= f.text_field :brand, class: 'form-control', :placeholder => "Brand" %></br>
+        
+    <%= f.label :product, "Product: " %>
+    <%= f.text_field :product, class: 'form-control', :placeholder => "Product" %></br>
+      
+    <%= f.label :product_type, "Select Product Category: " %>
+    <%= f.select :product_type, [], {}, class: "product_type_dropdown" %></br></br>
+    
+    <%= f.label :ingredients, "Ingredients (separated by one comma and one character space ', '): " %>
+    <%= f.text_area :ingredients, class: 'form-control', :placeholder => "Enter Ingredients" %></br>
+
+   </div>
+  </p>
+
+  <br>
+  <br><br><br>
+  <p><%= f.submit 'Submit', :class => "submit_btn" %></p>
+
+<% end %>
+ 
+<%= link_to 'Back', myproducts_path %><br><br><br>
+</div>

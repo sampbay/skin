@@ -1,0 +1,49 @@
+<div class="row">
+
+    <%= tabs %>
+
+    <div class="results">
+            <p><%= link_to 'Back', analyze_path %></p>
+
+
+    
+    <%= form_tag(recommend_path, :method => "get") do %>
+    
+    <div id="search">
+        <p>
+        <div id="the-basics">
+        <%= label :brand, "Select Brand:" %><br>
+        <%= select_tag :brand, 'brand[]', class: "brand", style:"width:600px" %>
+        </div> 
+        </p>
+        <p>
+        <div id="the-basics">
+        <%= label :category, "Select Product Category:" %><br>
+        <%= select_tag :category, 'category[]', class: "category", style:"width:600px" %>
+        </div> 
+        </p>
+  </div>
+    <br style="clear:left;"/><br />
+<p>
+    Select One or More of the Following Options: <br />
+</p>
+        <%= check_box_tag 'potential_list[]', "Without Potentially Breakout-causing Ingredients From Analysis" %>
+        <%#= label :products_breakout, "Without Breakout-causing Ingredients From Analysis" %><br />
+        <%= check_box_tag 'ewg_20[]', "Without EWG 20 Ingredients" %>
+        <%#= label :products_breakout, "Without EWG 20 Ingredients" %><br />
+        <%= check_box_tag 'health_canada[]', "Without Health Canada Cosmetic Ingredient Hotlist" %> 
+        <%#= label :products_safe, "Without Health Canada Ban List" %><br />
+        <%= check_box_tag 'eu_list[]', "Without US FDA Ban List" %>  
+        <%#= label :products_safe, "Without US FDA Ban List" %><br />
+            
+
+  
+  <p><%= submit_tag 'Submit', :class => "btn btn-primary" %></p>
+
+    <% end %>                   
+                
+
+            <p><%= link_to 'Back', analyze_path %></p>
+
+    </div>
+</div>

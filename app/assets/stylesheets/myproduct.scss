@@ -1,0 +1,83 @@
+// Place all the styles related to the myproduct controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.product_safe {
+	float: left;
+	width: 49%;
+	padding: 8px;
+	text-align: left;
+	background-color: rgba(0,0,0,0.33);
+
+}
+
+.product_breakout {
+	float: right;
+	width: 49%;
+	padding: 8px;
+	text-align: left;
+	background-color: rgba(0,0,0,0.7);
+}
+
+.product_content {
+	margin: 20px 0 20px 0;
+	width: 100%;
+}
+
+.product_content .col-md-3 {
+	width: 100%;
+}
+
+.product_content a:link {
+	color:rgba(255,255,255,1);
+}
+
+/* overrirde thumbnails.less css */
+.thumbnail {
+	padding: 0;
+	margin-bottom: 8px;
+	background-color: transparent;
+	border: 2px solid rgb(255,255,255);
+	border-radius: 0;
+}
+
+.thumbnail a > img {
+	opacity: 0.7;
+}
+
+/* end of thumbnails.less css */
+
+.text_space {
+	width: 84%;
+	height: 100%;
+	padding: 10px;
+	display: inline-block;
+}
+
+.text_space:hover {
+	background-color: rgba(255,255,255,0.5);
+}
+
+.trash_space {
+	width: 10%;
+	height: 100%;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.add_btn {
+	background-color: rgba(255,255,255,0.3);
+	text-align: center;
+	padding: 8px;
+}
+
+.add_btn:hover {
+	background-color: rgba(255,255,255,0.5);
+}
+
+/* override bootstrap */
+.col-md-3 {
+	padding-left: 8px;
+	padding-right: 8px;
+}
+

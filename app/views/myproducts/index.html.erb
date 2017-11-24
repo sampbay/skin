@@ -1,0 +1,194 @@
+<div class="row">
+	<div class="step123">
+		<div class="step123_each">
+			<span class="no_line_break">&nbsp;[ &nbsp; STEP 1: Add Products &nbsp; ]&nbsp;</span> 
+		</div>
+		<div class="step123_each">
+			<span class="no_line_break">
+				<span style="color: rgba(1,1,1,0.4)">&nbsp;STEP 2: Analyze&nbsp;</span>
+			</span>
+		</div>
+		<div class="step123_each">
+			<span class="no_line_break">
+				<span style="color: rgba(1,1,1,0.4)">&nbsp;STEP 3: Results&nbsp;</span>
+			</span>
+		</div>
+	</div>
+
+	<% if (@safe_product.empty? and @safe_product_manual.empty?) or (@breakout_product.empty? and @breakout_product_manual.empty?) %>
+		<div id="add">
+			<%= link_to results_path, class: "next_btn", :disabled => true do %>Add More Products To Proceed >>><% end %>
+		</div>
+	<% else %>
+		<div id="remove">
+			<%= link_to results_path, class: "next_btn" do %>Click Here To Proceed<% end %>
+		</div>
+	<% end %>
+	
+	<div class="tips">
+		>>> Add all the products that you have tried and worked well ("Safe Products") & all the products that you have tried but caused any type of skin reaction including breakout, redness, itchiness ("Breakout Products").</br>
+		>>> The more products you add, the higher the accuracy of analysis.
+	</div>
+	<% if @safe_product.empty? and @breakout_product.empty? and @safe_product_manual.empty? and @breakout_product_manual.empty? %></br>
+	<div class="tips">Please add more products you want to analyze!
+	</div>
+		<div class="product_content"> 	
+			<div class="product_safe">	
+				<p><h5>Safe Products: </h5></p>
+				<div class="col-md-3">
+					<div class="thumbnail">
+						<%= link_to new_safe_product_path do %>
+							<div class="add_btn">
+								Click To Add By Search
+							</div>
+						<% end %> 
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="thumbnail">
+						<%= link_to new_safe_product_manual_path do %>
+							<div class="add_btn">
+								Click To Add Manually
+							</div>
+						<% end %> 
+					</div>
+				</div>
+			</div>
+			<div class="product_breakout">	
+				<p><h5>Breakout Products: </h5></p>
+				<div class="col-md-3">
+					<div class="thumbnail">
+						<%= link_to new_breakout_product_path do %>
+							<div class="add_btn">
+								Click To Add By Search
+							</div>
+						<% end %> 
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="thumbnail">
+						<%= link_to new_breakout_product_manual_path do %>
+							<div class="add_btn">
+								Click To Add Manually
+							</div>
+						<% end %> 
+					</div>
+				</div>
+			</div>
+			<div class="spacer" style="clear: both;"></div>
+		</div>
+
+	<% else %>
+		<div class="product_content">
+			<% if @safe_product or @safe_product_manual %>
+				<div class="product_safe">	
+					<p><h5>Safe Products: </h5></p>
+					<div class="col-md-3">
+						<div class="thumbnail">
+							<%= link_to new_safe_product_path do %>
+								<div class="add_btn">
+									Click To Add By Search
+								</div>
+							<% end %> 
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="thumbnail">
+							<%= link_to new_safe_product_manual_path do %>
+								<div class="add_btn">
+									Click To Add Manually
+								</div>
+							<% end %> 
+						</div>
+					</div>
+					<% @safe_product.all.each do |p| %>
+					  <div class="col-md-3">			
+					      <div class="thumbnail">	
+					          <%= link_to product_path(p.product) do %>
+					          	<div class="text_space">[ <%= Product.where(id: p.product).pluck(:brand).first %> ] <%= Product.where(id: p.product).pluck(:product).first %>
+					          	</div>
+					          <% end %>
+					          	<div class="trash_space">
+					          	<%= link_to image_tag("delete_icon.png"), safe_product_path(p), :class => "delete_icon", method: :delete, data: { confirm: 'Are you sure?' } %>
+					        	</div>				  
+					      </div>
+					  </div>
+					<% end %>
+					<!-- safe_product_manual -->
+					<% @safe_product_manual.all.each do |m| %>
+						  <div class="col-md-3">			
+					      <div class="thumbnail">				      
+					        <%= link_to safe_product_manual_path(m) do %>
+					          	<div class="text_space">[ <%= SafeProductManual.where(id: m).pluck(:brand).first %> ] <%= SafeProductManual.where(id: m).pluck(:product).first %>
+					          	</div>
+					        <% end %>
+				          	<div class="trash_space">
+				          	<%= link_to image_tag("delete_icon.png"), safe_product_manual_path(m), :class => "delete_icon", method: :delete, data: { confirm: 'Are you sure?' } %>
+				        	</div>				        
+					      </div>
+					  </div>
+					<% end %>
+				</div>
+			<% elsif @safe_product.empty? or @safe_product_manual.empty? %>
+				<br><br>
+				Your safe product list is empty. Please add safe products!<br>
+			<% end %> 
+
+			<% if @breakout_product or @breakout_product_manual %>
+				<div class="product_breakout">	
+					<p><h5>Breakout Products: </h5></p>
+					<div class="col-md-3">
+						<div class="thumbnail">
+							<%= link_to new_breakout_product_path do %>
+								<div class="add_btn">
+									Click To Add By Search
+								</div>
+							<% end %> 
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="thumbnail">
+							<%= link_to new_breakout_product_manual_path do %>
+								<div class="add_btn">
+									Click To Add Manually
+								</div>
+							<% end %> 
+						</div>
+					</div>
+					<% @breakout_product.all.each do |p| %>
+					  <div class="col-md-3">				    
+					      <div class="thumbnail">
+					      	<%= link_to product_path(p.product) do %>
+					          	<div class="text_space">[ <%= Product.where(id: p.product).pluck(:brand).first %> ] <%= Product.where(id: p.product).pluck(:product).first %>
+					          	</div>
+					        <% end %>
+					        <div class="trash_space">
+					          <%= link_to image_tag("delete_icon.png"), breakout_product_path(p), :class => "delete_icon", method: :delete, data: { confirm: 'Are you sure?' } %>
+					        </div>
+					      </div>				    
+					  </div>
+					<% end %>
+					<!-- breakout_product_manual -->
+					<% @breakout_product_manual.all.each do |b| %>
+						  <div class="col-md-3">			
+					      <div class="thumbnail">				      
+					        <%= link_to breakout_product_manual_path(b) do %>
+					          	<div class="text_space">[ <%= BreakoutProductManual.where(id: b).pluck(:brand).first %> ] <%= BreakoutProductManual.where(id: b).pluck(:product).first %>
+					          	</div>
+					        <% end %>
+				          	<div class="trash_space">
+				          	<%= link_to image_tag("delete_icon.png"), breakout_product_manual_path(b), :class => "delete_icon", method: :delete, data: { confirm: 'Are you sure?' } %>
+				        	</div>				        
+					      </div>
+					  </div>
+					<% end %>
+				</div>
+				<div class="spacer" style="clear: both;"></div>
+
+			<% elsif @breakout_product.empty? or @breakout_product_manual.empty? %>
+				<br><br>
+				Your breakout product list is empty. Please add breakout products!<br>
+			<% end %>
+		</div>			
+	<% end %>
+</div>

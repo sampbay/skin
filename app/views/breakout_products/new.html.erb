@@ -1,0 +1,28 @@
+<div class="row">
+<%= tabs %>
+<div class="results">
+<h3>Add Breakout Product</h3>
+
+<div class="tips">
+	>>> Choose a product that you have tried and caused any type of skin reaction including breakout, redness, itchiness.</br>
+	>>> If you don't see your product, make a suggestion <%= link_to 'here', new_suggest_path %> or go back to the previous page to add manually.
+</div>
+
+<%= form_for @breakout_product, url: breakout_products_path do |f| %>
+<p>
+    <div class="the-basics">
+    
+    <%= f.label :product, "Search a Product:" %><br>
+    <%= f.select :product, [], {}, class: "e11" %>
+   </div>
+  </p>
+
+  <br>
+  <br><br><br>
+  <p><%= f.submit 'Submit', :class => "submit_btn" %></p>
+
+<% end %>
+ 
+<%= link_to 'Back', myproducts_path %><br><br><br>
+</div>
+</div>

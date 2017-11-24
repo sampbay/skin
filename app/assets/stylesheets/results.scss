@@ -1,0 +1,39 @@
+// Place all the styles related to the Analyze controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+.bootstrap_tabs {
+	margin: 0 5px 0 5px;
+}
+
+#product_dropdown, #brand_category_dropdown {
+	margin-top: 0;
+}
+
+// overwrite forms.less 
+select[multiple] {
+	height: 0;
+}
+
+.ingredient_count {
+	margin-top: 10px;
+}
+
+.manual_dropdown {
+	width: 100%;
+}
+
+#search .tips {
+	background-color: rgba(255,255,255,1);
+	margin-top: 0;
+}
+
+#search .the-basics {
+	background-color: rgba(255,255,255,1);
+	padding: 10px;
+}
+
+#search {
+	margin-top: 10px;
+}

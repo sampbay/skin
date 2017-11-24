@@ -1,0 +1,2 @@
+module AnalyzeMyproductsHelper
+end
