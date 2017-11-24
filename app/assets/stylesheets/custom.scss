@@ -41,7 +41,7 @@ html, body {
 	width: 100%;
 	z-index: 998;
   background: rgba(255,255,255,0.9);
-  height: 106px;
+  height: 107px;
 }
 
 .header .logo {
@@ -191,7 +191,7 @@ html, body {
 }
 
 /* On smaller screens, where height is less than 550px, change the style of the sidenav (less padding and a smaller font size) */
-@media only screen and (max-height: 550px) {
+@media only screen and (max-height: 710px) {
   .sidenav_top {font-size: 18px; line-height: 1.1;}
   .sidenav_bottom {font-size: 14px; line-height: 1.1;}
   .fineprints {font-size: 12px; line-height: 1.1;}

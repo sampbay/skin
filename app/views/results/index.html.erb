@@ -115,7 +115,7 @@
                             </p>
                             <p>
                                 <% if Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).exists? %>
-                                <div class="toggle_HC">>>> Health Canada's Hotlists <<<</br>
+                                <div class="toggle_HC">>>> Health Canada's Hotlists <<<<</br>
                                     <div class="title">Status (restricted/prohibited):</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:status).first || "N/A" %>
                                     </br>
                                     <div class="title">Conditions of Use:</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:conditions_of_use).first || "N/A" %>
@@ -129,7 +129,7 @@
                             </p>
                             <p>
                                 <% if CosingAnnexIi.where(chemical_name_inn: inci).exists? %>
-                                <div class="toggle_EU">>>> European Union's Prohibited List <<<</br>
+                                <div class="toggle_EU">>>> European Union's Prohibited List  <<</br>
                                     <div class="title">Opinions:</div> <%= CosingAnnexIi.where(chemical_name_inn: inci).pluck(:sccs_opinions).first || "N/A"%>
                                     </br>
                                     <div class="title">Other directives/regulations:</div> <%= CosingAnnexIi.where(chemical_name_inn: inci).pluck(:other_directives_regulations).first || "N/A" %>
@@ -180,7 +180,7 @@
     </div>
 </div>
 <script>
-$(document).ready(function() {
+document.addEventListener("turbolinks:load", function() {
     // grab active tab id for if logic below
     $('.next_btn').on('click', function() {
         // start NProgress bar and loading overlay as soon as button clicked

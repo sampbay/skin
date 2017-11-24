@@ -5,7 +5,7 @@
 .product_safe {
 	float: left;
 	width: 49%;
-	padding: 8px;
+	padding: 4px;
 	text-align: left;
 	background-color: rgba(0,0,0,0.33);
 
@@ -14,7 +14,7 @@
 .product_breakout {
 	float: right;
 	width: 49%;
-	padding: 8px;
+	padding: 4px;
 	text-align: left;
 	background-color: rgba(0,0,0,0.7);
 }
@@ -39,19 +39,24 @@
 	background-color: transparent;
 	border: 2px solid rgb(255,255,255);
 	border-radius: 0;
+	display: inline-block;
+	float: left;
+	clear: both;
+	width: 100%;
 }
 
 .thumbnail a > img {
-	opacity: 0.7;
+	width: 82%;
+	height: 82%;
 }
 
 /* end of thumbnails.less css */
 
 .text_space {
-	width: 84%;
+	width: 89%;
 	height: 100%;
-	padding: 10px;
-	display: inline-block;
+	padding: 8px;
+	float: left;
 }
 
 .text_space:hover {
@@ -61,8 +66,7 @@
 .trash_space {
 	width: 10%;
 	height: 100%;
-	display: inline-block;
-	vertical-align: top;
+	float: right;
 }
 
 .add_btn {

@@ -34,7 +34,7 @@
 	</div>
 		<div class="product_content"> 	
 			<div class="product_safe">	
-				<p><h5>Safe Products: </h5></p>
+				<p><h5>&nbsp;Safe Products: </h5></p>
 				<div class="col-md-3">
 					<div class="thumbnail">
 						<%= link_to new_safe_product_path do %>
@@ -55,7 +55,7 @@
 				</div>
 			</div>
 			<div class="product_breakout">	
-				<p><h5>Breakout Products: </h5></p>
+				<p><h5>&nbsp;Breakout Products: </h5></p>
 				<div class="col-md-3">
 					<div class="thumbnail">
 						<%= link_to new_breakout_product_path do %>
@@ -82,7 +82,7 @@
 		<div class="product_content">
 			<% if @safe_product or @safe_product_manual %>
 				<div class="product_safe">	
-					<p><h5>Safe Products: </h5></p>
+					<p><h5>&nbsp;Safe Products: </h5></p>
 					<div class="col-md-3">
 						<div class="thumbnail">
 							<%= link_to new_safe_product_path do %>
@@ -109,7 +109,7 @@
 					          	</div>
 					          <% end %>
 					          	<div class="trash_space">
-					          	<%= link_to image_tag("delete_icon.png"), safe_product_path(p), :class => "delete_icon", method: :delete, data: { confirm: 'Are you sure?' } %>
+					          	<%= link_to image_tag("if_x_2561505.png"), safe_product_path(p), :class => "delete_icon", method: :delete, data: { confirm: 'Are you sure?' } %>
 					        	</div>				  
 					      </div>
 					  </div>
@@ -123,7 +123,7 @@
 					          	</div>
 					        <% end %>
 				          	<div class="trash_space">
-				          	<%= link_to image_tag("delete_icon.png"), safe_product_manual_path(m), :class => "delete_icon", method: :delete, data: { confirm: 'Are you sure?' } %>
+				          	<%= link_to image_tag("if_x_2561505.png"), safe_product_manual_path(m), :class => "delete_icon", method: :delete, data: { confirm: 'Are you sure?' } %>
 				        	</div>				        
 					      </div>
 					  </div>
@@ -136,7 +136,7 @@
 
 			<% if @breakout_product or @breakout_product_manual %>
 				<div class="product_breakout">	
-					<p><h5>Breakout Products: </h5></p>
+					<p><h5>&nbsp;Breakout Products: </h5></p>
 					<div class="col-md-3">
 						<div class="thumbnail">
 							<%= link_to new_breakout_product_path do %>
@@ -163,7 +163,7 @@
 					          	</div>
 					        <% end %>
 					        <div class="trash_space">
-					          <%= link_to image_tag("delete_icon.png"), breakout_product_path(p), :class => "delete_icon", method: :delete, data: { confirm: 'Are you sure?' } %>
+					          <%= link_to image_tag("if_x_2561505.png"), breakout_product_path(p), :class => "delete_icon", method: :delete, data: { confirm: 'Are you sure?' } %>
 					        </div>
 					      </div>				    
 					  </div>
@@ -177,7 +177,7 @@
 					          	</div>
 					        <% end %>
 				          	<div class="trash_space">
-				          	<%= link_to image_tag("delete_icon.png"), breakout_product_manual_path(b), :class => "delete_icon", method: :delete, data: { confirm: 'Are you sure?' } %>
+				          	<%= link_to image_tag("if_x_2561505.png"), breakout_product_manual_path(b), :class => "delete_icon", method: :delete, data: { confirm: 'Are you sure?' } %>
 				        	</div>				        
 					      </div>
 					  </div>
