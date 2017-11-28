@@ -134,7 +134,7 @@ html, body {
     right: 0;
     bottom: 0;
     background-color: rgba(1,1,1,1); /* Black*/
-    opacity: 0.93;
+    opacity: 0.95;
     overflow: hidden; /* Disable both horizontal and vertical scroll */
     padding-top: 0; /* Place content 0px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
@@ -155,7 +155,6 @@ html, body {
 .sidenav_top {
   font-size: 24px;
   left: 30px;
-  border-bottom: solid 1px rgba(255,255,255,1);
   position: absolute;
 }
 
@@ -163,7 +162,9 @@ html, body {
    font-size: 17px;
    position: absolute;
    bottom: 30px;
-   padding-left: 30px;
+   left: 30px;
+   border-top: solid 1px rgba(255,255,255,1);
+   padding-top: 20px;
 }
 
 .fineprints {
@@ -206,8 +207,8 @@ html, body {
 
 /* On smaller screens, where height is less than 465px (before sidenav_top & sidenav_bottom overlap), change the style of the sidenav (less padding and a smaller font size) */
 @media only screen and (max-height: 465px) {
-  .sidenav_top {border-bottom: none; border-right: solid 1px solid; font-size: 20px; line-height: 1.2; left: none; padding-right: 30px; float:left; position: relative;}
-  .sidenav_bottom {font-size: 14px; line-height: 1.2; position: relative; bottom: 0; float: left; margin-top: 100px; margin-left: 35px; border-left: 1px solid rgba(255,255,255,1);}
+  .sidenav_top {font-size: 20px; line-height: 1.2; left: none; padding-right: 30px; float:left; position: relative;}
+  .sidenav_bottom {font-size: 14px; line-height: 1.2; position: relative; bottom: 0; float: left; margin-top: 100px; padding-left: 35px; padding-top: 0; border-left: 1px solid rgba(255,255,255,1); border-top: none;}
   .fineprints {font-size: 12px; line-height: 1.2;}
   .header.shrink {height: 74px;}
   .header .logo.shrink {font-size: 18px; padding: 16px 3px 16px 3px; margin-top: 5px;}
