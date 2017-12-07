@@ -1,8 +1,4 @@
-
 <div class="row">
-
-<%= tabs %>
-	
 <h3>Add Safe Product</h3>
 
 <%= form_for @safe_product, url: safe_products_path do |f| %>
@@ -19,7 +15,4 @@
   <p><%= f.submit 'Submit', :class => "btn btn-primary" %></p>
 
 <% end %>
- 
-<%= link_to 'Back', myproducts_path %><br><br><br>
-
 </div>

@@ -1,18 +1,17 @@
 <div class="row">
-
-<h3>Product Information</h3>
   <div id="brand">
-   Brand: <%= @breakout_product_manual.brand %>
-	</div>
+    <h3><%= @breakout_product_manual.brand %></h3>
+  </div>
+  <div id="product">
+    <h4><%= @breakout_product_manual.product %></h4>
+  </div>
+  <p>
+    <div class="product_img_manual">no image (manually added product)
+    </div>
   </p>
   <p>
-  	<div id="product">
-    Product: <%= @breakout_product_manual.product %>
-	</div>
-	</p>
-  <p>
     <div id="product_type">
-    Category: <%= @breakout_product_manual.product_type.split(";").map(&:strip) %>
+    Category: <%= @breakout_product_manual.product_type.gsub(";", " | ") %>
   </div>
   </p>
   <p>
@@ -25,7 +24,4 @@
     <% end %> 
   </div>
   </p>
- 
-<%= link_to 'Back', myproducts_path %>
-
 </div>

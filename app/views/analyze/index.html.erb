@@ -1,182 +1,200 @@
+
 <div class="row">
-<%= tabs %>
-    <div class="tips">
-            TIPS: Ingredients potentially causing breakout are colored <span style="color:red;">RED</span>. If you know certain ingredients are actually safe for you, go back to the previous page and de-select those ingredients to update recommendation list.
-    </div>
-
-    <div class="brand_product">In <span style="color:rgba(255,0,0,1); font-size:15px;"><%= params[:product_type] %></span> category of <span style="color:rgba(255,0,0,1); font-size: 15px;"><%= params[:brand] %></span> brand you selected, these are the most frequently found breakout-causing ingredients:</div>
-    <div class="results">    
-          
-        <div class="chart_container">
-            <canvas id="barChart"></canvas>
+    <div class="step123">
+        <div class="step123_each">
+            <span class="no_line_break">
+                <span style="color: rgba(1,1,1,0.4)">1: Add Products</span>
+            </span>
         </div>
-     <!--   <div class="chart_container">
-            <p>Overall Hazard</p>
-            <canvas id="overall_hazard" width="500" height="500"></canvas>
-        </div>-->
-    <!-- collect all potential ingredients of recommended products for graphic display -->
-
-    <% @total = [] %>
-    <% if @ingredient_hash.present? %>
-        <div class="brand_product">
-        <span style="color:rgba(255,0,0,1); font-size: 15px;"><%= @products.map(&:product).count %></span> products found:
+        <div class="step123_each">
+            <span class="no_line_break">
+                <span style="color: rgba(1,1,1,0.4)">&nbsp;2: Select Ingredients</span>
+            </span>
+        </div>
+        <div class="step123_each">
+            <span class="no_line_break">&nbsp;[ 3: Analyze ]&nbsp;</span> 
+        </div>
+        <div class="step123_each">
+            <span class="no_line_break">
+                <span style="color: rgba(1,1,1,0.4)">4: Results</span>
+            </span>
+        </div>
     </div>
-       <!-- for data_target attribute for ingredient collapse id per loop, i.e. id = 1_5 for first result_list & fifth ingredient for that group -->
-       <% result_list_counter=0 %>
-       
-       <% @ingredient_hash.each do |key, value| %>
-       <div class="result_list">
-       <!-- p for each product -->
-       <p>
-            <div class="product"><%= key %></div></br>
-            <div class="product_img"><%= image_tag("product_images/#{@products.where(product: key).map(&:img).first}", size: "200", alt: "no image available") %></div></br>
-            <div class="product_claims"><%= @products.where(product: key).map(&:claims).first %></div>
-            <div class="amazon_buy">Amazon Buy</div>
-            <div class="add_faves"><% unless current_user.favorites.exists?(Product.where(product: key).map(&:id).first) %>
-   <%= link_to "Add to Faves", favorite_product_path(Product.where(product: key).map(&:id).first), method: :put %>
-   <% else %>
-   <%= link_to "Remove from Faves", favorite_product_path(Product.where(product: key).map(&:id).first), method: :delete %>
-<% end %></div>
-            <div class="report_error">Error?</div>
+    <div id="add" style="display:inline-block">
+        <%= link_to recommend_path, class: "next_btn", :disabled => true do %>Add a Product To Proceed<% end %>
+    </div>
+    <div id="remove" style="display:none" class="next_btn">
+        Click Here To Proceed
+    </div>
+    <div class="tips">
+        >>> Select a product in our product database or add a product and its ingredients manually (if not in our database yet):
+    </div>
+    <div class="tips"> >>> Select only <span style="text-decoration: underline;">ONE</span> of the following: </div>
+<!--
+    <div class="chart_container">
+        <canvas id="barChart" width="400" height="400"></canvas>
+    </div>
+     <div class="chart_container">
+        <p>Overall Hazard</p>
+        <canvas id="overall_hazard" width="500" height="500"></canvas>
+    </div>
+-->
+<!-- Trigger/Open The Modal -->
+<!-- <button id="myBtn">Open Modal</button> -->
 
-            <!-- use i as a counter for data-target & collapse id matching -->
-            <% i=0 %>
-            <div class="ingredients_list">
-                <% value.map(&:CAS_No).zip(value.map(&:INCI_name)).each do |cas, inci| %>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <!-- <div class="modal-content"> -->
+    <span class="close">&times;</span>
+    <div class="loader_msg">Analysis in action... Please wait...</div>
+    <div class="loader"></div>
+ <!-- </div>-->
 
-                <% unless inci.nil? %>
-                <div class="collapse_view" data-toggle="collapse" data-target="#<%= result_list_counter %>_<%= i %>" aria-expanded="false" aria-controls="collapseExample" style="color: <%= @potential_product.include?(cas) ? 'red' : 'rgba(0,0,0,0.8)' %>"><%= inci %></div>
-              
-                <div class="collapse" id="<%= result_list_counter %>_<%= i %>">
-                  <div class="well">
-                    <%= Cosing.where(CAS_No: cas).map(&:Function).first %>
-                    
+</div>
+    <div class="results">            
+        <%= form_tag(recommend_path, :method => "get", :id => "form") do %>
+            <div id="search">
+                <div class="bootstrap_tabs">
+                   <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#product_dropdown" id="product_select">Search Database</a></li>
+                    <li><a data-toggle="tab" href="#manual_dropdown" id="manual_select">Enter Manually</a></li>
+                  </ul>
+
+                  <div class="tab-content">
+                    <div id="product_dropdown" class="tab-pane fade in active">
+                        <div class="the-basics">
+
+                        <%= label :product, "Select Product:" %><br>
+                        <%= select_tag :product, params[:product], class: "e11", id: "e11" %>
+                        </div>       
+                    </div>
+                    <div id="manual_dropdown" class="tab-pane fade">
+                        <div class="tips">
+                             Note: For accurate analysis, ingredients must be separated by one comma and one character space ', '. For example: water, glycerin, citric acid, and so on. Or, try copying & pasting the product's ingredients from the brand's website.
+                        </div>
+                        <div class="the-basics">
+                        <%= label :manual_product, "Enter Product:" %><br>
+                        <%= text_field_tag :manual_product, params[:manual_product], class: "manual_dropdown", id: "manual_product_dropdown", placeholder: "Click Here" %>
+                        </div> 
+                        <div class="the-basics">
+                        <%= label :manual_ingredients, "Enter Ingredients:" %><br>
+                        <%= text_area_tag :manual_ingredients, params[:manual_ingredients], class: "manual_dropdown", id:"manual_ingredients_dropdown", placeholder: "Click Here" %>
+                        </div>                         
+                    </div>
                   </div>
                 </div>
-                <% end %>
-                <!-- count no of ingredients flagged RED in product category/brand selected -->
-                    <% @count_hash = Hash.new(0) %>
-                    <% if @potential_product.include?(cas) %>
-                    <% @total << inci %> 
-                    <% end %>
-                    <% @total.each do |v| %>
-                        <% @count_hash[v] += 1 %>
-                    <% end %>
-                    <% i+=1 %>
-                <% end %>
             </div>
-        <% result_list_counter+=1 %>
-        
-      </p>
-       <% end %>
-       </div>
-    <%= @potential_product %>
-    <%= @potential_product.count %>
-    <% else %>
-      <p>There are no posts containing the term(s) <%= params[:brand] %>.</p>
-    <% end %>
+            <br style="clear:left;"/><br />
+        </div> 
 
+<!--testing purposes 
+                ---- b_inci---- </br><br>
+                <%#= @b_inci %><br><br>
 
-        <%#= link_to 'Back', analyze_path %>
+                ---- s_inci ---- <br><br>
+                <%#= @s_inci %><br><br>
+                ----- b_inci_no_bracket ----- <br><br>
+                <%#= @b_inci_no_bracket %><br><br>
 
-        <!-- testing purposes -->
-        <%# if @count_hash.present? %>
-        <%# @count_hash.each do |k, v| %>
-        <%#= v %>
-        <%# end %>
-        <%# end %>
-    
-        <%# @total.each do |t| %>
-        <%#= t %>
-        <%# end %>
+                ----- s_inci_no_bracket --- <br><br>
+                <%#= @s_inci_no_bracket %> <br><br>
+-->
+
+  <!--<p><%#= submit_tag 'Submit', :class => "btn btn-primary" %></p>-->
+
+        <% end %>  
     </div>
 </div>
+<script>
+$(document).ready(function(){ 
+    // grab active tab id for if logic below
+    $('.next_btn').on('click', function() {
+        // start NProgress bar and loading overlay as soon as button clicked
+        NProgress.start();  
+        modal.style.display = "block"; 
 
-<% if @count_hash.present? %>
-    <script>
+        var activeTab = null;
+        $('a[data-toggle=tab]').each(function(){
+           if($(this).parent().hasClass('active')){
+              activeTab = $(this).attr('id');
+           }
+        });
+        // disable other inactive tabs and submit only active tab content
+        if (activeTab == "product_select") {
+            document.getElementById('manual_product_dropdown').disabled = true;
+            document.getElementById('manual_ingredients_dropdown').disabled = true;
+        } else if (activeTab == "manual_select") {
+            $('.e11').select2("enable",false);
+        };
+        // submit form     
+        $('#form').submit();
 
-      var bar_data = {
-        labels: [<% @count_hash.each_key do |key| %>
-            "<%= key %>",
-            <% end %>],
-        datasets: [
-            {      
-                barThickness: "5px",
-                backgroundColor: "rgba(255,99,132,0.2)",
-                borderColor: "rgba(255,99,132,1)",
-                borderWidth: 1,
-                hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                hoverBorderColor: "rgba(255,99,132,1)",
-                data: [<% @count_hash.each_value do |value| %>
-            <%= value %>,
-            <% end %>],
-            }
-        ]
-    };
-    var overall_hazard_polarArea_data = {
-       labels: [
-            <% @count_hash.each_key do |key| %>
-            "<%= key %>",
-            <% end %>
-           ],
-        datasets: [
-            {
-                data: [
-            <% @count_hash.each_value do |value| %>
-            <%= value %>,
-            <% end %>
-                    ]
-            }]
-    };
+        // Nprogress and overlay re-run since page refreshes after form submit and delays with controller action until redirect to recommend page
+        // $('#form').submit(function(){
+        //     $(document).on('page:change', function() {  
+        //        NProgress.start();
+        //        modal.style.display = "block";
+        //    });
+        // });
+    });
 
-    // Global Configuration
+    //$(window).bind("pageshow", function() {
+    //    $('#form').reset();
+    //});
+    
+    
+    // disable submit button if current tab doesn't contain value
+    $("#product_select").on('click', function() {
+        $('textarea').val('').trigger('change');
+        $('input').val('').trigger('change');
+        // $('.e11').select2("enable",true);
+    });
+    $("#manual_select").on('click', function() {
+        $('.e11').val('').trigger('change');
+    });
+            
+    // submit either product OR (brand & category) OR manually entered product
+  
 
-     // Get the context of the canvas element we want to select
-    var ctx = document.getElementById("barChart").getContext("2d");
-    var myBarChart = new Chart(ctx, {
-        type: 'horizontalBar', 
-        data: bar_data,
-        options: {
-            scales: {
-                xAxes: [{
-                    stacked: true
-                }],
-                yAxes: [{
-                    stacked: true
-                }]
-            },
-            legend: {
-            display: false
-            }
+    // at least one ingredient (checkbox) AND at least one dropdown (Select2) or manually entered textbox must be selected for proceed button to appear
+    jQuery('#form').on('change', function () {
+        if ((jQuery('.e11').val() != "") || (jQuery('#manual_dropdown').val() != "") || (document.getElementById("manual_product_dropdown").value != "" && document.getElementById("manual_ingredients_dropdown").value != "")) {
+            $('#remove').show();
+            $('#add').hide();
+        } else {
+            $('#remove').hide();
+            $('#add').show();
         }
-    });
+        }).trigger('change');
+});
 
-    var ctx = document.getElementById("overall_hazard").getContext("2d");
-    var myPieChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: overall_hazard_polarArea_data
-    });
 
-    var ctx = document.getElementById("cancer").getContext("2d");
-    var myPieChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: cancer_pie_data
-    });
+// page overlay for next page load
 
-    var ctx = document.getElementById("developmental").getContext("2d");
-    var myPieChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: developmental_pie_data
-    });
-    var ctx = document.getElementById("allergies").getContext("2d");
-    var myPieChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: allergies_pie_data
-    });
-    var ctx = document.getElementById("restrictions").getContext("2d");
-    var myPieChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: restrictions_pie_data
-    });
-    </script>
-<% end %>
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+//var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+//var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+// $('.next_btn').on('click', function() {
+ //   modal.style.display = "block";
+// });
+
+// When the user clicks on <span> (x), close the modal
+// span.onclick = function() {
+//    modal.style.display = "none";
+//}
+
+// When the user clicks anywhere outside of the modal, close it
+// window.onclick = function(event) {
+//    if (event.target == modal) {
+//        modal.style.display = "none";
+//    }
+// }   
+</script>

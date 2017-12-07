@@ -1,27 +1,18 @@
 <div class="row">
-
-<%= tabs %>
-  
-<h3>Product Information</h3>
-   <p>
-
+  <div id="brand">
+    <h3><%= @product.brand %></h3>
+  </div>
+  <div id="product">
+    <h4><%= @product.product %></h4>
+  </div>
+  <p>
     <div class="product_img"><%= image_tag("product_images/#{@product.img}", alt: "no image available") %>
     </div>
-   </p>
-   	<div id="brand">
-   Brand: <%= @product.brand %>
-	</div>
   </p>
   <p>
-  	<div id="product">
-    Product: <%= @product.product %>
-	</div>
-	</p>
-  <p>
-    <div id="product_type">
+  <div id="product_type">
     Category: 
     <%= @product.product_type.gsub(";", " | ") %>
-
   </div>
   </p>
   <p>
@@ -34,8 +25,4 @@
     <% end %> 
   </div>
   </p>
- 
-
-<%= link_to 'Back', myproducts_path %>
-
 </div>

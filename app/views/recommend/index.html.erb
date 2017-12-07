@@ -2,19 +2,25 @@
     <div class="step123">
         <div class="step123_each">
             <span class="no_line_break">
-                <span style="color: rgba(1,1,1,0.4)">&nbsp;STEP 1: Add Products&nbsp;</span>
+                <span style="color: rgba(1,1,1,0.4)">1: Add Products</span>
             </span>
         </div>
         <div class="step123_each">
             <span class="no_line_break">
-                <span style="color: rgba(1,1,1,0.4)">&nbsp;STEP 2: Analyze&nbsp;</span>
+                <span style="color: rgba(1,1,1,0.4)">&nbsp;2: Select Ingredients</span>
             </span>
         </div>
         <div class="step123_each">
-            <span class="no_line_break">&nbsp;[ &nbsp; STEP 3: Results &nbsp; ]&nbsp;</span> 
+            <span class="no_line_break">
+                <span style="color: rgba(1,1,1,0.4)">&nbsp;3: Analyze</span>
+            </span>
         </div>
-    </div>
+        <div class="step123_each">
+            <span class="no_line_break">&nbsp;[ 4: Results ]</span> 
+        </div>
 
+    </div> 
+<!-- test ingredient list <%#= @potential_list_final %> -->
     <% @total = [] %>
     
     <div class="tips">
@@ -170,7 +176,7 @@
                 <!-- count no of ingredients flagged RED in product/category/brand selected -->
                     <% @count_hash = Hash.new(0) %>
                     <% if @potential_product.nil? %>
-                        <% @total << ["no breakout ingredient found!"] %>
+                        <% @total << "no breakout ingredient found!" %>
                     <% elsif @potential_product.include?(inci) %>
                         <% @total << inci %> 
                     <% elsif @potential_product.exclude?(inci) %>
@@ -196,7 +202,7 @@
        <!-- p for each product -->
        <p>
             <div class="product"><%= params[:manual_product] %></div></br>
-            <div class="product_img_manual">no image:manually entered product</div></br>
+            <div class="product_img_manual">no image (manually added product)</div></br>
            <!--  <div class="amazon_buy">Buy Now</div> -->
             <!--
             <%# unless current_user.favorites.exists?(key) %>
@@ -303,7 +309,7 @@
                 <!-- count no of ingredients flagged RED in product/category/brand selected -->
                     <% @count_hash = Hash.new(0) %>
                     <% if @potential_product.nil? %>
-                        <% @total << ["no breakout ingredient found!"] %>
+                        <% @total << "no breakout ingredient found!" %>
                     <% elsif @potential_product.include?(inci) %>
                         <% @total << inci %> 
                     <% elsif @potential_product.exclude?(inci) %>

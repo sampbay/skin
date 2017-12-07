@@ -1,8 +1,5 @@
 
 <div class="row">
-
-<%= tabs %>
-  
 <h3>New Product</h3>
 
 <%= form_for @myproduct, url: myproduct_path(@myproduct), method: :patch do |f| %>
@@ -22,7 +19,6 @@
 
     <% end %>
      
-        <%= link_to 'Back', myproducts_path %><br><br><br>
     </div>
 
 

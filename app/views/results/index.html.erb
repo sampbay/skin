@@ -3,28 +3,30 @@
     <div class="step123">
         <div class="step123_each">
             <span class="no_line_break">
-                <span style="color: rgba(1,1,1,0.4)">&nbsp;STEP 1: Add Products&nbsp;</span>
+                <span style="color: rgba(1,1,1,0.4)">1: Add Products</span>
             </span>
         </div>
         <div class="step123_each">
-            <span class="no_line_break">&nbsp;[ &nbsp; STEP 2: Analyze &nbsp; ]&nbsp;</span> 
+            <span class="no_line_break">&nbsp;[ 2: Select Ingredients ]&nbsp;</span> 
         </div>
         <div class="step123_each">
             <span class="no_line_break">
-                <span style="color: rgba(1,1,1,0.4)">&nbsp;STEP 3: Results&nbsp;</span>
+                <span style="color: rgba(1,1,1,0.4)">3: Analyze</span>
+            </span>
+        </div>
+        <div class="step123_each">
+            <span class="no_line_break">
+                <span style="color: rgba(1,1,1,0.4)">&nbsp;4: Results</span>
             </span>
         </div>
     </div>
     <div id="add" style="display:inline-block">
-        <%= link_to results_path, class: "next_btn", :disabled => true do %>Add Filters To Proceed<% end %>
+        <%= link_to analyze_path, class: "next_btn", :disabled => true do %>Select Ingredient(s) to Proceed<% end %>
     </div>
-    <div id="remove" style="display:none">
-        <%= link_to results_path, class: "next_btn" do %>Click Here To Proceed<% end %>
+    <div id="remove" style="display:none" class="next_btn">
+        Click Here to Proceed
     </div>
-    <div class="tips">
-        >>> Select a product in our product database or add a product and its ingredients manually (if not in our database yet):
-    </div>
-    <div class="tips"> >>> Select only <span style="text-decoration: underline;">ONE</span> of the following: </div>
+    
 <!--
     <div class="chart_container">
         <canvas id="barChart" width="400" height="400"></canvas>
@@ -37,51 +39,9 @@
 <!-- Trigger/Open The Modal -->
 <!-- <button id="myBtn">Open Modal</button> -->
 
-<!-- The Modal -->
-<div id="myModal" class="modal">
-  <!-- Modal content -->
-  <!-- <div class="modal-content"> -->
-    <span class="close">&times;</span>
-    <div class="loader_msg">Analysis in action... Please wait...</div>
-    <div class="loader"></div>
- <!-- </div>-->
-
 </div>
     <div class="results">            
-        <%= form_tag(recommend_path, :method => "get", :id => "form") do %>
-            <div id="search">
-                <div class="bootstrap_tabs">
-                   <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#product_dropdown" id="product_select">Search Database</a></li>
-                    <li><a data-toggle="tab" href="#manual_dropdown" id="manual_select">Enter Manually</a></li>
-                  </ul>
-
-                  <div class="tab-content">
-                    <div id="product_dropdown" class="tab-pane fade in active">
-                        <div class="the-basics">
-
-                        <%= label :product, "Select Product:" %><br>
-                        <%= select_tag :product, params[:product], class: "e11", id: "e11" %>
-                        </div>       
-                    </div>
-                    <div id="manual_dropdown" class="tab-pane fade">
-                        <div class="tips">
-                             Note: For accurate analysis, ingredients must be separated by one comma and one character space ', '. For example: water, glycerin, citric acid, and so on. Or, try copying & pasting the product's ingredients from the brand's website.
-                        </div>
-                        <div class="the-basics">
-                        <%= label :manual_product, "Enter Product:" %><br>
-                        <%= text_field_tag :manual_product, params[:manual_product], class: "manual_dropdown", id: "manual_product_dropdown", placeholder: "Click Here" %>
-                        </div> 
-                        <div class="the-basics">
-                        <%= label :manual_ingredients, "Enter Ingredients:" %><br>
-                        <%= text_area_tag :manual_ingredients, params[:manual_ingredients], class: "manual_dropdown", id:"manual_ingredients_dropdown", placeholder: "Click Here" %>
-                        </div>                         
-                    </div>
-                  </div>
-                </div>
-            </div>
-            <br style="clear:left;"/><br />
-
+        <%= form_tag(analyze_path, :method => "get", :id => "form") do %>
             <div class="results_options"> >>> The first 10 ingredients from each product are included in analysis. Cosmetic ingredients are listed in order of amounts. The amount of any ingredients beyond the first 10 are minimal.</div></br>
             <div class="results_options"> >>> Based on your products, these are the most likely breakout-causing ingredients:</div>
             <div class="ingredient_count"><span style="color:rgba(255,0,0,1); font-size: 15px;"><%= @potential_list.count %></span> ingredient(s) found:
@@ -115,7 +75,7 @@
                             </p>
                             <p>
                                 <% if Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).exists? %>
-                                <div class="toggle_HC">>>> Health Canada's Hotlists <<<<</br>
+                                <div class="toggle_HC">[ Health Canada's Hotlists ]</br>
                                     <div class="title">Status (restricted/prohibited):</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:status).first || "N/A" %>
                                     </br>
                                     <div class="title">Conditions of Use:</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:conditions_of_use).first || "N/A" %>
@@ -129,7 +89,7 @@
                             </p>
                             <p>
                                 <% if CosingAnnexIi.where(chemical_name_inn: inci).exists? %>
-                                <div class="toggle_EU">>>> European Union's Prohibited List  <<</br>
+                                <div class="toggle_EU">[ European Union's Prohibited List ]</br>
                                     <div class="title">Opinions:</div> <%= CosingAnnexIi.where(chemical_name_inn: inci).pluck(:sccs_opinions).first || "N/A"%>
                                     </br>
                                     <div class="title">Other directives/regulations:</div> <%= CosingAnnexIi.where(chemical_name_inn: inci).pluck(:other_directives_regulations).first || "N/A" %>
@@ -139,7 +99,7 @@
                             </p>
                             <p>
                                 <% if Comedogeniclist.where(ingredient: inci).exists? %>
-                                <div class="toggle_comedogenic">>>> Comedogenic Cosmetic List <<<</br>
+                                <div class="toggle_comedogenic">[ Comedogenic Cosmetic List ]</br>
                                     <div class="title">Rating:</div> <%= Comedogeniclist.where(ingredient: inci).pluck(:rating).first || "N/A" %>
                                     </br>
                                     <div class="title">Research Evidence: </div>
@@ -162,7 +122,7 @@
         </div> 
 
 <!--testing purposes 
-                ---- b_inci----- </br><br>
+                ---- b_inci---- </br><br>
                 <%#= @b_inci %><br><br>
 
                 ---- s_inci ---- <br><br>
@@ -180,26 +140,13 @@
     </div>
 </div>
 <script>
-document.addEventListener("turbolinks:load", function() {
+$(document).ready(function(){ 
     // grab active tab id for if logic below
     $('.next_btn').on('click', function() {
         // start NProgress bar and loading overlay as soon as button clicked
-        NProgress.start();  
-        modal.style.display = "block"; 
+        //NProgress.start();  
+        //modal.style.display = "block"; 
 
-        var activeTab = null;
-        $('a[data-toggle=tab]').each(function(){
-           if($(this).parent().hasClass('active')){
-              activeTab = $(this).attr('id');
-           }
-        });
-        // disable other inactive tabs and submit only active tab content
-        if (activeTab == "product_select") {
-            document.getElementById('manual_product_dropdown').disabled = true;
-            document.getElementById('manual_ingredients_dropdown').disabled = true;
-        } else if (activeTab == "manual_select") {
-            $('.e11').select2("enable",false);
-        };
         // submit form     
         $('#form').submit();
 
@@ -212,27 +159,17 @@ document.addEventListener("turbolinks:load", function() {
         // });
     });
 
-    $(window).bind("pageshow", function() {
-        $('#form').reset();
-    });
-    
-    
-    // disable submit button if current tab doesn't contain value
-    $("#product_select").on('click', function() {
-        $('textarea').val('').trigger('change');
-        $('input').val('').trigger('change');
-        // $('.e11').select2("enable",true);
-    });
-    $("#manual_select").on('click', function() {
-        $('.e11').val('').trigger('change');
-    });
+    //$(window).bind("pageshow", function() {
+    //    $('#form').reset();
+    //});
+
             
     // submit either product OR (brand & category) OR manually entered product
   
 
     // at least one ingredient (checkbox) AND at least one dropdown (Select2) or manually entered textbox must be selected for proceed button to appear
     jQuery('#form').on('change', function () {
-        if ((jQuery('#form input[type=checkbox]:checked').length > 0) && ((jQuery('.e11').val() != "") || (jQuery('#manual_dropdown').val() != "") || (document.getElementById("manual_product_dropdown").value != "" && document.getElementById("manual_ingredients_dropdown").value != ""))) {
+        if (jQuery('input[type=checkbox]:checked').length > 0) {
             $('#remove').show();
             $('#add').hide();
         } else {
@@ -240,13 +177,15 @@ document.addEventListener("turbolinks:load", function() {
             $('#add').show();
         }
         }).trigger('change');
-});
+    });
+
+
 
 
 // page overlay for next page load
 
 // Get the modal
-var modal = document.getElementById('myModal');
+// var modal = document.getElementById('myModal');
 
 // Get the button that opens the modal
 //var btn = document.getElementById("myBtn");

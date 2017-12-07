@@ -44,8 +44,6 @@ get '/suggest' => 'suggest#index'
   # autocomplete & search function
 resources :favorites
 
-resources :analyze_myproducts
-get '/analyze_results' => 'analyze_results#index'
 get '/analyze' => 'analyze#index'
 
 resources :password_resets

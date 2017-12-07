@@ -1,16 +1,21 @@
 <div class="row">
 	<div class="step123">
 		<div class="step123_each">
-			<span class="no_line_break">&nbsp;[ &nbsp; STEP 1: Add Products &nbsp; ]&nbsp;</span> 
+			<span class="no_line_break">[ 1: Add Products ]</span> 
 		</div>
 		<div class="step123_each">
 			<span class="no_line_break">
-				<span style="color: rgba(1,1,1,0.4)">&nbsp;STEP 2: Analyze&nbsp;</span>
+				<span style="color: rgba(1,1,1,0.4)">&nbsp;2: Select Ingredients</span>
 			</span>
 		</div>
 		<div class="step123_each">
 			<span class="no_line_break">
-				<span style="color: rgba(1,1,1,0.4)">&nbsp;STEP 3: Results&nbsp;</span>
+				<span style="color: rgba(1,1,1,0.4)">&nbsp;3: Analyze</span>
+			</span>
+		</div>
+		<div class="step123_each">
+			<span class="no_line_break">
+				<span style="color: rgba(1,1,1,0.4)">&nbsp;4: Results</span>
 			</span>
 		</div>
 	</div>
@@ -24,6 +29,17 @@
 			<%= link_to results_path, class: "next_btn" do %>Click Here To Proceed<% end %>
 		</div>
 	<% end %>
+
+	<!-- The Modal -->
+	<div id="myModal" class="modal">
+	  <!-- Modal content -->
+	  <!-- <div class="modal-content"> -->
+	    <span class="close">&times;</span>
+	    <div class="loader_msg">Analysis in action... Please wait...</div>
+	    <div class="loader"></div>
+	 <!-- </div>-->
+
+	</div>
 	
 	<div class="tips">
 		>>> Add all the products that you have tried and worked well ("Safe Products") & all the products that you have tried but caused any type of skin reaction including breakout, redness, itchiness ("Breakout Products").</br>
@@ -192,3 +208,60 @@
 		</div>			
 	<% end %>
 </div>
+
+<script>
+$(document).ready(function(){ 
+    // grab active tab id for if logic below
+    $('.next_btn').on('click', function() {
+        // start NProgress bar and loading overlay as soon as button clicked
+        NProgress.start();  
+        modal.style.display = "block"; 
+    });
+        // submit form     
+       // $('#form').submit();
+
+        // Nprogress and overlay re-run since page refreshes after form submit and delays with controller action until redirect to recommend page
+        // $('#form').submit(function(){
+        //     $(document).on('page:change', function() {  
+        //        NProgress.start();
+        //        modal.style.display = "block";
+        //    });
+        // });
+    //});
+
+    //$(window).bind("pageshow", function() {
+    //    $('#form').reset();
+    //});
+
+     
+});
+
+
+// page overlay for next page load
+
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+//var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+//var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+// $('.next_btn').on('click', function() {
+ //   modal.style.display = "block";
+// });
+
+// When the user clicks on <span> (x), close the modal
+// span.onclick = function() {
+//    modal.style.display = "none";
+//}
+
+// When the user clicks anywhere outside of the modal, close it
+// window.onclick = function(event) {
+//    if (event.target == modal) {
+//        modal.style.display = "none";
+//    }
+// }   
+</script>

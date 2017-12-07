@@ -14,11 +14,11 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require typeahead.bundle
-//= require turbolinks
+
 //= require select2
 //= require Chart
 //= require nprogress
-//= require nprogress-turbolinks
+
 //= require_tree .
 
 // NProgress.configure({

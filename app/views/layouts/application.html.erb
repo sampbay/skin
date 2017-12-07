@@ -7,8 +7,8 @@
    <!-- <link href='https://fonts.googleapis.com/css?family=Comfortaa:400,700' rel='stylesheet' type='text/css'> -->
    <link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
 
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application' %>
+  <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= favicon_link_tag asset_path('favicon.ico'), :rel => 'icon', :type => "image/x-icon" %>
@@ -28,7 +28,8 @@
           </div>
           <div class="sidemenu">
             <p><%= link_to "Analyze", myproducts_path %></p>
-            <p><%= link_to "Faves", favorites_path %></p>
+            <p><%= link_to "My Shelf", favorites_path %></p>
+            <p><%= link_to "Trash", favorites_path %></p>
           </div>
         </div>
         <div class="sidenav_bottom">
