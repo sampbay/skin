@@ -12,7 +12,7 @@
             </span>
         </div>
         <div class="step123_each">
-            <span class="no_line_break">&nbsp;[ 3: Analyze ]&nbsp;</span> 
+            <span class="no_line_break">&nbsp;[ 3: Analyze Product ]&nbsp;</span> 
         </div>
         <div class="step123_each">
             <span class="no_line_break">
@@ -54,6 +54,9 @@
 </div>
     <div class="results">            
         <%= form_tag(recommend_path, :method => "get", :id => "form") do %>
+            <% @potential_list_final.each do |p| %>
+                <%= hidden_field_tag 'list[]', p %>
+            <% end %>
             <div id="search">
                 <div class="bootstrap_tabs">
                    <ul class="nav nav-tabs">
@@ -110,6 +113,7 @@
 $(document).ready(function(){ 
     // grab active tab id for if logic below
     $('.next_btn').on('click', function() {
+        preventDefault();
         // start NProgress bar and loading overlay as soon as button clicked
         NProgress.start();  
         modal.style.display = "block"; 

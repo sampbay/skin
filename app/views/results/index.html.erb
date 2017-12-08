@@ -11,7 +11,7 @@
         </div>
         <div class="step123_each">
             <span class="no_line_break">
-                <span style="color: rgba(1,1,1,0.4)">3: Analyze</span>
+                <span style="color: rgba(1,1,1,0.4)">3: Analyze Product</span>
             </span>
         </div>
         <div class="step123_each">
@@ -42,8 +42,10 @@
 </div>
     <div class="results">            
         <%= form_tag(analyze_path, :method => "get", :id => "form") do %>
-            <div class="results_options"> >>> The first 10 ingredients from each product are included in analysis. Cosmetic ingredients are listed in order of amounts. The amount of any ingredients beyond the first 10 are minimal.</div></br>
-            <div class="results_options"> >>> Based on your products, these are the most likely breakout-causing ingredients:</div>
+            <div class="results_options"> >>> Based on the products you've entered, these are the most likely breakout-causing ingredients.</div></br>
+            <div class="results_options"> >>> Is the list too long? You may want to add more products on the previous page to make this list shorter and more accurate!</div></br>
+            <div class="results_options"> >>> How to interpret this list - Every ingredient in the products you’ve tried with success is compared with every ingredient in the products that broke you out. Our algorithm pulls out a portion of ingredients in the breakout product list, which are not present in the safe product list. Find out more on <%= link_to how_it_works_path do %><span style="color:rgba(255,0,0,1);">How It Works</span><% end %> page.</div></br>
+            <div class="results_options"> >>> Check "Select All" to include all the potentially breakout-causing ingredients. If you know some ingredients are actually safe for you, you can uncheck those ingredients to exclude them from product analysis.</div></br>
             <div class="ingredient_count"><span style="color:rgba(255,0,0,1); font-size: 15px;"><%= @potential_list.count %></span> ingredient(s) found:
             </div>
             <div class="legend">
