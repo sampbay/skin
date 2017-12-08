@@ -54,7 +54,7 @@
 </div>
     <div class="results">            
         <%= form_tag(recommend_path, :method => "get", :id => "form") do %>
-            <% @potential_list_final.each do |p| %>
+            <% params[:list].each do |p| %>
                 <%= hidden_field_tag 'list[]', p %>
             <% end %>
             <div id="search">
