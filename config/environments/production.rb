@@ -83,7 +83,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
       :address              => 'smtp.1and1.com',
       :port                 => 587,
-      :domain               => 'trialn.com',
+      :domain               => '1and1.com',
       :user_name            => 'noreply@trialn.com',
       :password             => 'Xmfkdldjfdos!',
       :authentication       => 'plain',

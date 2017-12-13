@@ -11,7 +11,8 @@ class UsersController < ApplicationController
 			@user.set_confirmation_token
 			@user.save(validate: false)            
 			UserMailer.registration_confirmation(@user).deliver_now 
-  			redirect_to activate_path
+  			redirect_to '/activate'
+  			return
 			#session[:user_id_session] = @user.id
 			#redirect_to '/myproducts'
 		else
