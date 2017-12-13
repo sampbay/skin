@@ -1,5 +1,5 @@
 class SuggestController < ApplicationController
-	before_action :require_user, only: [:index, :new, :create]
+	#before_action :require_user, only: [:index, :new, :create]
 	def index
 	end
 	def new

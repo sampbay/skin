@@ -1,6 +1,6 @@
 class MyproductsController < ApplicationController
 #	before_action :require_user, only: [:index, :show, :new, :create, :edit, :update, :destroy]
-	before_action :require_user, only: [:index]
+#	before_action :require_user, only: [:index]
 	def index
 		#@myproduct = Myproduct.find(current_user.myproducts.product)
 		#@myproduct = Myproduct.where(user: current_user.id)

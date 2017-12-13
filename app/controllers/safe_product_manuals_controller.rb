@@ -1,6 +1,6 @@
 class SafeProductManualsController < ApplicationController
 
-	before_action :require_user, only: [:new, :create, :show, :destroy]
+	#before_action :require_user, only: [:new, :create, :show, :destroy]
 	def new		
 	    #@myproduct = Myproduct.new
 	    #rescue ActiveRecord::RecordNotFound

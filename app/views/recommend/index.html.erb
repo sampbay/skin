@@ -72,13 +72,13 @@
             <div class="product_img"><%= image_tag("product_images/#{Product.where(id: key).pluck(:img).first}", alt: "no image available") %></div></br>
             <div class="product_claims"><%= Product.where(id: key).pluck(:claims).first %></div>
            <!--  <div class="amazon_buy">Buy Now</div> -->
-            <% unless current_user.favorites.exists?(key) %>
+            <%# unless current_user.favorites.exists?(key) %>
                 <%= link_to favorite_product_path(Product.where(id: key).map(&:id).first), method: :put, remote: true do %><div class="add_faves" id="add_faves_<%= result_list_counter %>">&star;</div><% end %>
                 <%= link_to favorite_product_path(Product.where(id: key).map(&:id).first), method: :delete, remote: true do %><div class="remove_faves" id="remove_faves_<%= result_list_counter %>" style="display: none;">&starf;</div><% end %>
-            <% else %>
+            <%# else %>
                 <%= link_to favorite_product_path(Product.where(id: key).map(&:id).first), method: :put, remote: true do %><div class="add_faves" id="add_faves_<%= result_list_counter %>" style="display: none;">&star;</div><% end %>
                 <%= link_to favorite_product_path(Product.where(id: key).map(&:id).first), method: :delete, remote: true do %><div class="remove_faves" id="remove_faves_<%= result_list_counter %>">&starf;</div><% end %>
-            <% end %>
+            <%# end %>
 
             <%= link_to new_suggest_path do %><div class="report_error">Error?</div><% end %>
             <br style="clear:left;"/><br />
