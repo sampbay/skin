@@ -11,16 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171203011411) do
+ActiveRecord::Schema.define(version: 20171212072144) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "citext"
-
-  create_table "analyzes", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "breakout_product_manuals", force: :cascade do |t|
     t.citext   "brand",        null: false
@@ -251,11 +246,13 @@ ActiveRecord::Schema.define(version: 20171203011411) do
     t.citext   "last_name"
     t.citext   "email"
     t.string   "password_digest"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.string   "password_reset_token"
     t.datetime "password_reset_sent_at"
     t.string   "auth_token"
+    t.boolean  "email_confirmed",        default: false
+    t.string   "confirm_token"
   end
 
 end
