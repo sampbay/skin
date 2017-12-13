@@ -4,19 +4,19 @@ class ResultsController < ApplicationController
 	def index
 
 
-	@safe_product = SafeProduct.where(user: current_user)
-	@breakout_product = BreakoutProduct.where(user: current_user)
+	@safe_product = [2,6]
+	@breakout_product = [1,10]
 	
 	@safe_product_ingredients = []
 	@breakout_product_ingredients = []	
 	
-	@safe_product.pluck(:product).each do |product|
+	@safe_product.each do |product|
 		# for both safe/breakout_product_ingredients arrays, use top 10 ingredients only - make it a user-input variable
 		@safe_product_ingredients += Product.where(id: product).pluck(:ingredients).compact.map! {|e| e.split(";").collect(&:strip)}
 	end
 	@safe_product_ingredients = @safe_product_ingredients.flatten # [["a", "b"]] -> ["a","b"]
 	
-	@breakout_product.pluck(:product).each do |product|
+	@breakout_product.each do |product|
 		@breakout_product_ingredients += Product.where(id: product).pluck(:ingredients).compact.map! {|e| e.split(";").collect(&:strip)}
 	end
 	@breakout_product_ingredients = @breakout_product_ingredients.flatten # [["a", "b"]] -> ["a","b"]
