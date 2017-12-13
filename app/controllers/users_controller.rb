@@ -41,13 +41,13 @@ class UsersController < ApplicationController
 	end
 
 	def confirm_email
-	    user = User.find_by_confirm_token(params[:token])
-	    if user
-	    	user.validate_email
-	    	user.save(validate: false)
-	    	redirect_to user
+	    @user = User.find_by_confirm_token(params[:token])
+	    if @user
+	    	@user.validate_email
+	    	@user.save(validate: false)
+	    	redirect_to "/myproducts"
 	    else
-	    	@login_error = "Sorry. User does not exist"
+	    	@login_error = "Sorry. Account does not exist!"
 	    	redirect_to root_url
 	    end
 	end
