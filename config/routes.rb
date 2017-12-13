@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
 
 
-  get 'activate/index'
-
   get 'how_it_works/index'
 
   get 'breakout_product_manuals/new'
@@ -35,7 +33,6 @@ resources :suggest, only: [:index, :new, :create]
   # User authentication using Bcrypt
   get '/signup' => 'users#new'
   resources :users
-  get '/users' => 'activate#index'
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
   delete '/logout' => 'sessions#destroy'
@@ -57,9 +54,6 @@ resources :breakout_product_manuals
 get '/privacy_policy' => 'privacy_policy#index'
 get '/terms_of_use' => 'terms_of_use#index'
 get '/how_it_works' => 'how_it_works#index'
-get '/activate' => 'activate#index'
-
-get '/:token/confirm_email/', :to => "users#confirm_email", as: 'confirm_email'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

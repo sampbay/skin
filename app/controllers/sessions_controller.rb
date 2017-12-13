@@ -6,13 +6,8 @@ class SessionsController < ApplicationController
   def create
   	@user = User.find_by_email(params[:session][:email])
   	if @user && @user.authenticate(params[:session][:password])
-  		if @user.email_confirmed
-        session[:user_id_session] = @user.id
-  		  redirect_to '/myproducts'
-      else
-        @login_error = 'Check your email inbox (or junk/spam folder) to activate your account and login!'
-        render 'new'
-      end
+  		session[:user_id_session] = @user.id
+  		redirect_to '/myproducts'
   	else
       @login_error = "Wrong email/password combination!"
   		render 'new'
