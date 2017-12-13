@@ -35,7 +35,6 @@ resources :suggest, only: [:index, :new, :create]
   # User authentication using Bcrypt
   get '/signup' => 'users#new'
   resources :users
-  get '/users' => 'activate#index'
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
   delete '/logout' => 'sessions#destroy'

@@ -78,5 +78,16 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # password reset -> change to custom domain 
-  config.action_mailer.default_url_options = { :host => "localhost:8080" }
+  config.action_mailer.default_url_options = { :host => "trialn.com" }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+      :address              => 'smtp.1and1.com',
+      :port                 => 587,
+      :domain               => 'trialn.com',
+      :user_name            => 'noreply@trialn.com',
+      :password             => 'Xmfkdldjfdos!',
+      :authentication       => 'plain',
+      :enable_starttls_auto => true
+  }
+
 end
