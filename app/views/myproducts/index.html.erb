@@ -22,11 +22,11 @@
 
 	<% if (@safe_product.empty? and @safe_product_manual.empty?) or (@breakout_product.empty? and @breakout_product_manual.empty?) %>
 		<div id="add">
-			<%= link_to "/results", class: "next_btn", :disabled => true do %>Add More Products To Proceed >>><% end %>
+			<%= link_to results_path, class: "next_btn", :disabled => true do %>Add More Products To Proceed >>><% end %>
 		</div>
 	<% else %>
 		<div id="remove">
-			<%= link_to "/results", class: "next_btn" do %>Click Here To Proceed<% end %>
+			<%= link_to results_path, class: "next_btn" do %>Click Here To Proceed<% end %>
 		</div>
 	<% end %>
 
