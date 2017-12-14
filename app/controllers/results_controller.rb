@@ -4,19 +4,19 @@ class ResultsController < ApplicationController
 	def index
 
 
-	@safe_product = [2,6]
-	@breakout_product = [1,10]
+	@safe_product = SafeProduct.where(user: current_user)
+	@breakout_product = BreakoutProduct.where(user: current_user)
 	
 	@safe_product_ingredients = []
 	@breakout_product_ingredients = []	
 	
-	@safe_product.each do |product|
+	@safe_product.pluck(:product).each do |product|
 		# for both safe/breakout_product_ingredients arrays, use top 10 ingredients only - make it a user-input variable
 		@safe_product_ingredients += Product.where(id: product).pluck(:ingredients).compact.map! {|e| e.split(";").collect(&:strip)}
 	end
 	@safe_product_ingredients = @safe_product_ingredients.flatten # [["a", "b"]] -> ["a","b"]
 	
-	@breakout_product.each do |product|
+	@breakout_product.pluck(:product).each do |product|
 		@breakout_product_ingredients += Product.where(id: product).pluck(:ingredients).compact.map! {|e| e.split(";").collect(&:strip)}
 	end
 	@breakout_product_ingredients = @breakout_product_ingredients.flatten # [["a", "b"]] -> ["a","b"]
@@ -101,12 +101,12 @@ end
 @potential_list = @b_inci_no_bracket - (@b_inci_no_bracket & @s_inci_no_bracket)
 
 		# save to use again in Recommend controller
-		#@potential_product = PotentialProduct.new(product: @potential_list, user: current_user)
-		#@user_potential_product = UserPotentialProduct.new(user: current_user, potential_product: @potential_product)
-		#@potential_product.user = current_user
-		#if @potential_product.save 
-	#		@user_potential_product.save
-	#	end
+		@potential_product = PotentialProduct.new(product: @potential_list, user: current_user)
+		@user_potential_product = UserPotentialProduct.new(user: current_user, potential_product: @potential_product)
+		@potential_product.user = current_user
+		if @potential_product.save 
+			@user_potential_product.save
+		end
 
 # to avoid duplicate e.g. CITRUS BLAH (APPLE) CARPEL POWDER -> CITRUS BLAH CARPEL POWDER & APPLE CARPEL POWDER
 #@potential_list = @potential_list.uniq
