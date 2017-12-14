@@ -15,7 +15,13 @@ class ApplicationController < ActionController::Base
     rescue ActiveRecord::RecordNotFound
   end
 
-  
+  def require_user
+  	redirect_to '/login' unless current_user
+  end
+
+  def require_user_logged_out
+  	redirect_to '/myproducts' if current_user
+  end
 
   #def require_user_profile_exists
   #  redirect_to '/profiles' unless @profile
