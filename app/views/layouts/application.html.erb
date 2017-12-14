@@ -30,7 +30,7 @@
           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
           <div class="email"><%= current_user.email %></div>
           <div class="logout_profile">
-          <%= link_to "Logout", logout_path, method: "delete" %> | <%= link_to "Profile", current_user %></br>
+          <%= link_to "Logout", logout_path, method: "delete" %>  <%= link_to "Profile", current_user %></br>
           </div>
           <div class="sidemenu">
             <p><%= link_to "Analyze", myproducts_path %></p>
