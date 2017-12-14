@@ -11,17 +11,11 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def current_user
-  	@current_user ||=  User.find(id: 1)
+  	@current_user ||=  User.find(1)
     rescue ActiveRecord::RecordNotFound
   end
 
-  def require_user
-  	redirect_to '/login' unless current_user
-  end
-
-  def require_user_logged_out
-  	redirect_to '/myproducts' if current_user
-  end
+  
 
   #def require_user_profile_exists
   #  redirect_to '/profiles' unless @profile

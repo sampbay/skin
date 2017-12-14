@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
 
+  get 'blog/index'
+
   get 'how_it_works/index'
 
   get 'breakout_product_manuals/new'
