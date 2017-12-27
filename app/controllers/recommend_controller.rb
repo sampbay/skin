@@ -1,5 +1,5 @@
 class RecommendController < ApplicationController
-	#before_action :require_user, only: [:index, :search]
+	before_action :require_user, only: [:index, :search]
 	#def index
 	#@product = Product.all
 	###@myproduct = Myproduct.find(current_user.product)

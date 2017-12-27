@@ -28,12 +28,13 @@
       <% if current_user %>
         <div class="sidenav_top">
           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-          
-          
+          <div class="email"><%= current_user.email %></div>
+          <div class="logout_profile">
+          <%= link_to "Logout", logout_path, method: "delete" %> | <%= link_to "Profile", current_user %></br>
+          </div>
           <div class="sidemenu">
             <p><%= link_to "Analyze", myproducts_path %></p>
             <p><%= link_to "My Shelf", favorites_path %></p>
-            <p><%= link_to "Blog Posts", blog_index_path %></p>
           </div>
         </div>
         <div class="sidenav_bottom">
@@ -52,7 +53,7 @@
         <div class="sidenav_top">
           <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
           <div class="sidemenu">
-            <%#= link_to "Sign Up", signup_path %>  <%#= link_to "Login", login_path %>
+            <%= link_to "Sign Up", signup_path %> | <%= link_to "Login", login_path %>
           </div>
         </div>
         <div class="sidenav_bottom">

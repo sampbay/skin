@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
 
 
-  get 'blog/index'
-
   get 'how_it_works/index'
 
   get 'breakout_product_manuals/new'
@@ -33,11 +31,11 @@ resources :suggest, only: [:index, :new, :create]
   root 'profiles#welcome'
   
   # User authentication using Bcrypt
-  #get '/signup' => 'users#new'
+  get '/signup' => 'users#new'
   resources :users
-  #get '/login' => 'sessions#new'
-  #post '/login' => 'sessions#create'
-  #delete '/logout' => 'sessions#destroy'
+  get '/login' => 'sessions#new'
+  post '/login' => 'sessions#create'
+  delete '/logout' => 'sessions#destroy'
 
 get '/results' => 'results#index'
 get '/recommend' => 'recommend#index'
