@@ -1,7 +1,5 @@
 <div class="row">
 
-<%= tabs %>
-
 <h3>My Skin Profile</h3>
 	
 	<% if @profile == nil %>
@@ -15,8 +13,7 @@
 	<h4>My Profile</h4><br>
 	<%= @profile.age %><br>
 	<%= @profile.skin_type %><br>
-	<%= @profile.skin_color %><br>
-	<%= @profile.concerns %><br>
+	<%= @profile.ethnicity %><br>
 	<% elsif @profile == nil %>
 	<br>
 	Your profile is empty. Please add your profile!

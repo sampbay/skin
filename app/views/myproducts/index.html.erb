@@ -1,32 +1,22 @@
 <div class="row">
 	<div class="step123">
 		<div class="step123_each">
-			<span class="no_line_break">[ 1: Add Products ]</span> 
+			<span class="no_line_break">[ 1: Add Product ]</span> 
 		</div>
 		<div class="step123_each">
 			<span class="no_line_break">
 				<span style="color: rgba(1,1,1,0.4)">&nbsp;2: Select Ingredients</span>
 			</span>
 		</div>
-		<div class="step123_each">
-			<span class="no_line_break">
-				<span style="color: rgba(1,1,1,0.4)">&nbsp;3: Analyze Product</span>
-			</span>
-		</div>
-		<div class="step123_each">
-			<span class="no_line_break">
-				<span style="color: rgba(1,1,1,0.4)">&nbsp;4: Results</span>
-			</span>
-		</div>
 	</div>
 
 	<% if (@safe_product.empty? and @safe_product_manual.empty?) or (@breakout_product.empty? and @breakout_product_manual.empty?) %>
 		<div id="add">
-			<%= link_to results_path, class: "next_btn", :disabled => true do %>Add More Products To Proceed >>><% end %>
+			<%= link_to results_path, class: "next_btn", :disabled => true do %>Add More Products To Continue<% end %>
 		</div>
 	<% else %>
 		<div id="remove">
-			<%= link_to results_path, class: "next_btn" do %>Click Here To Proceed<% end %>
+			<%= link_to results_path, class: "next_btn" do %>Save & Continue<% end %>
 		</div>
 	<% end %>
 

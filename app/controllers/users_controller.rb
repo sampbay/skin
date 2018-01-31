@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 		@user = User.new(user_params)
 		if @user.save
 			session[:user_id_session] = @user.id
-			redirect_to '/myproducts'
+			redirect_to new_profile_url
 		else
 			render :new
 		end
@@ -18,6 +18,9 @@ class UsersController < ApplicationController
 	def show
 		# @user = User.find(params[:id])
 		@user = current_user
+		# Skin Profile - acts as profiles_controller index
+		@profile = Profile.find(current_user.profile)
+		rescue ActiveRecord::RecordNotFound
 	end
 
 	def edit

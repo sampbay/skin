@@ -5,17 +5,19 @@
 
 html, body {
 	background-color: rgba(255,255,255,1);
-	min-height: 100%;
+	height: 100%;
+  min-height: 100%;
 	margin: 0;
 	padding: 0;
 	font-family: 'Inconsolata';
 	font-weight: 400;
 	color: rgba(0, 0, 0, 1);
+  z-index: 10000;
 }
 
 .main {
-	padding-top: 120px;
-  padding-bottom: 90px;
+	padding-top: 110px;
+  padding-bottom: 150px;
 }
 
 .main a:link {
@@ -35,27 +37,38 @@ html, body {
 }
 
 .header {
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 	overflow: hidden;
 	position: fixed;
 	width: 100%;
 	z-index: 998;
   background: rgba(255,255,255,0.9);
   height: 107px;
+  border-bottom: 2px dashed rgba(136,136,136,1);
 }
 
 .header .logo {
-	z-index: 998;
+	z-index: 999999;
 	font-family: 'Inconsolata'; 
 	font-weight: 400;
-  font-size: 30px;
+  font-size: 24px;
   color: rgba(0, 0, 0, 1);
 	display: inline-block;
 	position: relative;
-  border: 3px solid rgba(0, 0, 0, 1);
-  padding: 25px 5px 25px 5px;
-  background-color:rgba(255,255,255,0.8);
-  margin: 5px 0 5px 0;
+  padding: 40px 5px 0 10px;
+}
+
+// override scaffolding.less
+.header .logo  a {
+  color: rgba(0,0,0,1);
+}
+
+.vertical_line {
+  border-left: 2px dashed rgba(146,146,146,1);
+  top: 0;
+  position: fixed;
+  height: 100%;
+  z-index: 999;
 }
 
 .wrapper {
@@ -115,7 +128,19 @@ html, body {
 
 .step123 {
   text-align: center;
+  border-top: 2px rgba(86,86,86,1) dashed;
+  border-bottom: 2px rgba(80,80,80,1) dashed;
+  margin: 20px 0 15px 0;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 200px;
 }
+
+// to make up lost height from shrink next bottom when scrolling
+//.step123.shrink {
+//  margin-bottom: 62px;
+//}
 
 .step123_each {
   font-size: 20px; 
@@ -158,6 +183,10 @@ html, body {
   position: absolute;
 }
 
+.sidenav_small {
+  font-size: 18px;
+}
+
 .sidenav_bottom {
    font-size: 17px;
    position: absolute;
@@ -196,10 +225,11 @@ html, body {
 /* On smaller screens, where height is less than 702px (iphone x), change the style of the sidenav (less padding and a smaller font size) */
 @media only screen and (max-height: 702px) {
   .sidenav_top {font-size: 20px; line-height: 1.2;}
+  .sidenav_small {font-size: 16px;}
   .sidenav_bottom {font-size: 14px; line-height: 1.2;}
   .fineprints {font-size: 12px; line-height: 1.2;}
   .header.shrink {height: 74px;}
-  .header .logo.shrink {font-size: 18px; padding: 16px 3px 16px 3px; margin-top: 5px;}
+  .header .logo.shrink {font-size: 20px; padding: 22px 3px 22px 10px; margin-top: 3px;}
   .openbtn.shrink {font-size: 40px; margin-top: 10px;}
   // Animation
   .header, .header .logo, .openbtn {-webkit-transition: all 0.2s ease; transition: all 0.2s ease;}
@@ -208,17 +238,60 @@ html, body {
 /* On smaller screens, where height is less than 465px (before sidenav_top & sidenav_bottom overlap), change the style of the sidenav (less padding and a smaller font size) */
 @media only screen and (max-height: 465px) {
   .sidenav_top {font-size: 20px; line-height: 1.2; left: none; padding-right: 30px; float:left; position: relative;}
+  .sidenav_small {font-size: 16px;}
   .sidenav_bottom {font-size: 14px; line-height: 1.2; position: relative; bottom: 0; float: left; margin-top: 100px; padding-left: 35px; padding-top: 0; border-left: 1px solid rgba(255,255,255,1); border-top: none;}
   .fineprints {font-size: 12px; line-height: 1.2;}
   .header.shrink {height: 74px;}
-  .header .logo.shrink {font-size: 18px; padding: 16px 3px 16px 3px; margin-top: 5px;}
+  .header .logo.shrink {font-size: 20px; padding: 22px 3px 22px 10px; margin-top: 3px;}
   .openbtn.shrink {font-size: 40px; margin-top: 10px;}
   // Animation
   .header, .header .logo, .openbtn {-webkit-transition: all 0.2s ease; transition: all 0.2s ease;}
 }
 
 @media only screen and (min-width: 1200px) { 
+  // override grid.less container width
   .container {width: 970px;}
+  //#add.shrink {max-width: 940px;}
+  //#remove.shrink {max-width: 940px;}
+}
+/*
+@media only screen and (min-width: 992px) and (max-width: 1200px) { 
+  #add.shrink {max-width: 940px;}
+  #remove.shrink {max-width: 940px;}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 992px) { 
+  #add.shrink {max-width: 720px;}
+  #remove.shrink {max-width: 720px;}
+}
+
+@media only screen and (max-width: 768px) { 
+  #add.shrink {max-width: 370px;}
+  #remove.shrink {max-width: 370px;}
+}
+
+#add.shrink {
+  position:fixed;
+  top: 107px;
+  opacity: 0.95;
+  z-index: 100000;
+  background-color: rgba(255,255,255,1);
+  width: 100%;
+}
+
+#remove.shrink {
+  position:fixed;
+  top: 107px;
+  opacity: 0.95;
+  z-index: 100000;
+  background-color: rgba(255,255,255,1);
+  width: 100%;
+}
+*/
+
+#add, #remove {
+  width: 100%;
+  margin-top: 50px;
 }
 
 .start {
@@ -346,6 +419,13 @@ html, body {
 /* overwrite grid-framework.less row */
 .row {
   background-color: rgba(255,255,255,0.15);
+  margin-top: 60px;
+}
+
+/* override grid-framework.less */
+.row {
+  margin-right: 0;
+  margin-left: 7px;
 }
 
 .results { 
@@ -476,9 +556,9 @@ html, body {
   background-color: rgba(1,1,1,0.07);
 }
 
-h3 {
-  padding: 0 5px 0 5px;
-}
+// h3 {
+//  padding: 0 5px 0 5px;
+// }
 
 .product {
   font-size: 18px;
@@ -538,11 +618,6 @@ h3 {
 
 .why_login {
   margin: 20px;
-}
-
-#add, #remove {
-  display: inline-block;
-  width: 100%;
 }
 
 /* The Modal (background) */
@@ -623,12 +698,6 @@ h3 {
   right: 0;
   margin: auto;
   transform: translate(30px, -60px);
-}
-
-/* override grid-framework.less */
-.row {
-  margin-right: 0;
-  margin-left: 0;
 }
 
 .no_line_break {

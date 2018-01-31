@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
   # accepts_nested_attributes_for :profile
   # potential_product is a data table with list of analysis result ingredients in CAS_No
   has_one :potential_product, :dependent => :destroy
+  has_one :blacklist, :dependent => :destroy
   has_many :products
   has_many :favorite_products
   has_many :favorites, through: :favorite_products, source: :product

@@ -1,8 +1,27 @@
 
-<h3>Profile</h3>
+<h3>Basic Profile</h3>
 <div class="row">
 	<p>First Name: <%= @user.first_name %></p>
 	<p>Last Name: <%= @user.last_name %></p>
 	<p>Email: <%= @user.email %></p>
-	<%= link_to edit_user_path(@user) do %><div class="submit_btn">Edit</div><% end %>
+	<%= link_to edit_user_path(@user) do %><div class="submit_btn">Edit Basic Profile</div><% end %>
+</div>
+
+<h3>Skin Profile</h3>
+<div class="row">
+	<div class="profile_content">
+		<% if @profile %>
+			<p>Age: <%= @profile.age %></p>
+			<p>Skin Type: <%= @profile.skin_type %></p>
+			<p>Ethnicity: <%= @profile.ethnicity %></p>
+		<% elsif @profile == nil %>
+		Your skin profile is empty. Please add your skin profile to compare with other users!
+		</br>
+		<% end %>
+	</div>
+	<% if @profile == nil %>
+		<%= link_to 'Add Skin Profile', new_profile_path, :class => "submit_btn" %>
+	<% else %>
+		<%= link_to 'Edit Skin Profile', edit_profile_path(@profile), :class => "submit_btn" %>
+	<% end %>	
 </div>

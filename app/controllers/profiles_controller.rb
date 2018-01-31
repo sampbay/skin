@@ -24,21 +24,20 @@ class ProfilesController < ApplicationController
 		@profile = Profile.new(profile_params)
 		@profile.user = User.find(current_user)
 		if @profile.save
-			redirect_to '/profiles'
+			redirect_to '/myproducts'
 		else
 			render 'new'
 		end
 	end
 	def edit
 		@profile = Profile.find(current_user.profile)
-		@myproduct = Myproduct.find(current_user.myproducts)
-		rescue ActiveRecord::RecordNotFound
+		# @myproduct = Myproduct.find(current_user.myproducts)
 
 	end
 	def update
 		@profile = Profile.find(current_user.profile)
 		if @profile.update(profile_params) 
-			redirect_to '/profiles'
+			redirect_to '/myproducts'
 		else 
 			render 'edit'
 		end
@@ -46,12 +45,12 @@ class ProfilesController < ApplicationController
 	def destroy
 		@profile = Profile.find(params[:id])
 		@profile.destroy
-		redirect_to profiles_path
+		redirect_to '/myproducts'
 	end
 	
 	private
 	def profile_params
-		params.require(:profile).permit(:age, :skin_type, :skin_color, :concerns, :user_id)
+		params.require(:profile).permit(:age, :skin_type, :ethnicity, :user)
 	end
 
 	def check_profile_presence

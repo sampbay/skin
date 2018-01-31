@@ -26,8 +26,10 @@
           <%= link_to "Logout", logout_path, method: "delete" %> | <%= link_to "Profile", current_user %></br>
           </div>
           <div class="sidemenu">
-            <p><%= link_to "Analyze", myproducts_path %></p>
-            <p><%= link_to "My Shelf", favorites_path %></p>
+            <p><%= link_to "Build Blacklist", myproducts_path %></p>
+            <p><span class="sidenav_small"><%= link_to "&angrt;".html_safe + " My Blacklist", blacklist_path %></span></p>
+            <p><%= link_to "Analyze Product", analyze_path %></p>
+            <p><span class="sidenav_small"><%= link_to "&angrt;".html_safe + " My Products", favorites_path %></span></p>
           </div>
         </div>
         <div class="sidenav_bottom">
@@ -62,16 +64,15 @@
     </div>           
   	<div class="header">
       <div class="container">
-        <%= link_to(root_path) do %>
         <div class="logo">
-        trial&amp;
+          <%= link_to(root_path) do %>COSMEDICT<% end %>
         </div>
-        <% end %>
         <div class="openbtn" onclick="openNav()">&#9776;</div>
       </div>
   	</div>
     <div class="main">
       <div class="container">
+        <div class="vertical_line"></div>
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <!-- underheader -->
         <ins class="adsbygoogle"

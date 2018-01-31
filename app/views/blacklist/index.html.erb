@@ -1,0 +1,143 @@
+<div class="row">
+<h3>My Blacklist</h3>
+    <div style="text-align: center">
+        <div id="add" style="display: inline-block; width: 48.5%">
+            <%= link_to analyze_path, class: "next_btn" do %>Analyze New Product<% end %>
+        </div>
+        <div id="add" style="display: inline-block; width: 48.5%">
+            <%= link_to myproducts_path, class: "next_btn" do %>Edit My Blacklist<% end %>
+        </div>
+    </div>
+    <% unless @potential_list.blank? or @potential_list == [nil] %>
+    <div class="results">            
+        <div class="ingredient_count"><span style="color:rgba(255,0,0,1); font-size: 15px;"><%= @potential_list.count %></span> ingredient(s):
+        </div>
+        <div class="legend">
+            <span style="background: rgba(255,255,0,1);">&nbsp;&nbsp;&nbsp;</span>:Ingredients from Analysis | <%= image_tag("canada_flag.png", alt: " [Health Canada] ", size: "19") %>:HC Hotlist | <%= image_tag("eu_flag.png", alt: " [EU] ", size: "19") %>:EU Prohibited | <%= image_tag("comedogenic_icon.png", alt: " [Comedogenic List] ", size: "19") %>:Comedogenic | <%= link_to how_it_works_path do %>How It Works<% end %>
+        </div> 
+            <div class="result_list">
+                <div class="ingredients_list">
+                    <!-- downcase and strip b/c @potential_product is already downcased and stripped -->
+                    <% @potential_list.uniq.each do |inci| %>
+
+                        <% unless @potential_list.blank? %>
+                        <div class="ingredient_title"><span style="background: rgba(255,255,0,1);"><%= inci %></span>
+
+                        <%= image_tag("canada_flag.png", alt: " [Health Canada] ", size: "19") if Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).exists? %>
+                        <%= image_tag("eu_flag.png", alt: " [EU] ", size: "19") if CosingAnnexIi.where(chemical_name_inn: inci).exists? %>
+                        <%= image_tag("comedogenic_icon.png", alt: " [Comedogenic List] ", size: "19") if Comedogeniclist.where(ingredient: inci).exists? %>
+                        </div>
+                      
+                        <div class="ingredient_detail">
+                          <div class="well">
+                            
+                            <div class="title">Function:</div>
+                                <div class="function">
+                                    <% if Cosing.where(INCI_name: inci).pluck(:Function).nil? or Cosing.where(INCI_name: inci).pluck(:Function).blank? %>
+                                        Unknown
+                                    <% else %>
+                                        <%= Cosing.where(INCI_name: inci).pluck(:Function).first %>
+                                    <% end %>
+                                </div>
+                            </br>
+                            <!-- % of users who share same skin type and this breakout-causing ingredient in Table potential_products -->
+                            
+                            <div class="title">Skin Type: </div>
+                                <div class="stats_skin_type">
+                                    <% if Profile.where(user_id: current_user).pluck(:skin_type).first.nil? or Profile.where(user_id: current_user).pluck(:skin_type).first.blank? %>
+                                        Your skin profile is incomplete. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter SKIN TYPE.
+                                    <% else %>
+                                        <% @users_skin_type_ing = 0 %>
+                                        <% @users_skin_type = Profile.where(skin_type: Profile.where(user_id: current_user).pluck(:skin_type).first).pluck(:user_id) %>
+                                        <% @users_skin_type.each do |p| %>
+                                        <% @users_skin_type_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
+                                        <% end %>
+                                        <% @percent = @users_skin_type_ing.to_f / @users_skin_type.count * 100.0 %> 
+                                        Caused breakout in <%= @percent.round(0) %>% of users who share your skin type <%= Profile.where(user_id: current_user).pluck(:skin_type).first %>
+                                    <% end %>
+                                </div>
+                            </br>
+                            <!-- % of users who share same ethnicity and this breakout-causing ingredient in Table potential_products -->
+                            
+                            <div class="title">Ethninicty: </div>
+                                <div class="stats_ethnicity">
+                                    <% if Profile.where(user_id: current_user).pluck(:ethnicity).first.nil? or Profile.where(user_id: current_user).pluck(:ethnicity).first.blank? %>
+                                        Your skin profile is incomplete. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter ETHNICITY.
+                                    <% else %>
+                                        <% @users_ethnicity_ing = 0 %>
+                                        <% @users_ethnicity = Profile.where(ethnicity: Profile.where(user_id: current_user).pluck(:ethnicity).first).pluck(:user_id) %>
+                                        <% @users_ethnicity.each do |p| %>
+                                        <% @users_ethnicity_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
+                                        <% end %>
+                                        <% @percent = @users_ethnicity_ing.to_f / @users_ethnicity.count * 100.0 %> 
+                                        Caused breakout in <%= @percent.round(0) %>% of users who share your ethnicity <%= Profile.where(user_id: current_user).pluck(:ethnicity).first %>
+                                    <% end %>
+                                </div>
+                            </br>
+                            <!-- % of users who share same age group and this breakout-causing ingredient in Table potential_products -->
+                            
+                            <div class="title">Age Group: </div>
+                                <div class="stats_age">
+                                    <% if Profile.where(user_id: current_user).pluck(:age).first.nil? or Profile.where(user_id: current_user).pluck(:age).first.blank? %>
+                                        Your skin profile is incomplete. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter AGE.
+                                    <% else %>
+                                        <% @users_age_ing = 0 %>
+                                        <% @users_age = Profile.where(age: Profile.where(user_id: current_user).pluck(:age).first).pluck(:user_id) %>
+                                        <% @users_age.each do |p| %>
+                                        <% @users_age_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
+                                        <% end %>
+                                        <% @percent = @users_age_ing.to_f / @users_age.count * 100.0 %> 
+                                        Caused breakout in <%= @percent.round(0) %>% of users in your age group <%= Profile.where(user_id: current_user).pluck(:age).first %>
+                                    <% end %>
+                                </div>
+                            </br>
+                            <p>
+                                <% if Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).exists? %>
+                                <div class="toggle_HC">[ Health Canada's Hotlists ]</br>
+                                    <div class="title">Status (restricted/prohibited):</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:status).first || "N/A" %>
+                                    </br>
+                                    <div class="title">Conditions of Use:</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:conditions_of_use).first || "N/A" %>
+                                    </br>
+                                    <div class="title">Maximum concentration permitted:</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:maximum_concentration_permitted).first || "N/A" %>
+                                    </br>
+                                    <div class="title">Warnings & Cautions:</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:warnings_and_cautions).first || "N/A" %>
+                                    </br>
+                                </div>
+                            <% end %>
+                            </p>
+                            <p>
+                                <% if CosingAnnexIi.where(chemical_name_inn: inci).exists? %>
+                                <div class="toggle_EU">[ European Union's Prohibited List ]</br>
+                                    <div class="title">Opinions:</div> <%= CosingAnnexIi.where(chemical_name_inn: inci).pluck(:sccs_opinions).first || "N/A"%>
+                                    </br>
+                                    <div class="title">Other directives/regulations:</div> <%= CosingAnnexIi.where(chemical_name_inn: inci).pluck(:other_directives_regulations).first || "N/A" %>
+                                    </br>
+                                </div>
+                            <% end %>
+                            </p>
+                            <p>
+                                <% if Comedogeniclist.where(ingredient: inci).exists? %>
+                                <div class="toggle_comedogenic">[ Comedogenic Cosmetic List ]</br>
+                                    <div class="title">Rating:</div> <%= Comedogeniclist.where(ingredient: inci).pluck(:rating).first || "N/A" %>
+                                    </br>
+                                    <div class="title">Research Evidence: </div>
+                                    <%= "Fulton (1989)" if Comedogeniclist.where(ingredient: inci).pluck(:fulton_1989).first == "TRUE" %>
+                                    <%= "Morris Kwan (1983)" if Comedogeniclist.where(ingredient: inci).pluck(:morris_kwan_1983).first == "TRUE" %>
+                                    <%= "N/A" if Comedogeniclist.where(ingredient: inci).pluck(:morris_kwan_1983).first == "FALSE" and Comedogeniclist.where(ingredient: inci).pluck(:morris_kwan_1983).first == "FALSE" %>
+                                    </br>
+                                </div>
+                                <% end %>
+                            </p>
+                          </div>
+                        </div>
+                        <% end %>
+                    <% end %>
+                </div>
+            </div>   
+        </div> 
+    </div>
+    <% else %>
+        No ingredient in your Blacklist. Click "Edit My Blacklist" button.
+    <% end %>
+</div>
+

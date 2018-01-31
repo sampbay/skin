@@ -8866,5 +8866,47 @@ $(document).ready(function(){
         }
     ]
   });
+    $(".profile_age").select2({
+        width: "100%",
+        allowClear: true,
+        placeholder: "Click Here",
+        data: 
+        [
+            {id:"",text:""},
+            {id:"-19",text:"-19"},
+            {id:"20-29",text:"20-29"},
+            {id:"30-39",text:"30-39"},
+            {id:"40-49",text:"40-49"},
+            {id:"50+",text:"50+"}
+        ]
+    });
+    $(".profile_skin_type").select2({
+        width: "100%",
+        allowClear: true,
+        placeholder: "Click Here",
+        data: 
+        [
+            {id:"",text:""},
+            {id:"Normal",text:"Normal"},
+            {id:"Oily",text:"Oily"},
+            {id:"Dry",text:"Dry"},
+            {id:"Sensitive",text:"Sensitive"},
+            {id:"Combination",text:"Combination"}
+        ]
+    });
+    $(".profile_ethnicity").select2({
+        width: "100%",
+        allowClear: true,
+        placeholder: "Click Here",
+        data: 
+        [
+            {id:"",text:""},
+            {id:"Asian",text:"Asian"},
+            {id:"European",text:"European"},
+            {id:"Indo-pakistani",text:"Indo-pakistani"},
+            {id:"African",text:"African"},
+            {id:"Nordic",text:"Nordic"},
+            {id:"Mediterranean",text:"Mediterranean"},
+        ]
+    });
 });
-

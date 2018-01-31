@@ -6,6 +6,12 @@
 	color: #333;
 }
 
+.select_all {
+	border-bottom: 1px solid rgba(0,0,0,1);
+	margin-bottom: 15px;
+	padding-bottom: 15px;
+}
+
 .brand {
 	width: 100%;
 }
@@ -42,9 +48,16 @@
 // overwrite some of .well from bootstrap for expanded view
 .well {
 	border-radius: 0;
-	padding: 0 0 0 8px;
+	padding: 0 0 0 20px;
 	margin-bottom: 0;
-	background-color: rgba(180,180,180,1);
+	background-color: rgba(255,255,255,1);
+	border: none;
+	box-shadow: none;
+}
+
+.ingredient_detail {
+	border-bottom: 1px solid rgba(0,0,0,1);
+	margin-bottom: 15px;
 }
 
 .product_claims {
@@ -88,6 +101,10 @@
 }
 
 .title {
-	color: rgba(255,255,255,1);
-	display: inline-block;
+	color: rgba(220,153,38,1);
+	display: inline;
+}
+
+.function, .stats_skin_type, .stats_ethnicity, .stats_age {
+	display: inline;
 }

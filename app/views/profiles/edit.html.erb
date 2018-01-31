@@ -1,7 +1,5 @@
 <div class="row">
 
-<%= tabs %>
-
 <h3>Edit Skin Profile</h3>
  
 <%= form_for @profile, url: profile_path(@profile), method: :patch do |f| %>
@@ -19,28 +17,24 @@
       </ul>
     </div>
   <% end %>
-    <p>
-    <%= f.label :age %><br>
-    <%= f.text_field :age %>
-  </p>
+    <div class="the-basics">
+        <%= f.label :age, "Age:" %><br>
+        <%= f.select :age, [], {}, class: "profile_age" %>
+      </div>
+      <div class="the-basics">
+        <%= f.label :skin_type, "Skin Type:" %><br>
+        <%= f.select :skin_type, [], {}, class: "profile_skin_type" %>
+      </div>
+      <div class="the-basics">
+        <%= f.label :ethnicity, "Ethnicity:" %><br>
+        <%= f.select :ethnicity, [], {}, class: "profile_ethnicity" %>
+      </div>
   <p>
-    <%= f.label :skin_type %><br>
-    <%= f.select :skin_type, options_for_select([['Normal', 'Normal'] , ['Sensitive', 'Sensitive'] ,['Dry', 'Dry'], ['Oily', 'Oily'], ['Combination', 'Combination']]) %>
-  </p>
-  <p> 
-    <%= f.label :skin_color %><br>
-    <%= f.select :skin_color, options_for_select([['Black', 'Black'] , ['Brown', 'Brown'] ,['White', 'White']]) %>
-  </p>
-  <p>
-    <%= f.label :skin_concerns %><br>
-    <%= f.select :concerns, options_for_select([['None', 'None'] , ['Acne/Blemish', 'Acne/Blemish'] ,['Eczema', 'Eczema'], ['Sun-damaged', 'Sun-damaged'], ['Aging/Wrinkles', 'Aging/Wrinkles'], ['Blackheads', 'Blackheads'], ['Dryness', 'Dryness'], ['Oiliness', 'Oiliness'], ['Pores', 'Pores'], ['Redness', 'Redness'], ['Dark Spots', 'Dark Spots']]) %>
-  </p>
-  <p>
-    <%= f.submit 'Submit' %>
+    <%= f.submit "Save Changes", class: "submit_btn" %>
   </p>
  
 <% end %>
  
-<%= link_to 'Back', profiles_path %>
+<%#= link_to 'Back', profiles_path %>
 
 </div>

@@ -1,28 +1,30 @@
 <div class="row">
+  <h3>Create Profile</h3>
+  <div class="row">
+    <div class="why_login">
+        >>> Why? Creating a profile helps you compare your analyis results with people who have a similar profile as yours!
+    </div>
+    <%= form_for @profile, url: profiles_path do |f| %>
+      <div class="the-basics">
+        <%= f.label :age, "Age:" %><br>
+        <%= f.select :age, [], {}, class: "profile_age" %>
+      </div>
+      <div class="the-basics">
+        <%= f.label :skin_type, "Skin Type:" %><br>
+        <%= f.select :skin_type, [], {}, class: "profile_skin_type" %>
+      </div>
+      <div class="the-basics">
+        <%= f.label :ethnicity, "Ethnicity:" %><br>
+        <%= f.select :ethnicity, [], {}, class: "profile_ethnicity" %>
+      </div>
 
-<%= tabs %>
-
-<h3>New Profile</h3>
-
-<%= form_for @profile, url: profiles_path do |f| %>
-  <p>
-    <%= f.label :age %><br>
-    <%= f.text_field :age %>
-  </p>
-  <p>
-    <%= f.label :skin_type %><br>
-    <%= f.select :skin_type, options_for_select([['Normal', 'Normal'] , ['Sensitive', 'Sensitive'] ,['Dry', 'Dry'], ['Oily', 'Oily'], ['Combination', 'Combination']]) %>
-  </p>
-  <p> 
-    <%= f.label :skin_color %><br>
-    <%= f.select :skin_color, options_for_select([['Black', 'Black'] , ['Brown', 'Brown'] ,['White', 'White']]) %>
-  </p>
-  <p>
-    <%= f.label :concerns %><br>
-    <%= f.select :concerns, options_for_select([['None', 'None'] , ['Acne/Blemish', 'Acne/Blemish'] ,['Eczema', 'Eczema'], ['Sun-damaged', 'Sun-damaged'], ['Aging/Wrinkles', 'Aging/Wrinkles'], ['Blackheads', 'Blackheads'], ['Dryness', 'Dryness'], ['Oiliness', 'Oiliness'], ['Pores', 'Pores'], ['Redness', 'Redness'], ['Dark Spots', 'Dark Spots']]) %>
-  </p>
-  <p><%= f.submit 'Submit', :class => "btn btn-primary" %></p>
-<% end %>
- 
-<%= link_to 'Back', profiles_path %>
+      <p>
+        <%#= f.label :concerns %>
+        <%#= f.select :concerns, options_for_select([['None', 'None'] , ['Acne/Blemish', 'Acne/Blemish'] ,['Eczema', 'Eczema'], ['Sun-damaged', 'Sun-damaged'], ['Aging/Wrinkles', 'Aging/Wrinkles'], ['Blackheads', 'Blackheads'], ['Dryness', 'Dryness'], ['Oiliness', 'Oiliness'], ['Pores', 'Pores'], ['Redness', 'Redness'], ['Dark Spots', 'Dark Spots']]) %>
+      </p>
+    </br>
+      <%= f.submit "Create Profile", class: "submit_btn" %>
+    <% end %>
+  </div>
 </div>
+

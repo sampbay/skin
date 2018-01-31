@@ -11,11 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171213173113) do
+ActiveRecord::Schema.define(version: 20180128194356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "citext"
+
+  create_table "blacklists", force: :cascade do |t|
+    t.citext   "ingredient", default: [],              array: true
+    t.integer  "user_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "blacklists", ["user_id"], name: "index_blacklists_on_user_id", using: :btree
 
   create_table "breakout_product_manuals", force: :cascade do |t|
     t.citext   "brand",        null: false
@@ -154,13 +163,13 @@ ActiveRecord::Schema.define(version: 20171213173113) do
   end
 
   create_table "profiles", force: :cascade do |t|
-    t.integer  "age"
-    t.string   "skin_type"
-    t.string   "skin_color"
-    t.text     "concerns"
+    t.citext   "skin_type"
+    t.citext   "ethnicity"
+    t.citext   "age"
+    t.citext   "concerns",   default: [],              array: true
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   add_index "profiles", ["user_id"], name: "index_profiles_on_user_id", using: :btree
@@ -204,6 +213,13 @@ ActiveRecord::Schema.define(version: 20171213173113) do
     t.text     "ingredients"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "user_blacklists", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "blacklist_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "user_breakout_products", force: :cascade do |t|

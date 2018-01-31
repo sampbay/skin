@@ -2,26 +2,16 @@
 <div class="row">
     <div class="step123">
         <div class="step123_each">
-            <span class="no_line_break">
-                <span style="color: rgba(1,1,1,0.4)">1: Add Products</span>
-            </span>
+            <span class="no_line_break">[ 1: Analyze Product ]&nbsp;</span> 
         </div>
         <div class="step123_each">
             <span class="no_line_break">
-                <span style="color: rgba(1,1,1,0.4)">&nbsp;2: Select Ingredients</span>
-            </span>
-        </div>
-        <div class="step123_each">
-            <span class="no_line_break">&nbsp;[ 3: Analyze Product ]&nbsp;</span> 
-        </div>
-        <div class="step123_each">
-            <span class="no_line_break">
-                <span style="color: rgba(1,1,1,0.4)">4: Results</span>
+                <span style="color: rgba(1,1,1,0.4)">2: Results</span>
             </span>
         </div>
     </div>
     <div id="add" style="display:inline-block">
-        <%= link_to recommend_path, class: "next_btn", :disabled => true do %>Add a Product To Proceed<% end %>
+        <%= link_to recommend_path, class: "next_btn", :disabled => true do %>Add Product To Continue<% end %>
     </div>
     <div id="remove" style="display:none" class="next_btn">
         Click Here To Proceed
@@ -54,9 +44,9 @@
 </div>
     <div class="results">            
         <%= form_tag(recommend_path, :method => "get", :id => "form") do %>
-            <% params[:list].each do |p| %>
-                <%= hidden_field_tag 'list[]', p %>
-            <% end %>
+            <%# params[:list].each do |p| %>
+                <%#= hidden_field_tag 'list[]', p %>
+            <%# end %>
             <div id="search">
                 <div class="bootstrap_tabs">
                    <ul class="nav nav-tabs">

@@ -7,24 +7,14 @@
             </span>
         </div>
         <div class="step123_each">
-            <span class="no_line_break">&nbsp;[ 2: Select Ingredients ]&nbsp;</span> 
-        </div>
-        <div class="step123_each">
-            <span class="no_line_break">
-                <span style="color: rgba(1,1,1,0.4)">3: Analyze Product</span>
-            </span>
-        </div>
-        <div class="step123_each">
-            <span class="no_line_break">
-                <span style="color: rgba(1,1,1,0.4)">&nbsp;4: Results</span>
-            </span>
+            <span class="no_line_break">&nbsp;[ 2: Select Ingredients ]</span> 
         </div>
     </div>
     <div id="add" style="display:inline-block">
-        <%= link_to analyze_path, class: "next_btn", :disabled => true do %>Select Ingredient(s) to Proceed<% end %>
+        <%= link_to analyze_path, class: "next_btn", :disabled => true do %>Select Ingredient(s) to Continue<% end %>
     </div>
     <div id="remove" style="display:none" class="next_btn">
-        Click Here to Proceed
+        Save & Continue
     </div>
     
 <!--
@@ -41,40 +31,93 @@
 
 
     <div class="results">            
-        <%= form_tag(analyze_path, :method => "get", :id => "form") do %>
-            <div class="results_options"> >>> Based on the products you've entered, these are the most likely breakout-causing ingredients.</div></br>
+        <%= form_tag(blacklist_path, :method => "get", :id => "form") do %>
             <div class="results_options"> >>> Is the list too long? You may want to add more products on the previous page to make this list shorter and more accurate!</div></br>
             <div class="results_options"> >>> How to interpret this list - Every ingredient in the products you’ve tried with success is compared with every ingredient in the products that broke you out. Our algorithm pulls out a portion of ingredients in the breakout product list, which are not present in the safe product list. Find out more on <%= link_to how_it_works_path do %><span style="color:rgba(255,0,0,1);">How It Works</span><% end %> page.</div></br>
-            <div class="results_options"> >>> Check "Select All" to include all the potentially breakout-causing ingredients. If you know some ingredients are actually safe for you, you can uncheck those ingredients to exclude them from product analysis.</div></br>
-            <div class="ingredient_count"><span style="color:rgba(255,0,0,1); font-size: 15px;"><%= @potential_list.count %></span> ingredient(s) found:
+            <div class="ingredient_count"><span style="color:rgba(255,0,0,1); font-size: 15px;"><%= @potential_list.count %></span> potentially breakout-causing ingredient(s) found:
+            </div>
+            <div class="ingredient_count"><span style="color:rgba(255,0,0,1); font-size: 15px;"><%= Blacklist.where(user: current_user).pluck(:ingredient).flatten.any? ? Blacklist.where(user: current_user).pluck(:ingredient).flatten.count : 0 %></span> ingredient(s) currently in your Blacklist:
             </div>
             <div class="legend">
-                <span style="background: rgba(255,255,0,1);">&nbsp;&nbsp;&nbsp;</span>:Breakout-causing List | <%= image_tag("canada_flag.png", alt: " [Health Canada] ", size: "19") %>:HC Hotlist | <%= image_tag("eu_flag.png", alt: " [EU] ", size: "19") %>:EU Prohibited List | <%= image_tag("comedogenic_icon.png", alt: " [Comedogenic List] ", size: "19") %>:Comedogenic List | <%= link_to how_it_works_path do %>How It Works&quest;<% end %>
+                <span style="background: rgba(255,255,0,1);">&nbsp;&nbsp;&nbsp;</span>:Ingredients from Analysis | <%= image_tag("canada_flag.png", alt: " [Health Canada] ", size: "19") %>:HC Hotlist | <%= image_tag("eu_flag.png", alt: " [EU] ", size: "19") %>:EU Prohibited | <%= image_tag("comedogenic_icon.png", alt: " [Comedogenic List] ", size: "19") %>:Comedogenic | <%= link_to how_it_works_path do %>How It Works<% end %>
             </div> 
             <div class="result_list">
                 <div class="select_all"><%= check_box_tag 'list_all' %> Select/De-select All </div>
                 <div class="ingredients_list">
                     <!-- downcase and strip b/c @potential_product is already downcased and stripped -->
-                    <% @potential_list.uniq.each_with_index do |inci,index| %>
+                    <% @potential_list.uniq.each do |inci| %>
 
-                        <% unless inci.nil? %>
-                        <div class="collapse_view" data-toggle="collapse" data-target="#<%= index %>" aria-expanded="false" aria-controls="collapseExample"><%= check_box_tag "list[]", inci %> <span style="background: rgba(255,255,0,1);"><%= inci %></span> x <%= @potential_list.count(inci) %>
+                        <% unless @potential_list.blank? %>
+                        <div class="ingredient_title"><%= check_box_tag "list[]", inci, Blacklist.where(user: current_user).pluck(:ingredient).flatten.include?(inci) %> <span style="background: rgba(255,255,0,1);"><%= inci %></span> x <%= @potential_list.count(inci) %>
 
                         <%= image_tag("canada_flag.png", alt: " [Health Canada] ", size: "19") if Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).exists? %>
                         <%= image_tag("eu_flag.png", alt: " [EU] ", size: "19") if CosingAnnexIi.where(chemical_name_inn: inci).exists? %>
                         <%= image_tag("comedogenic_icon.png", alt: " [Comedogenic List] ", size: "19") if Comedogeniclist.where(ingredient: inci).exists? %>
                         </div>
                       
-                        <div class="collapse" id="<%= index %>">
+                        <div class="ingredient_detail">
                           <div class="well">
-                            <p>
+                            
                             <div class="title">Function:</div>
-                            <% if Cosing.where(INCI_name: inci).pluck(:Function).nil? or Cosing.where(INCI_name: inci).pluck(:Function).empty? %>
-                                Unknown
-                            <% else %>
-                                <%= Cosing.where(INCI_name: inci).pluck(:Function).first %>
-                            <% end %>
-                            </p>
+                                <div class="function">
+                                    <% if Cosing.where(INCI_name: inci).pluck(:Function).nil? or Cosing.where(INCI_name: inci).pluck(:Function).blank? %>
+                                        Unknown
+                                    <% else %>
+                                        <%= Cosing.where(INCI_name: inci).pluck(:Function).first %>
+                                    <% end %>
+                                </div>
+                            </br>
+                            <!-- % of users who share same skin type and this breakout-causing ingredient in Table potential_products -->
+                            
+                            <div class="title">Skin Type: </div>
+                                <div class="stats_skin_type">
+                                    <% if Profile.where(user_id: current_user).pluck(:skin_type).first.nil? or Profile.where(user_id: current_user).pluck(:skin_type).first.blank? %>
+                                        Your skin profile is incomplete. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter SKIN TYPE.
+                                    <% else %>
+                                        <% @users_skin_type_ing = 0 %>
+                                        <% @users_skin_type = Profile.where(skin_type: Profile.where(user_id: current_user).pluck(:skin_type).first).pluck(:user_id) %>
+                                        <% @users_skin_type.each do |p| %>
+                                        <% @users_skin_type_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
+                                        <% end %>
+                                        <% @percent = @users_skin_type_ing.to_f / @users_skin_type.count * 100.0 %> 
+                                        Caused breakout in <%= @percent.round(0) %>% of users who share your skin type <%= Profile.where(user_id: current_user).pluck(:skin_type).first %>
+                                    <% end %>
+                                </div>
+                            </br>
+                            <!-- % of users who share same ethnicity and this breakout-causing ingredient in Table potential_products -->
+                            
+                            <div class="title">Ethninicty: </div>
+                                <div class="stats_ethnicity">
+                                    <% if Profile.where(user_id: current_user).pluck(:ethnicity).first.nil? or Profile.where(user_id: current_user).pluck(:ethnicity).first.blank? %>
+                                        Your skin profile is incomplete. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter ETHNICITY.
+                                    <% else %>
+                                        <% @users_ethnicity_ing = 0 %>
+                                        <% @users_ethnicity = Profile.where(ethnicity: Profile.where(user_id: current_user).pluck(:ethnicity).first).pluck(:user_id) %>
+                                        <% @users_ethnicity.each do |p| %>
+                                        <% @users_ethnicity_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
+                                        <% end %>
+                                        <% @percent = @users_ethnicity_ing.to_f / @users_ethnicity.count * 100.0 %> 
+                                        Caused breakout in <%= @percent.round(0) %>% of users who share your ethnicity <%= Profile.where(user_id: current_user).pluck(:ethnicity).first %>
+                                    <% end %>
+                                </div>
+                            </br>
+                            <!-- % of users who share same age group and this breakout-causing ingredient in Table potential_products -->
+                            
+                            <div class="title">Age Group: </div>
+                                <div class="stats_age">
+                                    <% if Profile.where(user_id: current_user).pluck(:age).first.nil? or Profile.where(user_id: current_user).pluck(:age).first.blank? %>
+                                        Your skin profile is incomplete. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter AGE.
+                                    <% else %>
+                                        <% @users_age_ing = 0 %>
+                                        <% @users_age = Profile.where(age: Profile.where(user_id: current_user).pluck(:age).first).pluck(:user_id) %>
+                                        <% @users_age.each do |p| %>
+                                        <% @users_age_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
+                                        <% end %>
+                                        <% @percent = @users_age_ing.to_f / @users_age.count * 100.0 %> 
+                                        Caused breakout in <%= @percent.round(0) %>% of users in your age group <%= Profile.where(user_id: current_user).pluck(:age).first %>
+                                    <% end %>
+                                </div>
+                            </br>
                             <p>
                                 <% if Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).exists? %>
                                 <div class="toggle_HC">[ Health Canada's Hotlists ]</br>
@@ -112,12 +155,9 @@
                                 </div>
                                 <% end %>
                             </p>
-
-
                           </div>
                         </div>
                         <% end %>
-                    
                     <% end %>
                 </div>
             </div>   

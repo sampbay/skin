@@ -101,12 +101,18 @@ end
 @potential_list = @b_inci_no_bracket - (@b_inci_no_bracket & @s_inci_no_bracket)
 
 		# save to use again in Recommend controller
-		@potential_product = PotentialProduct.new(product: @potential_list, user: current_user)
-		@user_potential_product = UserPotentialProduct.new(user: current_user, potential_product: @potential_product)
-		@potential_product.user = current_user
-		if @potential_product.save 
+		if PotentialProduct.where(user: current_user).blank? or PotentialProduct.where(user: current_user).nil?
+			@potential_product = PotentialProduct.new(product: @potential_list, user: current_user)
+			@user_potential_product = UserPotentialProduct.new(user: current_user, potential_product: @potential_product)
+			@potential_product.save
 			@user_potential_product.save
+		elsif PotentialProduct.where(user: current_user).exists?
+			@potential_product = PotentialProduct.find_by(user: current_user)
+			@user_potential_product = UserPotentialProduct.find_by(user: current_user)
+			@potential_product.update(product: @potential_list, updated_at: DateTime.now)
+			@user_potential_product.update(potential_product: @potential_product, updated_at: DateTime.now)
 		end
+
 
 # to avoid duplicate e.g. CITRUS BLAH (APPLE) CARPEL POWDER -> CITRUS BLAH CARPEL POWDER & APPLE CARPEL POWDER
 #@potential_list = @potential_list.uniq

@@ -5,13 +5,12 @@ class RecommendController < ApplicationController
 	###@myproduct = Myproduct.find(current_user.product)
 	
 def index
-	@potential_list_final = []
-	@potential_list_final = params[:list]
-
+	#@potential_list_final = []
+	#@potential_list_final = params[:list]
 	#@potential_list_final = PotentialProduct.where(user: current_user).pluck(:product).flatten
 
-	@potential_product = @potential_list_final
-	@ingredient_hash = Hash.new 
+	@potential_product = Blacklist.where(user: current_user).pluck(:ingredient).flatten
+	@ingredient_hash = Hash.new
 	@ingredient_array = Array.new
 	if params[:product]
 		@products = search
