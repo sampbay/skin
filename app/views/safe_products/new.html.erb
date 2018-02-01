@@ -7,19 +7,30 @@
 	>>> If you don't see your product, make a suggestion <%= link_to 'here', new_suggest_path %> or go back to the previous page to add manually.
 </div>
 
-<%= form_for @safe_product, url: safe_products_path do |f| %>
-<p>
+  <%= form_for @safe_product, url: safe_products_path do |f| %>
+  <p>
     <div class="the-basics">
-    
     <%= f.label :product, "Search a Product:" %><br>
     <%= f.select :product, [], {}, class: "e11" %>
    </div>
   </p>
-
-  <br>
-  <br><br><br>
-  <p><%= f.submit 'Submit', :class => "submit_btn" %></p>
+  <br><br>
+  <div id="add" class="next_btn" disabled=disabled>Select Product To Submit</div>
+  <%= f.submit 'Submit', :class => "submit_btn", :id => "remove" %>
 
 <% end %>
 </div>
 </div>
+<script>
+$(document).ready(function(){ 
+  jQuery('form').on('change', function () {
+    if (jQuery('.e11').val() != "") {
+      $('#remove').show();
+      $('#add').hide();
+    } else {
+      $('#remove').hide();
+      $('#add').show();
+    }
+ }).trigger('change');
+});
+</script>
