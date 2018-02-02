@@ -45,7 +45,7 @@
                             <div class="title">Skin Type: </div>
                                 <div class="stats_skin_type">
                                     <% if Profile.where(user_id: current_user).pluck(:skin_type).first.nil? or Profile.where(user_id: current_user).pluck(:skin_type).first.blank? %>
-                                        Your skin profile is incomplete. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter SKIN TYPE.
+                                        Incomplete skin profile. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter SKIN TYPE.
                                     <% else %>
                                         <% @users_skin_type_ing = 0 %>
                                         <% @users_skin_type = Profile.where(skin_type: Profile.where(user_id: current_user).pluck(:skin_type).first).pluck(:user_id) %>
@@ -53,7 +53,7 @@
                                         <% @users_skin_type_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
                                         <% end %>
                                         <% @percent = @users_skin_type_ing.to_f / @users_skin_type.count * 100.0 %> 
-                                        Caused breakout in <%= @percent.round(0) %>% of users who share your skin type <%= Profile.where(user_id: current_user).pluck(:skin_type).first %>
+                                        Caused breakout in <%= @percent.round(0) %>% of users who share Cosmedict skin type <%= Profile.where(user_id: current_user).pluck(:skin_type).first %>
                                     <% end %>
                                 </div>
                             </br>
@@ -62,7 +62,7 @@
                             <div class="title">Ethninicty: </div>
                                 <div class="stats_ethnicity">
                                     <% if Profile.where(user_id: current_user).pluck(:ethnicity).first.nil? or Profile.where(user_id: current_user).pluck(:ethnicity).first.blank? %>
-                                        Your skin profile is incomplete. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter ETHNICITY.
+                                        Incomplete skin profile. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter ETHNICITY.
                                     <% else %>
                                         <% @users_ethnicity_ing = 0 %>
                                         <% @users_ethnicity = Profile.where(ethnicity: Profile.where(user_id: current_user).pluck(:ethnicity).first).pluck(:user_id) %>
@@ -79,7 +79,7 @@
                             <div class="title">Age Group: </div>
                                 <div class="stats_age">
                                     <% if Profile.where(user_id: current_user).pluck(:age).first.nil? or Profile.where(user_id: current_user).pluck(:age).first.blank? %>
-                                        Your skin profile is incomplete. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter AGE.
+                                        Incomplete skin profile. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter AGE.
                                     <% else %>
                                         <% @users_age_ing = 0 %>
                                         <% @users_age = Profile.where(age: Profile.where(user_id: current_user).pluck(:age).first).pluck(:user_id) %>
@@ -137,7 +137,9 @@
         </div> 
     </div>
     <% else %>
+        <div class="results">
         No ingredient in your Blacklist. Click "Edit My Blacklist" button.
+        </div>
     <% end %>
 </div>
 

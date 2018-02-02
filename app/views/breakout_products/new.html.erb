@@ -1,26 +1,25 @@
 <div class="row">
-<div class="results">
-<h3>Add Breakout Product</h3>
+  <h3>Add Breakout Product</h3>
+  <div class="results">
+  <div class="tips">
+  	>>> Choose a product that you have tried and caused any type of skin reaction including breakout, redness, itchiness.</br>
+  	>>> If you don't see your product, make a suggestion <%= link_to 'here', new_suggest_path %> or go back to the previous page to add manually.
+  </div>
 
-<div class="tips">
-	>>> Choose a product that you have tried and caused any type of skin reaction including breakout, redness, itchiness.</br>
-	>>> If you don't see your product, make a suggestion <%= link_to 'here', new_suggest_path %> or go back to the previous page to add manually.
-</div>
+    <%= form_for @breakout_product, url: breakout_products_path do |f| %>
+    <p>
+        <div class="the-basics">
+        <%= f.label :product, "Search a Product:" %><br>
+        <%= f.select :product, [], {}, class: "e11" %>
+       </div>
+    </p>
 
-  <%= form_for @breakout_product, url: breakout_products_path do |f| %>
-  <p>
-      <div class="the-basics">
-      <%= f.label :product, "Search a Product:" %><br>
-      <%= f.select :product, [], {}, class: "e11" %>
-     </div>
-  </p>
+    <br><br>
+    <div id="add" class="next_btn" disabled=disabled>Select Product To Submit</div>
+    <%= f.submit 'Submit', :class => "submit_btn", :id => "remove" %>
 
-  <br><br>
-  <div id="add" class="next_btn" disabled=disabled>Select Product To Submit</div>
-  <%= f.submit 'Submit', :class => "submit_btn", :id => "remove" %>
-
-<% end %>
-</div>
+  <% end %>
+  </div>
 </div>
 <script>
 $(document).ready(function(){ 

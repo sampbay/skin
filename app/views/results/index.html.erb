@@ -1,13 +1,14 @@
-
+<div class="horizontal_line"></div>
 <div class="row">
+    <h3>Build Blacklist</h3>
     <div class="step123">
         <div class="step123_each">
             <span class="no_line_break">
-                <span style="color: rgba(1,1,1,0.4)">1: Add Products</span>
+                <span style="color: rgba(1,1,1,0.4)">1: Add Products > > ></span>
             </span>
         </div>
         <div class="step123_each">
-            <span class="no_line_break">&nbsp;[ 2: Select Ingredients ]</span> 
+            <span class="no_line_break">[ 2: Select Ingredients ]</span> 
         </div>
     </div>
     <div id="add" style="display:inline-block">
@@ -32,11 +33,11 @@
 
     <div class="results">            
         <%= form_tag(blacklist_path, :method => "get", :id => "form") do %>
-            <div class="results_options"> >>> Is the list too long? You may want to add more products on the previous page to make this list shorter and more accurate!</div></br>
-            <div class="results_options"> >>> How to interpret this list - Every ingredient in the products you’ve tried with success is compared with every ingredient in the products that broke you out. Our algorithm pulls out a portion of ingredients in the breakout product list, which are not present in the safe product list. Find out more on <%= link_to how_it_works_path do %><span style="color:rgba(255,0,0,1);">How It Works</span><% end %> page.</div></br>
-            <div class="ingredient_count"><span style="color:rgba(255,0,0,1); font-size: 15px;"><%= @potential_list.count %></span> potentially breakout-causing ingredient(s) found:
+            <div class="tips"> >>> How to interpret this list: every ingredient in the products you’ve tried with success is compared with every ingredient in the products that broke you out. Our algorithm pulls out a portion of ingredients in the breakout product list, which are not present in the safe product list. Find out more on <%= link_to how_it_works_path do %><span style="color:rgba(255,0,0,1);">How It Works</span><% end %> page.</div>
+            <div class="tips"> >>> Is the list too long? Try adding more safe products or remove any products you are uncertain about on the previous page.</div>
+            <div class="tips"><span style="color:rgba(255,0,0,1); font-size: 15px;"><%= @potential_list.count %></span> potentially breakout-causing ingredient(s) found:
             </div>
-            <div class="ingredient_count"><span style="color:rgba(255,0,0,1); font-size: 15px;"><%= Blacklist.where(user: current_user).pluck(:ingredient).flatten.any? ? Blacklist.where(user: current_user).pluck(:ingredient).flatten.count : 0 %></span> ingredient(s) currently in your Blacklist:
+            <div class="tips"><span style="color:rgba(255,0,0,1); font-size: 15px;"><%= Blacklist.where(user: current_user).pluck(:ingredient).flatten.any? ? Blacklist.where(user: current_user).pluck(:ingredient).flatten.count : 0 %></span> ingredient(s) currently in your Blacklist (some ingredients are pre-selected below if already in your Blacklist):
             </div>
             <div class="legend">
                 <span style="background: rgba(255,255,0,1);">&nbsp;&nbsp;&nbsp;</span>:Ingredients from Analysis | <%= image_tag("canada_flag.png", alt: " [Health Canada] ", size: "19") %>:HC Hotlist | <%= image_tag("eu_flag.png", alt: " [EU] ", size: "19") %>:EU Prohibited | <%= image_tag("comedogenic_icon.png", alt: " [Comedogenic List] ", size: "19") %>:Comedogenic | <%= link_to how_it_works_path do %>How It Works<% end %>
@@ -72,7 +73,7 @@
                             <div class="title">Skin Type: </div>
                                 <div class="stats_skin_type">
                                     <% if Profile.where(user_id: current_user).pluck(:skin_type).first.nil? or Profile.where(user_id: current_user).pluck(:skin_type).first.blank? %>
-                                        Your skin profile is incomplete. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter SKIN TYPE.
+                                        Incomplete skin profile. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter SKIN TYPE.
                                     <% else %>
                                         <% @users_skin_type_ing = 0 %>
                                         <% @users_skin_type = Profile.where(skin_type: Profile.where(user_id: current_user).pluck(:skin_type).first).pluck(:user_id) %>
@@ -89,7 +90,7 @@
                             <div class="title">Ethninicty: </div>
                                 <div class="stats_ethnicity">
                                     <% if Profile.where(user_id: current_user).pluck(:ethnicity).first.nil? or Profile.where(user_id: current_user).pluck(:ethnicity).first.blank? %>
-                                        Your skin profile is incomplete. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter ETHNICITY.
+                                        Incomplete skin profile. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter ETHNICITY.
                                     <% else %>
                                         <% @users_ethnicity_ing = 0 %>
                                         <% @users_ethnicity = Profile.where(ethnicity: Profile.where(user_id: current_user).pluck(:ethnicity).first).pluck(:user_id) %>
@@ -106,7 +107,7 @@
                             <div class="title">Age Group: </div>
                                 <div class="stats_age">
                                     <% if Profile.where(user_id: current_user).pluck(:age).first.nil? or Profile.where(user_id: current_user).pluck(:age).first.blank? %>
-                                        Your skin profile is incomplete. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter AGE.
+                                        Incomplete skin profile. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter AGE.
                                     <% else %>
                                         <% @users_age_ing = 0 %>
                                         <% @users_age = Profile.where(age: Profile.where(user_id: current_user).pluck(:age).first).pluck(:user_id) %>

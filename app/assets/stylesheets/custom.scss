@@ -17,7 +17,7 @@ html, body {
 
 .main {
 	padding-top: 110px;
-  padding-bottom: 150px;
+  padding-bottom: 50px;
 }
 
 .main a:link {
@@ -125,16 +125,26 @@ html, body {
   text-align: center;
 }
 
-
 .step123 {
-  text-align: center;
+  margin: 10px 0 10px 0;
+  position: relative;
+  width: 100%;
+}
+
+.step123_text {
+  position: relative;
+
+}
+
+.horizontal_line {
   border-top: 2px rgba(86,86,86,1) dashed;
   border-bottom: 2px rgba(80,80,80,1) dashed;
-  margin: 20px 0 15px 0;
+  margin: 20px 0 20px 0;
   position: absolute;
   width: 100%;
   left: 0;
   top: 200px;
+  height: 70px;
 }
 
 // to make up lost height from shrink next bottom when scrolling
@@ -145,8 +155,6 @@ html, body {
 .step123_each {
   font-size: 20px; 
   display: inline-block;
-  margin: 5px 10px 5px 10px;
-
 }
 
 /* The side navigation menu */
@@ -198,6 +206,23 @@ html, body {
 
 .fineprints {
   font-size: 14px;
+}
+
+.faves_each {
+  float:left;
+  display: inline-block;
+  margin-bottom: 15px;
+  width: 310px;
+}
+
+.faves_each_text {
+  height: 60px
+}
+
+.faves_content {
+  margin-top: 15px;
+  color: rgba(0,0,0,1);
+  width: 100%;
 }
 
 /* When you mouse over the navigation links, change their color */
@@ -254,6 +279,7 @@ html, body {
   //#add.shrink {max-width: 940px;}
   //#remove.shrink {max-width: 940px;}
 }
+
 /*
 @media only screen and (min-width: 992px) and (max-width: 1200px) { 
   #add.shrink {max-width: 940px;}
@@ -263,11 +289,6 @@ html, body {
 @media only screen and (min-width: 768px) and (max-width: 992px) { 
   #add.shrink {max-width: 720px;}
   #remove.shrink {max-width: 720px;}
-}
-
-@media only screen and (max-width: 768px) { 
-  #add.shrink {max-width: 370px;}
-  #remove.shrink {max-width: 370px;}
 }
 
 #add.shrink {
@@ -291,7 +312,6 @@ html, body {
 
 #add, #remove {
   width: 100%;
-  margin-top: 50px;
 }
 
 .start {
@@ -416,20 +436,16 @@ html, body {
   height: 30px;
 }
 
-/* overwrite grid-framework.less row */
+/* overwrite grid-framework.less row: three types of .row depending on presence of the steps */
 .row {
   background-color: rgba(255,255,255,0.15);
-  margin-top: 60px;
-}
-
-/* override grid-framework.less */
-.row {
   margin-right: 0;
-  margin-left: 7px;
+  margin-left: 10px;
+  position: relative;
 }
 
 .results { 
-  margin: 20px 10px 20px 10px;
+  margin: 20px 0 20px 0;
 }
 
 .result_list {
@@ -437,7 +453,6 @@ html, body {
   display: inline-block;
   color: rgba(0,0,0,1);
   background-color: rgba(255,255,255,1);
-  padding: 8px;
 }
 
 .logout_profile {
@@ -449,7 +464,7 @@ html, body {
 }
 
 .tips {
-  padding: 10px;
+  margin-left: 10px;
   margin-top: 10px;
 }
 
@@ -556,9 +571,10 @@ html, body {
   background-color: rgba(1,1,1,0.07);
 }
 
-// h3 {
-//  padding: 0 5px 0 5px;
-// }
+h3 {
+  font-size: 20px;
+  margin-top: 8px;
+}
 
 .product {
   font-size: 18px;
@@ -605,7 +621,7 @@ html, body {
 
 .legend {
   text-align: center;
-  padding: 10px;
+  padding: 5px 5px 5px 5px;
   display: inline-block;
   border: 1px solid rgba(1,1,1,1);
   margin: 15px 0 10px 0;
@@ -617,7 +633,7 @@ html, body {
 }
 
 .why_login {
-  margin: 20px;
+  margin-bottom: 10px;
 }
 
 /* The Modal (background) */
@@ -702,5 +718,20 @@ html, body {
 
 .no_line_break {
   white-space: nowrap;
+}
+
+.ad_space {
+  height: 90px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+// mobile device smaller screen
+@media only screen and (max-width: 768px) { 
+  .step123_each {font-size: 15px;}
+  .step123 {margin: 10px 0 17px 0;}
+  .faves_each {float:left; display: inline-block; margin-bottom: 15px; width: 175px;}
+  .product_img {width: 150px; height: 150px; text-align: center; line-height: 94px; display: inline-block; border: 2px dashed rgba(1,1,1,1);}
+  .faves_each_text {height: 80px;}
 }
 

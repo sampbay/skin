@@ -4,14 +4,16 @@
 	<div class="faves_content">
 		<% unless @favorite_products.empty? %>
 			<% @favorite_products.each do |f| %>
-			<div class="faves_each">
-				<%= link_to product_path(f.product_id) do %><div class="brand"><%= @products.where(id: f.product_id).map(&:brand).first %></div><% end %>
-				<%= link_to product_path(f.product_id) do %><div class="brand"><%= @products.where(id: f.product_id).map(&:product).first %></div><% end %>
-			    <%= link_to product_path(f.product_id) do %><div class="product_img"><%= image_tag("product_images/#{@products.where(id: f.product_id).map(&:img).first}", alt: "no image available") %></div><% end %>
-			    </br>
-		        <!-- <div class="amazon_buy">Buy Now</div>-->
-		   			<%= link_to favorite_product_path(@products.where(id: f.product_id).map(&:id).first), method: :delete do %><div class="remove_faves">&cross;</div><% end %>
-			</div>
+				<div class="faves_each">
+					<div class="faves_each_text">
+					<%= link_to product_path(f.product_id) do %><div class="brand"><%= @products.where(id: f.product_id).map(&:brand).first %></div><% end %>
+					<%= link_to product_path(f.product_id) do %><div class="brand"><%= @products.where(id: f.product_id).map(&:product).first %></div><% end %>
+					</div>
+				    <%= link_to product_path(f.product_id) do %><div class="product_img"><%= image_tag("product_images/#{@products.where(id: f.product_id).map(&:img).first}", alt: "no image available") %></div><% end %>
+				    </br>
+			        <!-- <div class="amazon_buy">Buy Now</div>-->
+			   			<%= link_to favorite_product_path(@products.where(id: f.product_id).map(&:id).first), method: :delete do %><div class="remove_faves">&cross;</div><% end %>
+				</div>
 			<% end %>
 		
 		<% else %>

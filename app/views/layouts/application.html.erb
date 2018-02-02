@@ -36,7 +36,7 @@
           <p><%= link_to "How It Works", how_it_works_path %></p>
           <p><%= link_to "Suggest Product", new_suggest_path %></p>
           <p><%= link_to "Report Error", new_suggest_path %></p>
-          <p><%= image_tag "if_icon-6-mail-envelope-closed_314900.png", size: "30", alt: "Email" %>&nbsp;admin@trialn.com</p>
+          <p><%= image_tag "if_icon-6-mail-envelope-closed_314900.png", size: "30", alt: "Email" %>&nbsp;admin@cosmedict.com</p>
           <p><%= link_to image_tag("if_1_social_2609541.png", height: "30px", width: "30px"), "https://facebook.com", target: :_blank, size: "15", alt: "Facebook" %>&nbsp;<%= link_to image_tag("if_25_social_2609558.png", height: "30px", width: "30px"), "https://instagram.com", target: :_blank, size: "20", alt: "Instagram" %></p>
           <div class="fineprints">
               &copy; 2017 All Rights Reserved</br>
@@ -52,7 +52,7 @@
           </div>
         </div>
         <div class="sidenav_bottom">
-          <p><%= image_tag "if_icon-6-mail-envelope-closed_314900.png", size: "30", alt: "Email" %>&nbsp;admin@trialn.com</p>
+          <p><%= image_tag "if_icon-6-mail-envelope-closed_314900.png", size: "30", alt: "Email" %>&nbsp;admin@cosmedict.com</p>
           <p><%= link_to image_tag("if_1_social_2609541.png", height: "30px", width: "30px"), "https://facebook.com", target: :_blank, size: "15", alt: "Facebook" %>&nbsp;<%= link_to image_tag("if_25_social_2609558.png", height: "30px", width: "30px"), "https://instagram.com", target: :_blank, size: "20", alt: "Instagram" %></p>
           <div class="fineprints">
               &copy; 2017 All Rights Reserved</br>
@@ -72,17 +72,22 @@
   	</div>
     <div class="main">
       <div class="container">
+        <!-- horizontal_line is in each view that needs it for the steps -->
         <div class="vertical_line"></div>
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <!-- underheader -->
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-9125174651024361"
-             data-ad-slot="7455505778"
-             data-ad-format="auto"></ins>
-        <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+          <% unless current_page?(controller: 'profiles', action: 'welcome') %>
+            <div class="ad_space">
+              <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+              <!-- underheader -->
+              <ins class="adsbygoogle"
+                   style="display:block"
+                   data-ad-client="ca-pub-9125174651024361"
+                   data-ad-slot="7455505778"
+                   data-ad-format="auto"></ins>
+              <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+            </div>
+          <% end %>
           <%= yield %>  
       </div>
     </div>

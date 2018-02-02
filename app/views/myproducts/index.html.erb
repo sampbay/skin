@@ -1,14 +1,17 @@
+<div class="horizontal_line"></div>
 <div class="row">
+	<h3>Build Blacklist</h3>
 	<div class="step123">
 		<div class="step123_each">
-			<span class="no_line_break">[ 1: Add Product ]</span> 
+			<span class="no_line_break">[ 1: Add Product ] </span> 
 		</div>
 		<div class="step123_each">
 			<span class="no_line_break">
-				<span style="color: rgba(1,1,1,0.4)">&nbsp;2: Select Ingredients</span>
+				<span style="color: rgba(1,1,1,0.4)">> > > 2: Select Ingredients</span>
 			</span>
 		</div>
 	</div>
+
 
 	<% if (@safe_product.empty? and @safe_product_manual.empty?) or (@breakout_product.empty? and @breakout_product_manual.empty?) %>
 		<div id="add">
@@ -18,7 +21,13 @@
 		<div id="remove">
 			<%= link_to results_path, class: "next_btn" do %>Save & Continue<% end %>
 		</div>
+		<!-- click #remove and disable button -->
+		<div id="wait" style="display: none;">
+		<%= link_to results_path, class: "next_btn", :disabled => true do %>Please Wait...<% end %>
+		</div>
 	<% end %>
+
+	
 
 	<!-- The Modal -->
 	<!-- <div id="myModal" class="modal"> -->
@@ -29,8 +38,6 @@
 	    <!-- <div class="loader"></div> -->
 	 <!-- </div>-->
 
-	</div>
-	
 	<div class="tips">
 		>>> Add all the products that you have tried and worked well ("Safe Products") & all the products that you have tried but caused any type of skin reaction including breakout, redness, itchiness ("Breakout Products").
 	</div>
@@ -38,8 +45,8 @@
 		>>> The more products you add, the higher the accuracy of analysis.
 	</div>
 	<% if @safe_product.empty? and @breakout_product.empty? and @safe_product_manual.empty? and @breakout_product_manual.empty? %></br>
-	<div class="tips">Please add more products you want to analyze!
-	</div>
+		<div class="tips">Please add more products you want to analyze!
+		</div>
 		<div class="product_content"> 	
 			<div class="product_safe">	
 				<p><h5>&nbsp;Safe Products: </h5></p>
@@ -202,6 +209,15 @@
 </div>
 
 <script>
+$(document).ready(function(){ 
+	$("#remove").click(function() {
+
+	  	$("#wait").css("display", "block");
+	  	$("#remove").css("display", "none");
+	});
+});
+
+
 /////$(document).ready(function(){ 
     // grab active tab id for if logic below
 ////    $('.next_btn').on('click', function() {
