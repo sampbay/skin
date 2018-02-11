@@ -28,6 +28,7 @@
 
 .chart_container {
 	position: relative;
+	min-height: 200px;
 }
 
 .chart_container p {
@@ -92,7 +93,6 @@
 	padding: 12px;
 	float: left;
 	margin: 5px 5px 0 0;
-	width: 46px;
 	text-align: center;
 }
 
@@ -102,9 +102,63 @@
 
 .title {
 	color: rgba(220,153,38,1);
-	display: inline;
+	float: left;
 }
 
-.function, .stats_skin_type, .stats_ethnicity, .stats_age {
-	display: inline;
+.stats_skin_type, .stats_ethnicity, .stats_age {
+	text-align: center;
+}
+
+.chart_inner {
+	width: 130px;
+	float: left;
+	margin-top: -20px;
+}
+
+.chart_inner_mobile {
+	width: 130px;
+	float: left;
+	margin-top: -20px;
+}
+
+.chart_inner_text {
+	position: relative;
+	top: 82px;
+	left: 97px;
+}
+
+.chart_container_donut {
+	width: 555px;
+	height: 100%;
+	position: relative;
+	float: right;
+}
+
+// height in inline css 
+.chart_container_donut canvas {
+	margin-left: -45px;
+}
+
+.details_container {
+	width: 345px;
+	height: 100%;
+	position: relative;
+	float: left;
+}
+
+.question {
+	float: right;
+	clear: both;
+}
+
+.function {
+	margin-bottom: 6px;
+}
+
+// mobile device smaller screen
+@media only screen and (max-width: 768px) { 
+  // for donut charts in blacklist, recommend, results views
+  .chart_inner_mobile {clear:both; float: left;}
+  .chart_container_donut { width: 100%; float: left;}
+  .details_container {width: 100%;}
 }

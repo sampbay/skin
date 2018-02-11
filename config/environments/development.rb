@@ -39,6 +39,6 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  # password reset 
-  config.action_mailer.default_url_options = { :host => "localhost:8080" }
+  # password reset (previously host was "localhost:8000")
+  config.action_mailer.default_url_options = { :host => "cosmedict.com" }
 end

@@ -4,13 +4,11 @@
     <div class="step123">
         <div class="step123_each">
             <span class="no_line_break">
-                <span style="color: rgba(1,1,1,0.4)">1: Analyze Product > > > </span> 
+                <span style="color: rgba(1,1,1,0.4)">1: Select Product > > > </span> 
             </span>
         </div>
         <div class="step123_each">
-            <span class="no_line_break">
-                [ 2: Results ]
-            </span>
+            <span class="no_line_break">2: Results</span>
         </div>
     </div>
 <!-- test ingredient list <%#= @potential_list_final %> -->
@@ -21,60 +19,28 @@
     </div>-->
     
     <div class="results">   
-        <!-- @count_hash to collect potential ingredients to display graphs --> 
-        
-            <% if params[:product] %>
-                <div class="brand_product">
-                    <h4>Product Analysis</h4>
-                    Product: <%= Product.where(id: params[:product]).pluck(:product).first %></br>
-                    Ingredient analysis:
-                </div>
-            <% elsif params[:manual_product] and params[:manual_ingredients] %>
-                <div class="brand_product">
-                    <h4>Manually Entered Product Analysis</h4>
-                    Product: <%= params[:manual_product] %></br>
-                    Ingredient analysis:
-                </div>
-            <% else %>
-                <div class="brand_product">
-                    <h4>Nothing found. Please go back to the previous page.</h4>        
-                </div>
-            <% end %>
-        
-                <div class="chart_container">
-                    <canvas id="barChart"></canvas>
-                </div>
-
-     <!--   <div class="chart_container">
-            <p>Overall Hazard</p>
-            <canvas id="overall_hazard" width="500" height="500"></canvas>
-        </div>-->
-    <!-- collect all potential ingredients of recommended products for graphic display -->
-
-        
-    <% if @ingredient_hash.present? %>
+    <% @ingredient_hash = @ingredient_hash_manual || @ingredient_hash_db %>
        <!-- for data_target attribute for ingredient collapse id per loop, i.e. id = 1_5 for first result_list & fifth ingredient for that group -->
        <% result_list_counter=0 %>
        
        <!-- key = product id -->
        <% @ingredient_hash.each do |key, value| %>
        <div class="result_list">
-       <!-- p for each product -->
-       <p>
-            <div class="product"><%= Product.where(id: key).pluck(:product).first %></div></br>
-            <div class="product_img"><%= image_tag("product_images/#{Product.where(id: key).pluck(:img).first}", alt: "no image available") %></div></br>
-            <div class="product_claims"><%= Product.where(id: key).pluck(:claims).first %></div>
-           <!--  <div class="amazon_buy">Buy Now</div> -->
-            <% unless current_user.favorites.exists?(key) %>
-                <%= link_to favorite_product_path(Product.where(id: key).map(&:id).first), method: :put, remote: true do %><div class="add_faves" id="add_faves_<%= result_list_counter %>">&star;</div><% end %>
-                <%= link_to favorite_product_path(Product.where(id: key).map(&:id).first), method: :delete, remote: true do %><div class="remove_faves" id="remove_faves_<%= result_list_counter %>" style="display: none;">&starf;</div><% end %>
-            <% else %>
-                <%= link_to favorite_product_path(Product.where(id: key).map(&:id).first), method: :put, remote: true do %><div class="add_faves" id="add_faves_<%= result_list_counter %>" style="display: none;">&star;</div><% end %>
-                <%= link_to favorite_product_path(Product.where(id: key).map(&:id).first), method: :delete, remote: true do %><div class="remove_faves" id="remove_faves_<%= result_list_counter %>">&starf;</div><% end %>
-            <% end %>
+            <% if @ingredient_hash_db.present? %>
+                <div class="product"><%= Product.where(id: key).pluck(:product).first %></div></br>
+                <div class="product_img"><%= image_tag("product_images/#{Product.where(id: key).pluck(:img).first}", alt: "no image available") %></div></br>
+                <div class="product_claims"><%= Product.where(id: key).pluck(:claims).first %></div>
+               <!--  <div class="amazon_buy">Buy Now</div> -->
+                <% unless current_user.favorites.exists?(key) %>
+                    <%= link_to favorite_product_path(Product.where(id: key).map(&:id).first), method: :put, remote: true do %><div class="add_faves" id="add_faves_<%= result_list_counter %>">&star; Save</div><% end %>
+                    <%= link_to favorite_product_path(Product.where(id: key).map(&:id).first), method: :delete, remote: true do %><div class="remove_faves" id="remove_faves_<%= result_list_counter %>" style="display: none;">&starf; Remove</div><% end %>
+                <% else %>
+                    <%= link_to favorite_product_path(Product.where(id: key).map(&:id).first), method: :put, remote: true do %><div class="add_faves" id="add_faves_<%= result_list_counter %>" style="display: none;">&star; Save</div><% end %>
+                    <%= link_to favorite_product_path(Product.where(id: key).map(&:id).first), method: :delete, remote: true do %><div class="remove_faves" id="remove_faves_<%= result_list_counter %>">&starf; Remove</div><% end %>
+                <% end %>
 
-            <%= link_to new_suggest_path do %><div class="report_error">Error?</div><% end %>
-            <br style="clear:left;"/><br />
+                <%= link_to new_suggest_path do %><div class="report_error">Error?</div><% end %>
+                <br style="clear:left;"/><br />
                 <!-- javascript added here to loop through result_list_counter for product-favorite matching -->
                 <script>
                 $(document).ready(function(){
@@ -88,239 +54,419 @@
                     });
                 });
                 </script>
-            <div class="ingredient_count"><span style="color:rgba(255,0,0,1); font-size: 15px;"><%= value.count %></span> ingredient(s) found:
+            <% else %>
+                <div class="product"><%= params[:manual_product] %></div></br>
+                <div class="product_img_manual">no image:manually entered product</div></br>
+            <% end %>
+            <div class="ingredient_count">Out of <span style="color:rgba(255,0,0,1); font-size: 15px;"><%= value.count %></span> ingredient(s) in this product, <span style="color:rgba(255,0,0,1); font-size: 15px;"><%= (@potential_list & value.compact.map(&:downcase).map(&:strip)).count %></span> are in your blacklist (highlighted in light-red color):
             </div>
-            <div class="legend">
-                <span style="background: rgba(255,255,0,1);">&nbsp;&nbsp;&nbsp;</span>:Breakout-causing List | <%= image_tag("canada_flag.png", alt: " [Health Canada] ", size: "19") %>:HC Hotlist | <%= image_tag("eu_flag.png", alt: " [EU] ", size: "19") %>:EU Prohibited List | <%= image_tag("comedogenic_icon.png", alt: " [Comedogenic List] ", size: "19") %>:Comedogenic List | <%= link_to how_it_works_path do %>How It Works&quest;<% end %>
-            </div> 
-            <!-- use i as a counter for data-target & collapse id matching -->
-            <% i=0 %>
+            <p>
+            <div class="chart_container">
+                <canvas id="barChart"></canvas>
+            </div>
+            <p>
             <div class="ingredients_list">
+                <!-- use i as a counter for data-target & collapse id matching -->
+                <% i=0 %>
                 <!-- downcase and strip b/c @potential_product is already downcased and stripped -->
                 <% value.compact.map(&:downcase).map(&:strip).each do |inci| %>
-                    <% unless inci.nil? %>
-                    <div class="collapse_view" data-toggle="collapse" data-target="#<%= result_list_counter %>_<%= i %>" aria-expanded="false" aria-controls="collapseExample">
-                        <!-- css .highlight if potential ingredient -->
-                        <% if @potential_product.nil? %>
+                    <% unless inci.blank? %>
+                    <!-- background color red if ingredient in blacklist -->
+                    <div class="ingredient_title" style="background:<%= @potential_list.include?(inci) ? 'rgba(255,203,203,1)' : 'rgba(255,255,255,1)' %>">
                         <%= inci %>
-                        <% elsif @potential_product.include?(inci) %>
-                            <span style="background: rgba(255,255,0,1);"><%= inci %></span>
-                        <% else %>
-                        <%= inci %>
-                        <% end %>
-
-                    <%= image_tag("canada_flag.png", alt: " [Health Canada] ", size: "19") if Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).exists? %>
-                    <%= image_tag("eu_flag.png", alt: " [EU] ", size: "19") if CosingAnnexIi.where(chemical_name_inn: inci).exists? %>
-                    <%= image_tag("comedogenic_icon.png", alt: " [Comedogenic List] ", size: "19") if Comedogeniclist.where(ingredient: inci).exists? %>
+                        <div class="question"><%= link_to how_it_works_path do %><%= image_tag("question_mark.png", alt: "How It Works", size: "16") %><% end %></div>
                     </div>
-                  
-                    <div class="collapse" id="<%= result_list_counter %>_<%= i %>">
-                      <div class="well">
-                        <p>
-                        <div class="title">Function:</div>
-                        <% if Cosing.where(INCI_name: inci).pluck(:Function).nil? or Cosing.where(INCI_name: inci).pluck(:Function).empty? %>
-                            Unknown
-                        <% else %>
-                            <%= Cosing.where(INCI_name: inci).pluck(:Function).first %>
-                        <% end %>
-                        </p>
-                        <p>
-                            <% if Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).exists? %>
-                            <div class="toggle_HC">>>> Health Canada's Hotlists <<<</br>
-                                <div class="title">Status (restricted/prohibited):</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:status).first || "N/A" %>
-                                </br>
-                                <div class="title">Conditions of Use:</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:conditions_of_use).first || "N/A" %>
-                                </br>
-                                <div class="title">Maximum concentration permitted:</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:maximum_concentration_permitted).first || "N/A" %>
-                                </br>
-                                <div class="title">Warnings & Cautions:</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:warnings_and_cautions).first || "N/A" %>
-                                </br>
-                            </div>
-                        <% end %>
-                        </p>
-                        <p>
-                            <% if CosingAnnexIi.where(chemical_name_inn: inci).exists? %>
-                            <div class="toggle_EU">>>> European Union's Prohibited List <<<</br>
-                                <div class="title">Opinions:</div> <%= CosingAnnexIi.where(chemical_name_inn: inci).pluck(:sccs_opinions).first || "N/A"%>
-                                </br>
-                                <div class="title">Other directives/regulations:</div> <%= CosingAnnexIi.where(chemical_name_inn: inci).pluck(:other_directives_regulations).first || "N/A" %>
-                                </br>
-                            </div>
-                        <% end %>
-                        </p>
-                        <p>
-                            <% if Comedogeniclist.where(ingredient: inci).exists? %>
-                            <div class="toggle_comedogenic">>>> Comedogenic Cosmetic List <<<</br>
-                                <div class="title">Rating:</div> <%= Comedogeniclist.where(ingredient: inci).pluck(:rating).first || "N/A" %>
-                                </br>
-                                <div class="title">Research Evidence: </div>
-                                <%= "Fulton (1989)" if Comedogeniclist.where(ingredient: inci).pluck(:fulton_1989).first == "TRUE" %>
-                                <%= "Morris Kwan (1983)" if Comedogeniclist.where(ingredient: inci).pluck(:morris_kwan_1983).first == "TRUE" %>
-                                <%= "N/A" if Comedogeniclist.where(ingredient: inci).pluck(:morris_kwan_1983).first == "FALSE" and Comedogeniclist.where(ingredient: inci).pluck(:morris_kwan_1983).first == "FALSE" %>
-                                </br>
-                            </div>
-                            <% end %>
-                        </p>
+
+                    <div class="ingredient_detail">
+                      <!-- background color red if ingredient in blacklist -->
+                      <div class="well" style="background:<%= @potential_list.include?(inci) ? 'rgba(255,203,203,1)' : 'rgba(255,255,255,1)' %>">
+                        <div class="details_container">
+                            <div class="title">Function:&nbsp;</div></br>
+                                <div class="function">
+                                    <% if Cosing.where(INCI_name: inci).pluck(:Function).nil? or Cosing.where(INCI_name: inci).pluck(:Function).blank? %>
+                                        Unknown
+                                    <% else %>
+                                        <%= Cosing.where(INCI_name: inci).pluck(:Function).first %>
+                                    <% end %>
+                                </div>
+                            <div class="title">Banned/Restricted:&nbsp;</div></br>
+                                <div class="function">
+                                    Canada?
+                                    <% if Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).exists? %>
+                                        Yes | 
+                                    <% else %>
+                                        No | 
+                                    <% end %>
+                                    Europe?
+                                    <% if CosingAnnexIi.where(chemical_name_inn: inci).exists? %>
+                                        Yes 
+                                    <% else %>
+                                        No 
+                                    <% end %>
+                                </div>
+                             <div class="title">Comedogenic:&nbsp;</div></br>
+                                <div class="function">
+                                    <% if Comedogeniclist.where(ingredient: inci).exists? %>
+                                        Yes 
+                                    <% else %>
+                                        No 
+                                    <% end %>
+                                </div>
+                        </div>
+                        <div class="chart_container_donut">
+                                <!-- <div class="title">Stats:</div> -->
+
+                                <div class="chart_container_alert">
+                                    <!-- % of users who share same skin type and this breakout-causing ingredient in Table potential_products -->
+                            
+                                    <!-- <div class="title">Skin Type: </div> -->
+                                    <div class="stats_skin_type">
+                                        <% if Profile.where(user_id: current_user).pluck(:skin_type).first.nil? or Profile.where(user_id: current_user).pluck(:skin_type).first.blank? %>
+                                            <%= image_tag("comedogenic_icon.png", alt: "Alert", size: "19") %> Incomplete skin profile. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter SKIN TYPE.
+                                        <% else %>
+                                            <% @users_skin_type_ing = 0 %>
+                                            <% @users_skin_type = Profile.where(skin_type: Profile.where(user_id: current_user).pluck(:skin_type).first).pluck(:user_id) %>
+                                            <% @users_skin_type.each do |p| %>
+                                            <% @users_skin_type_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
+                                            <% end %>
+                                            <% @percent_skin_type = @users_skin_type_ing.to_f / @users_skin_type.count * 100.0 %> 
+                                            <!-- Caused breakout in <#%= @percent_skin_type.round(0) %>% of users who share your skin type <#%= Profile.where(user_id: current_user).pluck(:skin_type).first %> -->
+                                        <% end %>
+                                    </div>
+                                    
+                                    <!-- % of users who share same ethnicity and this breakout-causing ingredient in Table potential_products -->
+                            
+                            
+                                    <div class="stats_ethnicity">
+                                        <% if Profile.where(user_id: current_user).pluck(:ethnicity).first.nil? or Profile.where(user_id: current_user).pluck(:ethnicity).first.blank? %>
+                                            <%= image_tag("comedogenic_icon.png", alt: "Alert", size: "19") %> Incomplete skin profile. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter ETHNICITY.
+                                        <% else %>
+                                            <% @users_ethnicity_ing = 0 %>
+                                            <% @users_ethnicity = Profile.where(ethnicity: Profile.where(user_id: current_user).pluck(:ethnicity).first).pluck(:user_id) %>
+                                            <% @users_ethnicity.each do |p| %>
+                                            <% @users_ethnicity_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
+                                            <% end %>
+                                            <% @percent_ethnicity = @users_ethnicity_ing.to_f / @users_ethnicity.count * 100.0 %> 
+                                            <!-- Caused breakout in <#%= @percent_ethnicity.round(0) %>% of users who share your ethnicity <#%= Profile.where(user_id: current_user).pluck(:ethnicity).first %> -->
+                                        <% end %>
+                                    </div>
+                                    
+                                    <!-- % of users who share same age group and this breakout-causing ingredient in Table potential_products -->
+                            
+                                    <!-- <div class="title">Age Group: </div> -->
+                                    <div class="stats_age">
+                                        <% if Profile.where(user_id: current_user).pluck(:age).first.nil? or Profile.where(user_id: current_user).pluck(:age).first.blank? %>
+                                            <%= image_tag("comedogenic_icon.png", alt: "Alert", size: "19") %> Incomplete skin profile. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter AGE.
+                                        <% else %>
+                                            <% @users_age_ing = 0 %>
+                                            <% @users_age = Profile.where(age: Profile.where(user_id: current_user).pluck(:age).first).pluck(:user_id) %>
+                                            <% @users_age.each do |p| %>
+                                            <% @users_age_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
+                                            <% end %>
+                                            <% @percent_age = @users_age_ing.to_f / @users_age.count * 100.0 %> 
+                                            <!-- Caused breakout in <#%= @percent_age.round(0) %>% of users in your age group <#%= Profile.where(user_id: current_user).pluck(:age).first %> -->
+                                        <% end %>
+                                    </div>
+                                    
+                                </div>
 
 
+                                <!-- width and height set in recommend.css -->
+                                <div class="chart_inner">
+                                    <div class="chart_inner_text"><%= @percent_skin_type.blank? ? 'N/A' : @percent_skin_type.round(0) %>%</div>
+                                    <canvas height="140px" id="chart_skin_type_<%= i %>"></canvas>
+                                </div>
+                                <!-- @media mobile view set in recommend.css -->
+                                <div class="chart_inner_mobile">
+                                    <div class="chart_inner_text"><%= @percent_ethnicity.blank? ? 'N/A' : @percent_ethnicity.round(0) %>%</div>
+                                    <canvas height="140px" id="chart_ethnicity_<%= i %>"></canvas>
+                                </div>
+                                <div class="chart_inner">
+                                    <div class="chart_inner_text"><%= @percent_age.blank? ? 'N/A' : @percent_age.round(0) %>%</div>
+                                    <canvas height="140px" id="chart_age_<%= i %>"></canvas>
+                                </div>
+
+                                    <!-- for easier all criteria percent calculation -->
+                                    <% if @percent_skin_type.present? && @percent_ethnicity.present? && @percent_age.present? %>
+                                    <% @percent_all = @percent_skin_type * @percent_ethnicity * @percent_age / 10000%> 
+                                    <% else %>
+                                    <% @precent_all = 0 %>
+                                    <% end %>
+
+                                <div class="chart_inner">
+                                    <div class="chart_inner_text"><%= @percent_all.blank? ? 'N/A' : @percent_all.round(0) %>%</div>
+                                    <canvas height="140px" id="chart_all_<%= i %>"></canvas>
+                                </div>
+                        </div>
+                        <div style="clear: both;"></div>
+                        <script>
+                        var skin_type_data = {
+                               labels: [
+                                    '<%= Profile.where(user_id: current_user).pluck(:skin_type).first.blank? ? 'N/A' : Profile.where(user_id: current_user).pluck(:skin_type).first %>',
+                                    'Other'
+                                   ],
+                                datasets: [
+                                    {
+                                        data: [ 
+                                        <% if @percent_skin_type.blank? %>
+                                        0, 100
+                                        <% else %>
+                                        <%= @percent_skin_type.round(0) %>, 100 - <%= @percent_skin_type.round(0) %>
+                                        <% end %>
+                                        ],
+                                        backgroundColor: [
+                                       'rgba(255,120,120,1)',
+                                        'rgba(195,195,195,1)'
+                                        ]
+                                    }]
+                            };
+                            var ethnicity_data = {
+                               labels: [
+                                    '<%= Profile.where(user_id: current_user).pluck(:ethnicity).first.blank? ? 'N/A' : Profile.where(user_id: current_user).pluck(:ethnicity).first %>',
+                                    'Other'
+                                   ],
+                                datasets: [
+                                    {
+                                        data: [
+                                        <% if @percent_ethnicity.blank? %>
+                                        0, 100
+                                        <% else %>
+                                        <%= @percent_ethnicity.round(0) %>, 100 - <%= @percent_ethnicity.round(0) %>
+                                        <% end %>
+                                        ],
+                                        backgroundColor: [
+                                       'rgba(255,120,120,1)',
+                                        'rgba(195,195,195,1)'          
+                                        ]
+                                    }]
+                            };
+
+                           var age_data = {
+                               labels: [
+                                    '<%= Profile.where(user_id: current_user).pluck(:age).first.blank? ? 'N/A' : Profile.where(user_id: current_user).pluck(:age).first %>',
+                                    'Other'
+                                   ],
+                                datasets: [
+                                    {
+                                        data: [
+                                        <% if @percent_age.blank? %>
+                                        0, 100
+                                        <% else %>
+                                        <%= @percent_age.round(0) %>, 100 - <%= @percent_age.round(0) %>
+                                        <% end %>
+                                            ],
+                                            backgroundColor: [
+                                       'rgba(255,120,120,1)',
+                                        'rgba(195,195,195,1)'
+                                            ]
+                                    }]
+                            };
+
+                            var all_data = {
+                               labels: [
+                                    'All Criteria',
+                                    'Other'
+                                   ],
+                                datasets: [
+                                    {
+                                        data: [
+                                        <% if @percent_all.blank? %>
+                                        0, 100
+                                        <% else %>
+                                        <%= @percent_all.round(0) %>, 100 - <%= @percent_all.round(0) %>
+                                        <% end %>
+                                            ],
+                                            backgroundColor: [
+                                       'rgba(255,120,120,1)',
+                                        'rgba(195,195,195,1)'
+                                            ]
+                                    }]
+                            };
+
+                             // always show tooltip
+                            Chart.pluginService.register({
+                                    beforeRender: function (chart) {
+                                        if (chart.config.options.showAllTooltips) {
+                                            // create an array of tooltips
+                                            // we can't use the chart tooltip because there is only one tooltip per chart
+                                            chart.pluginTooltips = [];
+                                            chart.config.data.datasets.forEach(function (dataset, i) {
+                                                chart.getDatasetMeta(i).data.forEach(function (sector, j) {
+                                                    chart.pluginTooltips.push(new Chart.Tooltip({
+                                                        _chart: chart.chart,
+                                                        _chartInstance: chart,
+                                                        _data: chart.data,
+                                                        _options: chart.options.tooltips,
+                                                        _active: [sector]
+                                                    }, chart));
+                                                });
+                                            });
+                                            // turn off normal tooltips
+                                            chart.options.tooltips.enabled = false;
+                                        }
+                                    },
+                                    afterDraw: function (chart, easing) {
+                                        if (chart.config.options.showAllTooltips) {
+                                            // we don't want the permanent tooltips to animate, so don't do anything till the animation runs atleast once
+                                            if (!chart.allTooltipsOnce) {
+                                                if (easing !== 1)
+                                                    return;
+                                                chart.allTooltipsOnce = true;
+                                            }
+
+                                            // turn on tooltips
+                                            chart.options.tooltips.enabled = true;
+                                            Chart.helpers.each(chart.pluginTooltips, function (tooltip) {
+                                                tooltip.initialize();
+                                                tooltip.update();
+                                                // we don't actually need this since we are not animating tooltips
+                                                tooltip.pivot();
+                                                tooltip.transition(easing).draw();
+                                            });
+                                            chart.options.tooltips.enabled = false;
+                                        }
+                                    }
+                                })
+                            // Global Configuration
+                            // Get the context of the canvas element we want to select
+                            var ctx = document.getElementById("chart_skin_type_<%= i %>").getContext("2d");
+                            var myPieChart = new Chart(ctx, {
+                                type: 'doughnut',
+                                data: skin_type_data,
+                                options: {
+                                    animation: false,
+                                    responsive: false,
+                                    maintainAspectRatio: false,
+                                    cutoutPercentage: 75,
+                                    legend: {
+                                        display: true,
+                                        position: 'bottom',
+                                        labels: {
+                                            boxWidth: 5
+                                        }
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Skin Type',
+                                        fontSize: 14,
+                                        position: 'top'
+                                    },
+                                   showAllTooltips: false,
+                                   tooltips: {
+                                      enabled: false
+                                    }
+                                }
+                            });
+
+                            var ctx = document.getElementById("chart_ethnicity_<%= i %>").getContext("2d");
+                            var myPieChart = new Chart(ctx, {
+                                type: 'doughnut',
+                                data: ethnicity_data,
+                                options: {
+                                    animation: false,
+                                    responsive: false,
+                                    maintainAspectRatio: false,
+                                    cutoutPercentage: 75,
+                                    legend: {
+                                        display: true,
+                                        position: 'bottom',
+                                        labels: {
+                                            boxWidth: 5
+                                        }
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Ethnicity',
+                                        fontSize: 14,
+                                        position: 'top'
+                                    },
+                                   showAllTooltips: false,
+                                   tooltips: {
+                                      enabled: false
+                                    }
+                                }
+                            });
+
+                            var ctx = document.getElementById("chart_age_<%= i %>").getContext("2d");
+                            var myPieChart = new Chart(ctx, {
+                                type: 'doughnut',
+                                data: age_data,
+                                options: {
+                                    animation: false,
+                                    responsive: false,
+                                    maintainAspectRatio: false,
+                                    cutoutPercentage: 75,
+                                    legend: {
+                                        display: true,
+                                        position: 'bottom',
+                                        labels: {
+                                            boxWidth: 5
+                                        }
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Age',
+                                        fontSize: 14,
+                                        position: 'top'
+                                    },
+                                   showAllTooltips: false,
+                                   tooltips: {
+                                      enabled: false
+                                    }
+                                }
+                            });
+
+                            var ctx = document.getElementById("chart_all_<%= i %>").getContext("2d");
+                            var myPieChart = new Chart(ctx, {
+                                type: 'doughnut',
+                                data: all_data,
+                                options: {
+                                    animation: false,
+                                    responsive: false,
+                                    maintainAspectRatio: false,
+                                    cutoutPercentage: 75,
+                                    legend: {
+                                        display: true,
+                                        position: 'bottom',
+                                        labels: {
+                                            boxWidth: 5
+                                        }
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'All Criteria',
+                                        fontSize: 14,
+                                        position: 'top'
+                                    },
+                                   showAllTooltips: false,
+                                   tooltips: {
+                                      enabled: false
+                                    }
+                                }
+                            });
+                        </script>
                       </div>
                     </div>
                     <% end %>
                 <!-- count no of ingredients flagged RED in product/category/brand selected -->
                     <% @count_hash = Hash.new(0) %>
-                    <% if @potential_product.nil? %>
+                    <% if @potential_list.nil? %>
                         <% @total << "no breakout ingredient found!" %>
-                    <% elsif @potential_product.include?(inci) %>
+                    <% elsif @potential_list.include?(inci) %>
                         <% @total << inci %> 
-                    <% elsif @potential_product.exclude?(inci) %>
+                    <% elsif @potential_list.exclude?(inci) %>
                         <% @total << "safe ingredients" %>
                     <% end %>
                     <% @total.each do |v| %>
                         <% @count_hash[v] += 1 %>
                     <% end %>
-                    <% i+=1 %>
+                <% i+=1 %>
                 <% end %>
             </div>
         <% result_list_counter+=1 %>
-        
-        </p>
         </div>
         <% end %>
-    <!-- testing purposes -->   
-    <%#= @potential_product %>
-    <%#= @potential_product.count %>
-    <% elsif @ingredient_hash_manual.present? %>
-        <% @ingredient_hash_manual.each do |key, value| %>
-        <div class="result_list">
-       <!-- p for each product -->
-       <p>
-            <div class="product"><%= params[:manual_product] %></div></br>
-            <div class="product_img_manual">no image (manually added product)</div></br>
-           <!--  <div class="amazon_buy">Buy Now</div> -->
-            <!--
-            <%# unless current_user.favorites.exists?(key) %>
-                <%#= link_to favorite_product_path(key), method: :put, remote: true do %><div class="add_faves" id="add_faves_<%#= result_list_counter %>">&star;</div><%# end %>
-                <%#= link_to favorite_product_path(key), method: :delete, remote: true do %><div class="remove_faves" id="remove_faves_<%= result_list_counter %>" style="display: none;">&starf;</div><%# end %>
-            <%# else %>
-                <%#= link_to favorite_product_path(key), method: :put, remote: true do %><div class="add_faves" id="add_faves_<%#= result_list_counter %>" style="display: none;">&star;</div><%# end %>
-                <%#= link_to favorite_product_path(key), method: :delete, remote: true do %><div class="remove_faves" id="remove_faves_<%= result_list_counter %>">&starf;</div><%# end %>
-            <%# end %>
-                -->
-            <%= link_to new_suggest_path do %><div class="report_error">Error?</div><% end %>
-            <br style="clear:left;"/><br />
-                <!-- javascript added here to loop through result_list_counter for product-favorite matching -->
-                <script>
-                $(document).ready(function(){
-                    $('#add_faves_<%= result_list_counter %>').on('click', function(){
-                        document.getElementById('remove_faves_<%= result_list_counter %>').style.display = 'block';
-                        document.getElementById('add_faves_<%= result_list_counter %>').style.display = 'none';
-                    });
-                    $('#remove_faves_<%= result_list_counter %>').on('click', function(){
-                        document.getElementById('add_faves_<%= result_list_counter %>').style.display = 'block';
-                        document.getElementById('remove_faves_<%= result_list_counter %>').style.display = 'none';
-                    });
-                });
-                </script>
-            <div class="ingredient_count"><span style="color:rgba(255,0,0,1); font-size: 15px;"><%= value.count %></span> ingredient(s) found:
-            </div>
-            <div class="legend">
-                <span style="background: rgba(255,255,0,1);">&nbsp;&nbsp;&nbsp;</span>:Breakout-causing List | <%= image_tag("canada_flag.png", alt: " [Health Canada] ", size: "19") %>:HC Hotlist | <%= image_tag("eu_flag.png", alt: " [EU] ", size: "19") %>:EU Prohibited List | <%= image_tag("comedogenic_icon.png", alt: " [Comedogenic List] ", size: "19") %>:Comedogenic List | <%= link_to how_it_works_path do %>How It Works&quest;<% end %>
-            </div> 
-            <!-- use i as a counter for data-target & collapse id matching -->
-            <% i=0 %>
-            <div class="ingredients_list">
-                <!-- downcase and strip b/c @potential_product is already downcased and stripped -->
-                <% value.compact.map(&:downcase).map(&:strip).each do |inci| %>
-                    <% unless inci.nil? %>
-                    <div class="collapse_view" data-toggle="collapse" data-target="#<%= i %>" aria-expanded="false" aria-controls="collapseExample">
-                        <!-- css .highlight if potential ingredient -->
-                        <% if @potential_product.nil? %>
-                        <%= inci %>
-                        <% elsif @potential_product.include?(inci) %>
-                            <span style="background: rgba(255,255,0,1);"><%= inci %></span>
-                        <% else %>
-                        <%= inci %>
-                        <% end %>
-
-                    <%= image_tag("canada_flag.png", alt: " [Health Canada] ", size: "19") if Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).exists? %>
-                    <%= image_tag("eu_flag.png", alt: " [EU] ", size: "19") if CosingAnnexIi.where(chemical_name_inn: inci).exists? %>
-                    <%= image_tag("comedogenic_icon.png", alt: " [Comedogenic List] ", size: "19") if Comedogeniclist.where(ingredient: inci).exists? %>
-                    </div>
-                  
-                    <div class="collapse" id="<%= i %>">
-                      <div class="well">
-                        <p>
-                        <div class="title">Function:</div>
-                        <% if Cosing.where(INCI_name: inci).pluck(:Function).nil? or Cosing.where(INCI_name: inci).pluck(:Function).empty? %>
-                            Unknown
-                        <% else %>
-                            <%= Cosing.where(INCI_name: inci).pluck(:Function).first %>
-                        <% end %>
-                        </p>
-                        <p>
-                            <% if Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).exists? %>
-                            <div class="toggle_HC">>>> Health Canada's Hotlists <<<</br>
-                                <div class="title">Status (restricted/prohibited):</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:status).first || "N/A" %>
-                                </br>
-                                <div class="title">Conditions of Use:</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:conditions_of_use).first || "N/A" %>
-                                </br>
-                                <div class="title">Maximum concentration permitted:</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:maximum_concentration_permitted).first || "N/A" %>
-                                </br>
-                                <div class="title">Warnings & Cautions:</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:warnings_and_cautions).first || "N/A" %>
-                                </br>
-                            </div>
-                        <% end %>
-                        </p>
-                        <p>
-                            <% if CosingAnnexIi.where(chemical_name_inn: inci).exists? %>
-                            <div class="toggle_EU">>>> European Union's Prohibited List <<<</br>
-                                <div class="title">Opinions:</div> <%= CosingAnnexIi.where(chemical_name_inn: inci).pluck(:sccs_opinions).first || "N/A"%>
-                                </br>
-                                <div class="title">Other directives/regulations:</div> <%= CosingAnnexIi.where(chemical_name_inn: inci).pluck(:other_directives_regulations).first || "N/A" %>
-                                </br>
-                            </div>
-                        <% end %>
-                        </p>
-                        <p>
-                            <% if Comedogeniclist.where(ingredient: inci).exists? %>
-                            <div class="toggle_comedogenic">>>> Comedogenic Cosmetic List <<<</br>
-                                <div class="title">Rating:</div> <%= Comedogeniclist.where(ingredient: inci).pluck(:rating).first || "N/A" %>
-                                </br>
-                                <div class="title">Research Evidence: </div>
-                                <%= "Fulton (1989)" if Comedogeniclist.where(ingredient: inci).pluck(:fulton_1989).first == "TRUE" %>
-                                <%= "Morris Kwan (1983)" if Comedogeniclist.where(ingredient: inci).pluck(:morris_kwan_1983).first == "TRUE" %>
-                                <%= "N/A" if Comedogeniclist.where(ingredient: inci).pluck(:morris_kwan_1983).first == "FALSE" and Comedogeniclist.where(ingredient: inci).pluck(:morris_kwan_1983).first == "FALSE" %>
-                                </br>
-                            </div>
-                            <% end %>
-                        </p>
-
-
-                      </div>
-                    </div>
-                    <% end %>
-                <!-- count no of ingredients flagged RED in product/category/brand selected -->
-                    <% @count_hash = Hash.new(0) %>
-                    <% if @potential_product.nil? %>
-                        <% @total << "no breakout ingredient found!" %>
-                    <% elsif @potential_product.include?(inci) %>
-                        <% @total << inci %> 
-                    <% elsif @potential_product.exclude?(inci) %>
-                        <% @total << "safe ingredients" %>
-                    <% end %>
-                    <% @total.each do |v| %>
-                        <% @count_hash[v] += 1 %>
-                    <% end %>
-                    <% i+=1 %>
-                <% end %>
-            </div>
-        </p>
-        </div>
-        <% end %>
-    <% else %>
-    
-    <% end %>
-
+   
         <%#= link_to 'Back', analyze_path %>
 
         <!-- testing purposes -->
@@ -337,107 +483,50 @@
 </div>
 
 <script>
-<% if @count_hash.present? %>
-    var bar_data = {
-        labels: [<% @count_hash.each_key do |key| %>
-            "<%= key %>",
-            <% end %>],
-        datasets: [
-            {      
-                barThickness: "1px",
-                backgroundColor: "rgba(255,99,132,0.2)",
-                borderColor: "rgba(255,99,132,1)",
-                borderWidth: 1,
-                hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                hoverBorderColor: "rgba(255,99,132,1)",
-                data: [<% @count_hash.each_value do |value| %>
-            <%= value %>,
-            <% end %>],
-            }
-        ]
-    };
-    var overall_hazard_polarArea_data = {
-       labels: [
-            <% @count_hash.each_key do |key| %>
-            "<%= key %>",
-            <% end %>
-           ],
-        datasets: [
-            {
-                data: [
-            <% @count_hash.each_value do |value| %>
-            <%= value %>,
-            <% end %>
-                    ]
-            }]
-    };
-<% end %>
-    // always show tooltip
-    Chart.pluginService.register({
-            beforeRender: function (chart) {
-                if (chart.config.options.showAllTooltips) {
-                    // create an array of tooltips
-                    // we can't use the chart tooltip because there is only one tooltip per chart
-                    chart.pluginTooltips = [];
-                    chart.config.data.datasets.forEach(function (dataset, i) {
-                        chart.getDatasetMeta(i).data.forEach(function (sector, j) {
-                            chart.pluginTooltips.push(new Chart.Tooltip({
-                                _chart: chart.chart,
-                                _chartInstance: chart,
-                                _data: chart.data,
-                                _options: chart.options.tooltips,
-                                _active: [sector]
-                            }, chart));
-                        });
-                    });
-
-                    // turn off normal tooltips
-                    chart.options.tooltips.enabled = false;
+    // run this script just once unlike for donut charts
+    <% if @count_hash.present? %>
+        var bar_data = {
+            labels: [<% @count_hash.each_key do |key| %>
+                "<%= key %>",
+                <% end %>],
+            datasets: [
+                {      
+                    barThickness: "1px",
+                    backgroundColor: "rgba(255,99,132,0.2)",
+                    borderColor: "rgba(255,99,132,1)",
+                    borderWidth: 1,
+                    hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                    hoverBorderColor: "rgba(255,99,132,1)",
+                    data: [<% @count_hash.each_value do |value| %>
+                <%= value %>,
+                <% end %>],
                 }
-            },
-            afterDraw: function (chart, easing) {
-                if (chart.config.options.showAllTooltips) {
-                    // we don't want the permanent tooltips to animate, so don't do anything till the animation runs atleast once
-                    if (!chart.allTooltipsOnce) {
-                        if (easing !== 1)
-                            return;
-                        chart.allTooltipsOnce = true;
-                    }
-
-                    // turn on tooltips
-                    chart.options.tooltips.enabled = true;
-                    Chart.helpers.each(chart.pluginTooltips, function (tooltip) {
-                        tooltip.initialize();
-                        tooltip.update();
-                        // we don't actually need this since we are not animating tooltips
-                        tooltip.pivot();
-                        tooltip.transition(easing).draw();
-                    });
-                    chart.options.tooltips.enabled = false;
-                }
-            }
-        })
-
+            ]
+        };
+        
+    <% end %>
+    
     // Global Configuration
-
     // Get the context of the canvas element we want to select
     var ctx = document.getElementById("barChart").getContext("2d");
     var myBarChart = new Chart(ctx, {
         type: 'horizontalBar', 
         data: bar_data,
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 xAxes: [{
                     stacked: true,
                     ticks: {
-                                 beginAtZero: true,
-                                 userCallback: function(label, index, labels) {
-                                     // when the floored value is the same as the value we have a whole number
-                                     if (Math.floor(label) === label) {
-                                         return label;
-                                     }
-                                 },
-                             }
+                        beginAtZero: true,
+                        userCallback: function(label, index, labels) {
+                         // when the floored value is the same as the value we have a whole number
+                         if (Math.floor(label) === label) {
+                             return label;
+                            }
+                        },
+                     }
                 }],
                 yAxes: [{
                     categorySpacing: 0,
@@ -448,7 +537,7 @@
             legend: {
                 display: false
             },
-           showAllTooltips: true,
+           showAllTooltips: false,
            tooltips: {
               custom: function(tooltip) {
                 if (!tooltip) return;
@@ -469,31 +558,4 @@
         }
     });
 
-    var ctx = document.getElementById("overall_hazard").getContext("2d");
-    var myPieChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: overall_hazard_polarArea_data
-    });
-
-    var ctx = document.getElementById("cancer").getContext("2d");
-    var myPieChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: cancer_pie_data
-    });
-
-    var ctx = document.getElementById("developmental").getContext("2d");
-    var myPieChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: developmental_pie_data
-    });
-    var ctx = document.getElementById("allergies").getContext("2d");
-    var myPieChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: allergies_pie_data
-    });
-    var ctx = document.getElementById("restrictions").getContext("2d");
-    var myPieChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: restrictions_pie_data
-    });
 </script>

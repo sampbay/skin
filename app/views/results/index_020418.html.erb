@@ -1,0 +1,456 @@
+<div class="horizontal_line"></div>
+<div class="row">
+    <h3>Build Blacklist</h3>
+    <div class="step123">
+        <div class="step123_each">
+            <span class="no_line_break">
+                <span style="color: rgba(1,1,1,0.4)">1: Add Products > > > </span>
+            </span>
+        </div>
+        <div class="step123_each">
+            <span class="no_line_break">2: Select Ingredients</span> 
+        </div>
+    </div>
+    <div id="add" style="display:inline-block">
+        <%= link_to analyze_path, class: "next_btn", :disabled => true do %>Select Ingredient(s) to Continue<% end %>
+    </div>
+    <div id="remove" style="display:none" class="next_btn">
+        Save & Continue
+    </div>
+    
+<!--
+    <div class="chart_container">
+        <canvas id="barChart" width="400" height="400"></canvas>
+    </div>
+     <div class="chart_container">
+        <p>Overall Hazard</p>
+        <canvas id="overall_hazard" width="500" height="500"></canvas>
+    </div>
+-->
+<!-- Trigger/Open The Modal -->
+<!-- <button id="myBtn">Open Modal</button> -->
+
+
+    <div class="results">            
+        <%= form_tag(blacklist_path, :method => "get", :id => "form") do %>
+            <div class="tips"> >>> How to interpret this list: every ingredient in the products you’ve tried with success is compared with every ingredient in the products that broke you out. Our algorithm pulls out a portion of ingredients in the breakout product list, which are not present in the safe product list. Find out more on <%= link_to how_it_works_path do %><span style="color:rgba(255,0,0,1);">How It Works</span><% end %> page.</div>
+            <div class="tips"> >>> Is the list too long? Try adding more safe products or remove any products you are uncertain about on the previous page.</div>
+            <div class="tips"><span style="color:rgba(255,0,0,1); font-size: 15px;"><%= @potential_list.count %></span> potentially breakout-causing ingredient(s) found:
+            </div>
+            <div class="tips"><span style="color:rgba(255,0,0,1); font-size: 15px;"><%= Blacklist.where(user: current_user).pluck(:ingredient).flatten.any? ? Blacklist.where(user: current_user).pluck(:ingredient).flatten.count : 0 %></span> ingredient(s) currently in your Blacklist (some ingredients are pre-selected below if already in your Blacklist):
+            </div>
+            <div class="legend">
+                <span style="background: rgba(255,255,0,1);">&nbsp;&nbsp;&nbsp;</span>:Ingredients from Analysis | <%= image_tag("canada_flag.png", alt: " [Health Canada] ", size: "19") %>:HC Hotlist | <%= image_tag("eu_flag.png", alt: " [EU] ", size: "19") %>:EU Prohibited | <%= image_tag("comedogenic_icon.png", alt: " [Comedogenic List] ", size: "19") %>:Comedogenic | <%= link_to how_it_works_path do %>How It Works<% end %>
+            </div> 
+            <div class="result_list">
+                <div class="select_all"><%= check_box_tag 'list_all' %> Select/De-select All </div>
+                <div class="ingredients_list">
+         <% i=0 %>
+                    <!-- downcase and strip b/c @potential_product is already downcased and stripped -->
+                    <% @potential_list.uniq.each do |inci| %>
+
+                        <% unless @potential_list.blank? %>
+                        <div class="ingredient_title"><%= check_box_tag "list[]", inci, Blacklist.where(user: current_user).pluck(:ingredient).flatten.include?(inci) %> <span style="background: rgba(255,255,0,1);"><%= inci %></span> x <%= @potential_list.count(inci) %>
+
+                        <%= image_tag("canada_flag.png", alt: " [Health Canada] ", size: "19") if Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).exists? %>
+                        <%= image_tag("eu_flag.png", alt: " [EU] ", size: "19") if CosingAnnexIi.where(chemical_name_inn: inci).exists? %>
+                        <%= image_tag("comedogenic_icon.png", alt: " [Comedogenic List] ", size: "19") if Comedogeniclist.where(ingredient: inci).exists? %>
+                        </div>
+                      
+                        <div class="ingredient_detail">
+                          <div class="well">
+                            
+                            <div class="title">Function:</div>
+                                <div class="function">
+                                    <% if Cosing.where(INCI_name: inci).pluck(:Function).nil? or Cosing.where(INCI_name: inci).pluck(:Function).blank? %>
+                                        Unknown
+                                    <% else %>
+                                        <%= Cosing.where(INCI_name: inci).pluck(:Function).first %>
+                                    <% end %>
+                                </div>
+                            </br>
+
+                          
+                            <!-- % of users who share same skin type and this breakout-causing ingredient in Table potential_products -->
+                            
+                            <div class="title">Skin Type: </div>
+                                <div class="stats_skin_type">
+                                    <% if Profile.where(user_id: current_user).pluck(:skin_type).first.nil? or Profile.where(user_id: current_user).pluck(:skin_type).first.blank? %>
+                                        Incomplete skin profile. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter SKIN TYPE.
+                                    <% else %>
+                                        <% @users_skin_type_ing = 0 %>
+                                        <% @users_skin_type = Profile.where(skin_type: Profile.where(user_id: current_user).pluck(:skin_type).first).pluck(:user_id) %>
+                                        <% @users_skin_type.each do |p| %>
+                                        <% @users_skin_type_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
+                                        <% end %>
+                                        <% @percent_skin_type = @users_skin_type_ing.to_f / @users_skin_type.count * 100.0 %> 
+                                        Caused breakout in <%= @percent_skin_type.round(0) %>% of users who share your skin type <%= Profile.where(user_id: current_user).pluck(:skin_type).first %>
+                                    <% end %>
+                                </div>
+                            </br>
+                            <!-- % of users who share same ethnicity and this breakout-causing ingredient in Table potential_products -->
+                            
+                            <div class="title">Ethninicty: </div>
+                                <div class="stats_ethnicity">
+                                    <% if Profile.where(user_id: current_user).pluck(:ethnicity).first.nil? or Profile.where(user_id: current_user).pluck(:ethnicity).first.blank? %>
+                                        Incomplete skin profile. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter ETHNICITY.
+                                    <% else %>
+                                        <% @users_ethnicity_ing = 0 %>
+                                        <% @users_ethnicity = Profile.where(ethnicity: Profile.where(user_id: current_user).pluck(:ethnicity).first).pluck(:user_id) %>
+                                        <% @users_ethnicity.each do |p| %>
+                                        <% @users_ethnicity_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
+                                        <% end %>
+                                        <% @percent_ethnicity = @users_ethnicity_ing.to_f / @users_ethnicity.count * 100.0 %> 
+                                        Caused breakout in <%= @percent_ethnicity.round(0) %>% of users who share your ethnicity <%= Profile.where(user_id: current_user).pluck(:ethnicity).first %>
+                                    <% end %>
+                                </div>
+                            </br>
+                            <!-- % of users who share same age group and this breakout-causing ingredient in Table potential_products -->
+                            
+                            <div class="title">Age Group: </div>
+                                <div class="stats_age">
+                                    <% if Profile.where(user_id: current_user).pluck(:age).first.nil? or Profile.where(user_id: current_user).pluck(:age).first.blank? %>
+                                        Incomplete skin profile. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter AGE.
+                                    <% else %>
+                                        <% @users_age_ing = 0 %>
+                                        <% @users_age = Profile.where(age: Profile.where(user_id: current_user).pluck(:age).first).pluck(:user_id) %>
+                                        <% @users_age.each do |p| %>
+                                        <% @users_age_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
+                                        <% end %>
+                                        <% @percent_age = @users_age_ing.to_f / @users_age.count * 100.0 %> 
+                                        Caused breakout in <%= @percent_age.round(0) %>% of users in your age group <%= Profile.where(user_id: current_user).pluck(:age).first %>
+                                    <% end %>
+                                </div>
+                            </br>
+                              <div class="chart_container_a">
+                                <p>Overall Hazard</p>
+                                <!-- width and height set in recommend.css -->
+                                <canvas id="chart_skin_type_<%= i %>"></canvas>
+                                <canvas id="chart_ethnicity_<%= i %>"></canvas>
+                                <canvas id="chart_age_<%= i %>"></canvas>
+                            </div>
+                            <div style="clear: both;"></div>
+                            <script>
+var skin_type_data = {
+       labels: [
+            1,
+            2
+           ],
+        datasets: [
+            {
+                data: [ 
+                <%= @percent_skin_type %>,
+                100 - <%= @percent_skin_type %>
+                ],
+                backgroundColor: [
+               '#ff6384',
+                'rgba(142,142,142,1)'
+                ]
+            }]
+    };
+    var ethnicity_data = {
+       labels: [
+            1,
+            2
+           ],
+        datasets: [
+            {
+                data: [
+            100 - 70,
+            70
+                ],
+                backgroundColor: [
+                '#ff6384',
+                'rgba(142,142,142,1)'
+                ]
+            }]
+    };
+
+   var age_data = {
+       labels: [
+            1,
+            2
+           ],
+        datasets: [
+            {
+                data: [
+            <%= @percent_age %>,
+            100 - <%= @percent_age %>
+                    ],
+                    backgroundColor: [
+               '#ff6384',
+                'rgba(142,142,142,1)'
+                    ]
+            }]
+    };
+     // always show tooltip
+    Chart.pluginService.register({
+            beforeRender: function (chart) {
+                if (chart.config.options.showAllTooltips) {
+                    // create an array of tooltips
+                    // we can't use the chart tooltip because there is only one tooltip per chart
+                    chart.pluginTooltips = [];
+                    chart.config.data.datasets.forEach(function (dataset, i) {
+                        chart.getDatasetMeta(i).data.forEach(function (sector, j) {
+                            chart.pluginTooltips.push(new Chart.Tooltip({
+                                _chart: chart.chart,
+                                _chartInstance: chart,
+                                _data: chart.data,
+                                _options: chart.options.tooltips,
+                                _active: [sector]
+                            }, chart));
+                        });
+                    });
+
+                    // turn off normal tooltips
+                    chart.options.tooltips.enabled = false;
+                }
+            },
+            afterDraw: function (chart, easing) {
+                if (chart.config.options.showAllTooltips) {
+                    // we don't want the permanent tooltips to animate, so don't do anything till the animation runs atleast once
+                    if (!chart.allTooltipsOnce) {
+                        if (easing !== 1)
+                            return;
+                        chart.allTooltipsOnce = true;
+                    }
+
+                    // turn on tooltips
+                    chart.options.tooltips.enabled = true;
+                    Chart.helpers.each(chart.pluginTooltips, function (tooltip) {
+                        tooltip.initialize();
+                        tooltip.update();
+                        // we don't actually need this since we are not animating tooltips
+                        tooltip.pivot();
+                        tooltip.transition(easing).draw();
+                    });
+                    chart.options.tooltips.enabled = false;
+                }
+            }
+        })
+    // Global Configuration
+
+    // Get the context of the canvas element we want to select
+    
+
+    var ctx = document.getElementById("chart_skin_type_<%= i %>").getContext("2d");
+    var myPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: skin_type_data,
+        options: {
+            animation: false,
+            responsive: false,
+            maintainAspectRatio: false,
+            cutoutPercentage: 70,
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+                text: 'Skin Type',
+                fontSize: 24,
+                position: 'top'
+            },
+           showAllTooltips: false,
+           tooltips: {
+              enabled: false
+            }
+        }
+    });
+
+    var ctx = document.getElementById("chart_ethnicity_<%= i %>").getContext("2d");
+    var myPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: ethnicity_data,
+        options: {
+            animation: false,
+            responsive: false,
+            maintainAspectRatio: false,
+            cutoutPercentage: 70,
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+                text: 'Ethnicity',
+                fontSize: 24,
+                position: 'top'
+            },
+           showAllTooltips: false,
+           tooltips: {
+              enabled: false
+            }
+        }
+    });
+
+    var ctx = document.getElementById("chart_age_<%= i %>").getContext("2d");
+    var myPieChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: age_data,
+        options: {
+            animation: false,
+            responsive: false,
+            maintainAspectRatio: false,
+            cutoutPercentage: 70,
+            legend: {
+                display: false
+            },
+            title: {
+                display: true,
+                text: 'Age',
+                fontSize: 24,
+                position: 'top'
+            },
+           showAllTooltips: false,
+           tooltips: {
+              enabled: false
+            }
+        }
+    });
+</script>
+                            <p>
+                                <% if Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).exists? %>
+                                <div class="toggle_HC">[ Health Canada's Hotlists ]</br>
+                                    <div class="title">Status (restricted/prohibited):</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:status).first || "N/A" %>
+                                    </br>
+                                    <div class="title">Conditions of Use:</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:conditions_of_use).first || "N/A" %>
+                                    </br>
+                                    <div class="title">Maximum concentration permitted:</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:maximum_concentration_permitted).first || "N/A" %>
+                                    </br>
+                                    <div class="title">Warnings & Cautions:</div> <%= Healthcanadahotlist.where('ingredient = ? OR ingredient_original = ?', inci, inci).pluck(:warnings_and_cautions).first || "N/A" %>
+                                    </br>
+                                </div>
+                            <% end %>
+                            </p>
+                            <p>
+                                <% if CosingAnnexIi.where(chemical_name_inn: inci).exists? %>
+                                <div class="toggle_EU">[ European Union's Prohibited List ]</br>
+                                    <div class="title">Opinions:</div> <%= CosingAnnexIi.where(chemical_name_inn: inci).pluck(:sccs_opinions).first || "N/A"%>
+                                    </br>
+                                    <div class="title">Other directives/regulations:</div> <%= CosingAnnexIi.where(chemical_name_inn: inci).pluck(:other_directives_regulations).first || "N/A" %>
+                                    </br>
+                                </div>
+                            <% end %>
+                            </p>
+                            <p>
+                                <% if Comedogeniclist.where(ingredient: inci).exists? %>
+                                <div class="toggle_comedogenic">[ Comedogenic Cosmetic List ]</br>
+                                    <div class="title">Rating:</div> <%= Comedogeniclist.where(ingredient: inci).pluck(:rating).first || "N/A" %>
+                                    </br>
+                                    <div class="title">Research Evidence: </div>
+                                    <%= "Fulton (1989)" if Comedogeniclist.where(ingredient: inci).pluck(:fulton_1989).first == "TRUE" %>
+                                    <%= "Morris Kwan (1983)" if Comedogeniclist.where(ingredient: inci).pluck(:morris_kwan_1983).first == "TRUE" %>
+                                    <%= "N/A" if Comedogeniclist.where(ingredient: inci).pluck(:morris_kwan_1983).first == "FALSE" and Comedogeniclist.where(ingredient: inci).pluck(:morris_kwan_1983).first == "FALSE" %>
+                                    </br>
+                                </div>
+                                <% end %>
+                            </p>
+                          </div>
+                        </div>
+                        <% end %>
+                <% i+=1 %>
+                    <% end %>
+                </div>
+            </div>   
+        </div> 
+
+<!--testing purposes 
+                ---- b_inci---- </br><br>
+                <%#= @b_inci %><br><br>
+
+                ---- s_inci ---- <br><br>
+                <%#= @s_inci %><br><br>
+                ----- b_inci_no_bracket ----- <br><br>
+                <%#= @b_inci_no_bracket %><br><br>
+
+                ----- s_inci_no_bracket --- <br><br>
+                <%#= @s_inci_no_bracket %> <br><br>
+-->
+
+  <!--<p><%#= submit_tag 'Submit', :class => "btn btn-primary" %></p>-->
+
+        <% end %>  
+    </div>
+</div>
+</div>
+<script>
+$(document).ready(function(){ 
+    // grab active tab id for if logic below
+    $('.next_btn').on('click', function() {
+        // start NProgress bar and loading overlay as soon as button clicked
+        //NProgress.start();  
+        //modal.style.display = "block"; 
+
+        // submit form     
+        $('#form').submit();
+
+        // Nprogress and overlay re-run since page refreshes after form submit and delays with controller action until redirect to recommend page
+        // $('#form').submit(function(){
+        //     $(document).on('page:change', function() {  
+        //        NProgress.start();
+        //        modal.style.display = "block";
+        //    });
+        // });
+    });
+
+    //$(window).bind("pageshow", function() {
+    //    $('#form').reset();
+    //});
+
+            
+    // submit either product OR (brand & category) OR manually entered product
+  
+
+    // at least one ingredient (checkbox) AND at least one dropdown (Select2) or manually entered textbox must be selected for proceed button to appear
+    jQuery('#form').on('change', function () {
+        if (jQuery('input[type=checkbox]:checked').length > 0) {
+            $('#remove').show();
+            $('#add').hide();
+        } else {
+            $('#remove').hide();
+            $('#add').show();
+        }
+        }).trigger('change');
+    });
+
+
+
+
+// page overlay for next page load
+
+// Get the modal
+// var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+//var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+//var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+// $('.next_btn').on('click', function() {
+ //   modal.style.display = "block";
+// });
+
+// When the user clicks on <span> (x), close the modal
+// span.onclick = function() {
+//    modal.style.display = "none";
+//}
+
+// When the user clicks anywhere outside of the modal, close it
+// window.onclick = function(event) {
+//    if (event.target == modal) {
+//        modal.style.display = "none";
+//    }
+// }   
+
+   
+
+
+
+   
+
+    
+
+
+</script>

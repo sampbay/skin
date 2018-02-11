@@ -78,5 +78,5 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # password reset -> change to custom domain 
-  config.action_mailer.default_url_options = { :host => "localhost:8080" }
+  config.action_mailer.default_url_options = { :host => "cosmedict.com" }
 end

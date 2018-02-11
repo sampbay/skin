@@ -4,27 +4,30 @@
  
 <p style="margin-top:30px;">A product may work wonders for one person but cause breakout in another. Why? Every skin is unique and reacts differently to each ingredient in a cosmetic product.</p>
 
-<p>Some products work, some products don't. Through trial and error, you know which products might break you out but you don't know which ingredients in those products are causing the problem! Cosmedict helps you identify those breakout-causing  ingredients through looking into your past product use. It's that simple.</p>
+<p>Some products work, some products don't. Through trial and error, you know which products might break you out but you don't know which ingredients in those products are causing the problem! Cosmedict helps you identify those breakout-causing  ingredients through looking into your past product use.</p>
 </br>
-<p>We use the following legend to flag any ingredient after each product analysis:</P>
-	<div class="legend">
-	<span style="background: rgba(255,255,0,1);">&nbsp;&nbsp;&nbsp;</span>: Breakout-causing List | 
-	<%= image_tag("canada_flag.png", alt: " [Health Canada] ", size: "19") %>: HealthCanada Hotlist | <%= image_tag("eu_flag.png", alt: " [EU] ", size: "19") %>: EU Prohibited List | <%= image_tag("comedogenic_icon.png", alt: " [Comedogenic List] ", size: "19") %>: Comedogenic List
-	</div> 
+<p>We provide 4 methods to analyze your skincare products:</P>
+	
 
-<h4>[ Breakout-causing List ]</h4>
-<p>Breakout-causing List is a list of ingredients that may potentially cause you to break out. In our product analysis, we compare every ingredient in the products you’ve tried with success with every ingredient in the products that broke you out. Our algorithm pulls out a portion of ingredients in the breakout product list, which are not present in the safe product list.</p></br>
+<h4><span style="color: rgba(220,153,38,1)">Method 1: Breakout-causing List</span></h4>
+<p>Breakout-causing List is a list of ingredients that may potentially cause you to break out. We compare every ingredient in the cosmetic products you’ve tried with success with every ingredient in the products that broke you out. Our algorithm pulls out a portion of ingredients in the breakout product list, which are not present in the safe product list.</p></br>
 
 
-<h4>[ Health Canada Hotlist ]</h4>
-<p>Health Canada (HC)’s Cosmetic Ingredient Hotlist is a list of ingredients that are prohibited or restricted for use in cosmetic products. Health Canada, the department of the government of Canada responsible for helping Canadians maintain and improve health, reviews latest scientific evidence on the safety of ingredients and updates the Hotlist a few times yearly. Cosmetic manufacturers, by law, must disclose all cosmetic ingredients to Health Canada. “Prohibited” ingredients should not be present in cosmetic products. “Restricted” ingredients are permitted only if the conditions of use/cautions are appropriately stated. The Hotlist makes sure that all cosmetic products approved for sale in Canada are safe, have specific directions for safe use, and contain only ingredients that serve a cosmetic purpose.</p></br>
+<h4><span style="color: rgba(220,153,38,1)">Method 2: User Statistics (Skin Type, Ethnicity, Age)</span></h4>
+<p>Chances are that people who share the same or similar skin type, ethnicity, or age as yours react to cosmetic ingredients in a similar manner. Not always true, but makes sense. For the example ingredient below, it caused breakout in 33% of users with SENSITIVE skin, in 33% of ASIAN users, in 50% of users in age group 20-29, and in 6% of users who share all three criteria with you.</p>
+<div class="stats_ex" style="text-align: center"><%= image_tag("stats", alt: "Alert") %></div>
+</br>
 
 
-<h4>[ EU Prohibited List ]</h4>
+<h4><span style="color: rgba(220,153,38,1)">Method 3: Banned/Restricted List</span></h4>
+<h5>[ Health Canada Hotlist ]</h5>
+<p>Health Canada’s Cosmetic Ingredient Hotlist is a list of ingredients that are prohibited or restricted for use in cosmetic products. Health Canada, the department of the government of Canada responsible for helping Canadians maintain and improve health, reviews latest scientific evidence on the safety of ingredients and updates the Hotlist a few times yearly. Cosmetic manufacturers, by law, must disclose all cosmetic ingredients to Health Canada. “Prohibited” ingredients should not be present in cosmetic products. “Restricted” ingredients are permitted only if the conditions of use/cautions are appropriately stated. The Hotlist makes sure that all cosmetic products approved for sale in Canada are safe, have specific directions for safe use, and contain only ingredients that serve a cosmetic purpose.</p>
+
+<h5>[ EU Prohibited List ]</h5>
 <p>The European Union (EU)’s List of Substances Prohibited in Cosmetic Products is a list of cosmetic ingredients banned for use in cosmetic products due to known or suspected risks in causing cancer, genetic mutation, reproductive harm or birth defects. As of September 2017, the list contains more than 1,300 ingredients prohibited in cosmetic products. Similar to Health Canada, the EU requires cosmetic manufacturers to submit safety data for their products before they get approved for sale.</p></br>
 
 
-<h4>[ Comedogenic List ]</h4>
+<h4><span style="color: rgba(220,153,38,1)">Method 4: Comedogenic List</span></h4>
 <p>Comedogenic simply means pore-clogging. The most common test for comedogenicity is the rabbit ear model where substances are applied onto the inner ear of a rabbit to see any clogged pores. This method was widely used in the 1980s for testing cosmetic products. Although most of these comedogenicity research studies were done decades ago and some flaws in research methods have been found, comedogenic ingredients found through JE Fulton (1989) and WE Morris & SC Kwan (1983) are still used nowadays to evaluate potentially breakout-causing products.</p></br>
 
 
@@ -32,7 +35,7 @@
 
 <p style="font-size:16px;">Why does Cosmedict not include a prohibited/restricted list for the United States (US) for analysis?</p>
 
-<p>>>> In fact, the US FDA (Food and Drug Administration) has a prohibited/restricted ingredient list but it has only 11 ingredients (See HERE) – not so useful. Unlike Health Canada and the European Union, the US FDA does not require cosmetic manufactures to submit safety data on their products and ingredients before they go on the market.</p>
+<p>>>> In fact, the US FDA (Food and Drug Administration) has a prohibited/restricted ingredient list but it has only 11 ingredients – not so useful. Unlike Health Canada and the European Union, the US FDA does not require cosmetic manufactures to submit safety data on their products and ingredients before they go on the market.</p>
 
 <p style="font-size:16px;">Why does Cosmedict have prohibited/restricted lists for Canada and the European Union only?</p>
 

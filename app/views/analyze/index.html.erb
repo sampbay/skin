@@ -1,9 +1,9 @@
 <div class="horizontal_line"></div>
 <div class="row">
-    <h3>Build Blacklist</h3>
+    <h3>Analyze Product</h3>
     <div class="step123">
         <div class="step123_each">
-            <span class="no_line_break">[ 1: Analyze Product ]</span> 
+            <span class="no_line_break">1: Select Product</span> 
         </div>
         <div class="step123_each">
             <span class="no_line_break">
@@ -11,16 +11,25 @@
             </span>
         </div>
     </div>
+
     <div id="add" style="display:inline-block">
-        <%= link_to recommend_path, class: "next_btn", :disabled => true do %>Add Product To Continue<% end %>
+        <%= link_to recommend_path, class: "next_btn", :disabled => true do %>Select Product To Continue<% end %>
     </div>
-    <div id="remove" style="display:none" class="next_btn">
-        Click Here To Proceed
+    <div id="remove" style="display: none;" class="next_btn">
+        Save & Continue
     </div>
+    <!-- click #remove and disable button -->
+    <div id="wait" style="display: none;">
+        <%= link_to recommend_path, class: "next_btn", :disabled => true do %>Please Wait...<% end %>
+    </div>
+
     <div class="tips">
         >>> Select a product in our product database or add a product and its ingredients manually (if not in our database yet):
     </div>
     <div class="tips"> >>> Select only <span style="text-decoration: underline;">ONE</span> of the following: </div>
+
+
+
 <!--
     <div class="chart_container">
         <canvas id="barChart" width="400" height="400"></canvas>
@@ -34,15 +43,15 @@
 <!-- <button id="myBtn">Open Modal</button> -->
 
 <!-- The Modal -->
-<div id="myModal" class="modal">
+<!-- <div id="myModal" class="modal"> -->
   <!-- Modal content -->
   <!-- <div class="modal-content"> -->
-    <span class="close">&times;</span>
-    <div class="loader_msg">Analysis in action... Please wait...</div>
-    <div class="loader"></div>
+   <!-- <span class="close">&times;</span> -->
+    <!-- <div class="loader_msg">Analysis in action... Please wait...</div> -->
+  <!--   <div class="loader"></div> -->
  <!-- </div>-->
 
-</div>
+
     <div class="results">            
         <%= form_tag(recommend_path, :method => "get", :id => "form") do %>
             <%# params[:list].each do |p| %>
@@ -80,7 +89,6 @@
                 </div>
             </div>
             <br style="clear:left;"/><br />
-        </div> 
 
 <!--testing purposes 
                 ---- b_inci---- </br><br>
@@ -105,8 +113,8 @@ $(document).ready(function(){
     // grab active tab id for if logic below
     $('.next_btn').on('click', function() {
         // start NProgress bar and loading overlay as soon as button clicked
-        NProgress.start();  
-        modal.style.display = "block"; 
+        // NProgress.start();  
+        // modal.style.display = "block"; 
 
         var activeTab = null;
         $('a[data-toggle=tab]').each(function(){
@@ -161,13 +169,20 @@ $(document).ready(function(){
             $('#add').show();
         }
         }).trigger('change');
+
+    // switch button upon clicking
+    $("#remove").click(function() {
+
+        $("#wait").css("display", "block");
+        $("#remove").css("display", "none");
+    });
 });
 
 
 // page overlay for next page load
 
 // Get the modal
-var modal = document.getElementById('myModal');
+// var modal = document.getElementById('myModal');
 
 // Get the button that opens the modal
 //var btn = document.getElementById("myBtn");

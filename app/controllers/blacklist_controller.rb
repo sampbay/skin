@@ -8,13 +8,17 @@ class BlacklistController < ApplicationController
 			@blacklist.save
 			@user_blacklist.save
 		elsif Blacklist.where(user: current_user).exists?
-			@blacklist = Blacklist.find_by(user: current_user)
-			@user_blacklist = UserBlacklist.find_by(user: current_user)
-			@blacklist.update(ingredient: params[:list], updated_at: DateTime.now)
-			@user_blacklist.update(blacklist: @blacklist, updated_at: DateTime.now)
+			if params[:list].blank?
+				@potential_list = Blacklist.where(user: current_user).pluck(:ingredient).flatten
+			else
+				@blacklist = Blacklist.find_by(user: current_user)
+				@user_blacklist = UserBlacklist.find_by(user: current_user)
+				@blacklist.update(ingredient: params[:list], updated_at: DateTime.now)
+				@user_blacklist.update(blacklist: @blacklist, updated_at: DateTime.now)
+			end
 		end
 
-		# temporarily set @potential_list 
+		# list current blacklist ingredients
 		@potential_list = Blacklist.where(user: current_user).pluck(:ingredient).flatten
 	end
 

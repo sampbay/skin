@@ -16,17 +16,29 @@
     </div>
   <% end %>
     <div class="the-basics">
-        <%= f.label :age, "Age:" %><br>
-        <%= f.select :age, [], {}, class: "profile_age" %>
-      </div>
-      <div class="the-basics">
-        <%= f.label :skin_type, "Skin Type:" %><br>
-        <%= f.select :skin_type, [], {}, class: "profile_skin_type" %>
-      </div>
-      <div class="the-basics">
-        <%= f.label :ethnicity, "Ethnicity:" %><br>
-        <%= f.select :ethnicity, [], {}, class: "profile_ethnicity" %>
-      </div>
+      <%= f.label :age, "Age:" %><br>
+      <% if Profile.where(user_id: current_user).pluck(:age).first.present? %>
+      <%= f.select :age, [Profile.where(user_id: current_user).pluck(:age).first], {}, class: "profile_age" %>
+      <% else %>
+      <%= f.select :age, [], {}, class: "profile_age" %>
+      <% end %>
+    </div>
+    <div class="the-basics">
+      <%= f.label :skin_type, "Skin Type:" %><br>
+      <% if Profile.where(user_id: current_user).pluck(:skin_type).first.present? %>
+      <%= f.select :skin_type, [Profile.where(user_id: current_user).pluck(:skin_type).first], {}, class: "profile_skin_type" %>
+      <% else %>
+      <%= f.select :skin_type, [], {}, class: "profile_skin_type" %>
+      <% end %>
+    </div>
+    <div class="the-basics">
+      <%= f.label :ethnicity, "Ethnicity:" %><br>
+      <% if Profile.where(user_id: current_user).pluck(:ethnicity).first.present? %>
+      <%= f.select :ethnicity, [Profile.where(user_id: current_user).pluck(:ethnicity).first], {}, class: "profile_ethnicity" %>
+      <% else %>
+      <%= f.select :ethnicity, [], {}, class: "profile_ethnicity" %>
+      <% end %>
+    </div>
   <p>
     <%= f.submit "Save Changes", class: "submit_btn" %>
   </p>

@@ -9,7 +9,6 @@
 <%= form_for @breakout_product_manual, url: breakout_product_manuals_path do |f| %>
 <p>
     <div class="the-basics">
-    
     <%= f.label :brand, "Brand: " %>
     <%= f.text_field :brand, class: 'form-control', :placeholder => "Brand" %></br>
         
@@ -18,10 +17,9 @@
       
     <%= f.label :product_type, "Select Product Category: " %>
     <%= f.select :product_type, [], {}, class: "product_type_dropdown" %></br></br>
-    
-    <%= f.label :ingredients, "Ingredients (separated by one comma and one character space ', '): " %>
-    <%= f.text_area :ingredients, class: 'form-control', :placeholder => "Enter Ingredients" %></br>
 
+    <%= f.label :ingredients do %>Ingredients: </br><span style="color: rgba(255,0,0,1)">Note: Separate each ingredient by one comma and one space ', '. Otherwise two ingredients will be saved as one. For example, enter "dimethicone, glycerin" not "dimethicone,glycerin".</span><% end %>
+    <%= f.text_area :ingredients, class: 'form-control', :placeholder => "Enter Ingredients" %></br>
    </div>
   </p>
 
