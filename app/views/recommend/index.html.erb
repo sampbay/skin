@@ -177,11 +177,11 @@
                                     <canvas height="140px" id="chart_skin_type_<%= i %>"></canvas>
                                 </div>
                                 <!-- @media mobile view set in recommend.css -->
-                                <div class="chart_inner_mobile">
+                                <div class="chart_inner">
                                     <div class="chart_inner_text"><%= @percent_ethnicity.blank? ? 'N/A' : @percent_ethnicity.round(0) %>%</div>
                                     <canvas height="140px" id="chart_ethnicity_<%= i %>"></canvas>
                                 </div>
-                                <div class="chart_inner">
+                                <div class="chart_inner_mobile">
                                     <div class="chart_inner_text"><%= @percent_age.blank? ? 'N/A' : @percent_age.round(0) %>%</div>
                                     <canvas height="140px" id="chart_age_<%= i %>"></canvas>
                                 </div>

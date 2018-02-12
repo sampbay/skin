@@ -161,4 +161,6 @@
   .chart_inner_mobile {clear:both; float: left;}
   .chart_container_donut { width: 100%; float: left;}
   .details_container {width: 100%;}
+  .chart_container_donut canvas {margin-left: -100px;}
+  .chart_inner_text {left: 40px;}
 }

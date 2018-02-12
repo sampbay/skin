@@ -728,11 +728,15 @@ h3 {
   margin-bottom: 20px;
 }
 
+.stats_ex img {
+  max-width: 100%;
+}
+
 // mobile device smaller screen
 @media only screen and (max-width: 768px) { 
   .step123_each {font-size: 15px;}
   .step123 {margin: 10px 0 17px 0;}
-  .faves_each {float:left; display: inline-block; margin-bottom: 15px; width: 175px;}
+  .faves_each {float:left; display: inline-block; margin-bottom: 15px; width: 160px;}
   .product_img {width: 150px; height: 150px; text-align: center; line-height: 94px; display: inline-block; border: 2px dashed rgba(1,1,1,1);}
   .faves_each_text {height: 80px;}
 }
