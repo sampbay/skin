@@ -70,7 +70,7 @@
                                     <!-- <div class="title">Skin Type: </div> -->
                                     <div class="stats_skin_type">
                                         <% if Profile.where(user_id: current_user).pluck(:skin_type).first.nil? or Profile.where(user_id: current_user).pluck(:skin_type).first.blank? %>
-                                            <%= image_tag("comedogenic_icon.png", alt: "Alert", size: "19") %> Incomplete skin profile. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter SKIN TYPE.
+                                            <%= image_tag("comedogenic_icon.png", alt: "Alert", size: "19") %> Incomplete skin profile (<%= link_to current_user do %><span style="color:rgba(255,0,0,1);">Add</span><% end %> SKIN TYPE).
                                         <% else %>
                                             <% @users_skin_type_ing = 0 %>
                                             <% @users_skin_type = Profile.where(skin_type: Profile.where(user_id: current_user).pluck(:skin_type).first).pluck(:user_id) %>
@@ -87,7 +87,7 @@
                             
                                     <div class="stats_ethnicity">
                                         <% if Profile.where(user_id: current_user).pluck(:ethnicity).first.nil? or Profile.where(user_id: current_user).pluck(:ethnicity).first.blank? %>
-                                            <%= image_tag("comedogenic_icon.png", alt: "Alert", size: "19") %> Incomplete skin profile. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter ETHNICITY.
+                                            <%= image_tag("comedogenic_icon.png", alt: "Alert", size: "19") %> Incomplete skin profile (<%= link_to current_user do %><span style="color:rgba(255,0,0,1);">Add</span><% end %> ETHNICITY).
                                         <% else %>
                                             <% @users_ethnicity_ing = 0 %>
                                             <% @users_ethnicity = Profile.where(ethnicity: Profile.where(user_id: current_user).pluck(:ethnicity).first).pluck(:user_id) %>
@@ -104,7 +104,7 @@
                                     <!-- <div class="title">Age Group: </div> -->
                                     <div class="stats_age">
                                         <% if Profile.where(user_id: current_user).pluck(:age).first.nil? or Profile.where(user_id: current_user).pluck(:age).first.blank? %>
-                                            <%= image_tag("comedogenic_icon.png", alt: "Alert", size: "19") %> Incomplete skin profile. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter AGE.
+                                            <%= image_tag("comedogenic_icon.png", alt: "Alert", size: "19") %> Incomplete skin profile (<%= link_to current_user do %><span style="color:rgba(255,0,0,1);">Add</span><% end %> AGE).
                                         <% else %>
                                             <% @users_age_ing = 0 %>
                                             <% @users_age = Profile.where(age: Profile.where(user_id: current_user).pluck(:age).first).pluck(:user_id) %>

@@ -170,12 +170,17 @@ $(document).ready(function(){
         }
         }).trigger('change');
 
-    // switch button upon clicking
-    $("#remove").click(function() {
-
+    // switch button upon clicking (both web and mobile)
+    $("#remove").on('click', function() {
         $("#wait").css("display", "block");
         $("#remove").css("display", "none");
     });
+});
+
+// pressing back button removes #wait loading button
+$(window).bind("pageshow", function() {
+    $("#wait").css("display", "none");
+    $("#add").css("display", "block");
 });
 
 

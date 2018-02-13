@@ -210,13 +210,17 @@
 
 <script>
 $(document).ready(function(){ 
-	$("#remove").click(function() {
-
+	$("#remove").on('click', function() {
 	  	$("#wait").css("display", "block");
 	  	$("#remove").css("display", "none");
 	});
 });
 
+// pressing back button removes #wait loading button
+$(window).bind("pageshow", function() {
+    $("#wait").css("display", "none");
+    $("#add").css("display", "block");
+});
 
 /////$(document).ready(function(){ 
     // grab active tab id for if logic below
