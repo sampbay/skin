@@ -32,12 +32,12 @@
 
 
     <div class="results">            
-        <%= form_tag(blacklist_path, :method => "get", :id => "form") do %>
+        <%= form_tag(blacklist_path, :method => "post", :id => "form") do %>
             <div class="tips"><span style="color:rgba(255,0,0,1); font-size: 15px;"><%= @potential_list.count %></span> potentially breakout-causing ingredient(s) found. <span style="color:rgba(255,0,0,1); font-size: 15px;"><%= Blacklist.where(user: current_user).pluck(:ingredient).flatten.any? ? Blacklist.where(user: current_user).pluck(:ingredient).flatten.count : 0 %></span> ingredient(s) currently in your Blacklist (pre-selected below).
             </div>
-            <div class="tips"> >>> <span style="font-size: 18px">How to interpret this list:</span> our algorithm pulls out all the ingredients in your breakout product list, which are not present in your safe product list. Use Country-specific Banned/Restricted List, Comedogenicity, and Stats as additional info to select ingredients to save in your blacklist. Find out more on <%= link_to how_it_works_path do %><span style="color:rgba(255,0,0,1);">How It Works</span><% end %> page.</div>
-            <div class="tips"> >>> <span style="font-size: 18px">Is the list too long?</span> Try adding more safe products or remove any products you are uncertain about on the previous page.</div>
-            <div class="tips"> >>> <span style="font-size: 18px">Stats not useful?</span> Invite your friends - stats get more accurate as the number of users grows.</div>
+            <div class="tips"><span style="font-size: 18px">How to interpret this list:</span></br>Our algorithm pulls out all the ingredients in your breakout product list, which are not present in your safe product list. Use Country-specific Banned/Restricted List, Comedogenicity, and Stats as additional info to select ingredients to save in your blacklist. Find out more on <%= link_to how_it_works_path do %><span style="color:rgba(255,0,0,1);">How It Works</span><% end %> page.</div>
+            <div class="tips"><span style="font-size: 18px">Is the list too long?</span></br>Try adding more safe products or remove any products you are uncertain about on the previous page.</div>
+            <div class="tips"><span style="font-size: 18px">Stats not useful?</span></br>Invite your friends - stats get more accurate as the number of users grows.</div>
             
              <!-- alert if any of age, ethnicity, skin type missing in skin profile -->
             <div class="chart_container_alert">
