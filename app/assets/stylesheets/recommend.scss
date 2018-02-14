@@ -105,8 +105,11 @@
 	float: left;
 }
 
-.stats_skin_type, .stats_ethnicity, .stats_age {
+.chart_container_alert {
 	text-align: center;
+	background: rgba(255,153,38,0.5);
+	padding: 3px;
+	margin: 10px 0 10px 0;
 }
 
 .chart_inner {

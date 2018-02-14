@@ -39,7 +39,13 @@
             <div class="tips"> >>> <span style="font-size: 18px">Is the list too long?</span> Try adding more safe products or remove any products you are uncertain about on the previous page.</div>
             <div class="tips"> >>> <span style="font-size: 18px">Stats not useful?</span> Invite your friends - stats get more accurate as the number of users grows.</div>
             
-          
+             <!-- alert if any of age, ethnicity, skin type missing in skin profile -->
+            <div class="chart_container_alert">
+                <% if Profile.where(user_id: current_user).pluck(:skin_type).first.nil? or Profile.where(user_id: current_user).pluck(:skin_type).first.blank? or Profile.where(user_id: current_user).pluck(:ethnicity).first.nil? or Profile.where(user_id: current_user).pluck(:ethnicity).first.blank? or Profile.where(user_id: current_user).pluck(:age).first.nil? or Profile.where(user_id: current_user).pluck(:age).first.blank? %>
+                    <%= image_tag("comedogenic_icon.png", alt: "Alert", size: "19") %> Stats inaccurate due to incomplete skin profile (<%= link_to current_user do %><span style="color:rgba(255,0,0,1);">Click to Edit</span><% end %>).
+                <% end %>
+            </div>
+
             <!-- <div class="legend">
                 <span style="background: rgba(255,255,0,1);">&nbsp;&nbsp;&nbsp;</span>:Ingredients from Analysis | <#%= image_tag("canada_flag.png", alt: " [Health Canada] ", size: "19") %>:HC Hotlist | <#%= image_tag("eu_flag.png", alt: " [EU] ", size: "19") %>:EU Prohibited | <#%= image_tag("comedogenic_icon.png", alt: " [Comedogenic List] ", size: "19") %>:Comedogenic | <#%= link_to how_it_works_path do %>How It Works<#% end %>
             </div>  -->
@@ -50,6 +56,29 @@
                     <% i=0 %>
                     <!-- downcase and strip b/c @potential_product is already downcased and stripped -->
                     <% @potential_list.uniq.each do |inci| %>
+
+                        <!-- % of users who share same skin type/ethnicity/age and this breakout-causing ingredient in Table potential_products -->
+                        <% @users_skin_type_ing = 0 %>
+                        <% @users_skin_type = Profile.where(skin_type: Profile.where(user_id: current_user).pluck(:skin_type).first).pluck(:user_id) %>
+                        <% @users_skin_type.each do |p| %>
+                        <% @users_skin_type_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
+                        <% end %>
+                        <% @percent_skin_type = @users_skin_type_ing.to_f / @users_skin_type.count * 100.0 %> 
+
+                        <% @users_ethnicity_ing = 0 %>
+                        <% @users_ethnicity = Profile.where(ethnicity: Profile.where(user_id: current_user).pluck(:ethnicity).first).pluck(:user_id) %>
+                        <% @users_ethnicity.each do |p| %>
+                        <% @users_ethnicity_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
+                        <% end %>
+                        <% @percent_ethnicity = @users_ethnicity_ing.to_f / @users_ethnicity.count * 100.0 %> 
+
+                        <% @users_age_ing = 0 %>
+                        <% @users_age = Profile.where(age: Profile.where(user_id: current_user).pluck(:age).first).pluck(:user_id) %>
+                        <% @users_age.each do |p| %>
+                        <% @users_age_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
+                        <% end %>
+                        <% @percent_age = @users_age_ing.to_f / @users_age.count * 100.0 %> 
+
 
                         <% unless @potential_list.blank? %>
                         <div class="ingredient_title"><%= check_box_tag "list[]", inci, Blacklist.where(user: current_user).pluck(:ingredient).flatten.include?(inci) %> <%= inci %> x <%= @potential_list.count(inci) %>
@@ -96,62 +125,6 @@
                                     </div>
                             </div>
                             <div class="chart_container_donut">
-                                <!-- <div class="title">Stats:</div> -->
-
-                                <div class="chart_container_alert">
-                                    <!-- % of users who share same skin type and this breakout-causing ingredient in Table potential_products -->
-                            
-                                    <!-- <div class="title">Skin Type: </div> -->
-                                    <div class="stats_skin_type">
-                                        <% if Profile.where(user_id: current_user).pluck(:skin_type).first.nil? or Profile.where(user_id: current_user).pluck(:skin_type).first.blank? %>
-                                            <%= image_tag("comedogenic_icon.png", alt: "Alert", size: "19") %> Incomplete skin profile. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter SKIN TYPE.
-                                        <% else %>
-                                            <% @users_skin_type_ing = 0 %>
-                                            <% @users_skin_type = Profile.where(skin_type: Profile.where(user_id: current_user).pluck(:skin_type).first).pluck(:user_id) %>
-                                            <% @users_skin_type.each do |p| %>
-                                            <% @users_skin_type_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
-                                            <% end %>
-                                            <% @percent_skin_type = @users_skin_type_ing.to_f / @users_skin_type.count * 100.0 %> 
-                                            <!-- Caused breakout in <#%= @percent_skin_type.round(0) %>% of users who share your skin type <#%= Profile.where(user_id: current_user).pluck(:skin_type).first %> -->
-                                        <% end %>
-                                    </div>
-                                    
-                                    <!-- % of users who share same ethnicity and this breakout-causing ingredient in Table potential_products -->
-                            
-                            
-                                    <div class="stats_ethnicity">
-                                        <% if Profile.where(user_id: current_user).pluck(:ethnicity).first.nil? or Profile.where(user_id: current_user).pluck(:ethnicity).first.blank? %>
-                                            <%= image_tag("comedogenic_icon.png", alt: "Alert", size: "19") %> Incomplete skin profile. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter ETHNICITY.
-                                        <% else %>
-                                            <% @users_ethnicity_ing = 0 %>
-                                            <% @users_ethnicity = Profile.where(ethnicity: Profile.where(user_id: current_user).pluck(:ethnicity).first).pluck(:user_id) %>
-                                            <% @users_ethnicity.each do |p| %>
-                                            <% @users_ethnicity_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
-                                            <% end %>
-                                            <% @percent_ethnicity = @users_ethnicity_ing.to_f / @users_ethnicity.count * 100.0 %> 
-                                            <!-- Caused breakout in <#%= @percent_ethnicity.round(0) %>% of users who share your ethnicity <#%= Profile.where(user_id: current_user).pluck(:ethnicity).first %> -->
-                                        <% end %>
-                                    </div>
-                                    
-                                    <!-- % of users who share same age group and this breakout-causing ingredient in Table potential_products -->
-                            
-                                    <!-- <div class="title">Age Group: </div> -->
-                                    <div class="stats_age">
-                                        <% if Profile.where(user_id: current_user).pluck(:age).first.nil? or Profile.where(user_id: current_user).pluck(:age).first.blank? %>
-                                            <%= image_tag("comedogenic_icon.png", alt: "Alert", size: "19") %> Incomplete skin profile. Click <%= link_to current_user do %><span style="color:rgba(255,0,0,1);">HERE</span><% end %> to enter AGE.
-                                        <% else %>
-                                            <% @users_age_ing = 0 %>
-                                            <% @users_age = Profile.where(age: Profile.where(user_id: current_user).pluck(:age).first).pluck(:user_id) %>
-                                            <% @users_age.each do |p| %>
-                                            <% @users_age_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
-                                            <% end %>
-                                            <% @percent_age = @users_age_ing.to_f / @users_age.count * 100.0 %> 
-                                            <!-- Caused breakout in <#%= @percent_age.round(0) %>% of users in your age group <#%= Profile.where(user_id: current_user).pluck(:age).first %> -->
-                                        <% end %>
-                                    </div>
-                                    
-                                </div>
-
 
                                 <!-- width and height set in recommend.css -->
                                 <div class="chart_inner">
