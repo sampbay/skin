@@ -1,4 +1,10 @@
 <div class="horizontal_line"></div>
+
+<!-- runs until js fully loads -->
+<div class="modal"></div>
+<div class="loader_msg">loading...</div>
+<div class="loader"></div>
+
 <div class="row">
     <h3>Analyze Product</h3>
     <div class="step123">
@@ -65,13 +71,13 @@
                 <canvas id="barChart"></canvas>
             </div>
 
-             <!-- alert if any of age, ethnicity, skin type missing in skin profile -->
-            <div class="chart_container_alert">
-                <% if Profile.where(user_id: current_user).pluck(:skin_type).first.nil? or Profile.where(user_id: current_user).pluck(:skin_type).first.blank? or Profile.where(user_id: current_user).pluck(:ethnicity).first.nil? or Profile.where(user_id: current_user).pluck(:ethnicity).first.blank? or Profile.where(user_id: current_user).pluck(:age).first.nil? or Profile.where(user_id: current_user).pluck(:age).first.blank? %>
+            <!-- alert if any of age, ethnicity, skin type missing in skin profile -->
+            <% if Profile.where(user_id: current_user).pluck(:skin_type).first.nil? or Profile.where(user_id: current_user).pluck(:skin_type).first.blank? or Profile.where(user_id: current_user).pluck(:ethnicity).first.nil? or Profile.where(user_id: current_user).pluck(:ethnicity).first.blank? or Profile.where(user_id: current_user).pluck(:age).first.nil? or Profile.where(user_id: current_user).pluck(:age).first.blank? %>
+                <div class="chart_container_alert">
                     <%= image_tag("comedogenic_icon.png", alt: "Alert", size: "19") %> Stats inaccurate due to incomplete skin profile (<%= link_to current_user do %><span style="color:rgba(255,0,0,1);">Click to Edit</span><% end %>).
-                <% end %>
-            </div>
-            
+                </div>
+            <% end %>
+
             <p>
             <div class="ingredients_list">
                 <!-- use i as a counter for data-target & collapse id matching -->
@@ -533,5 +539,11 @@
             }
         }
     });
-
+    
+    // runs until js fully loads
+    $(window).load(function() {
+        $(".loader").fadeOut("slow");
+        $(".loader_msg").fadeOut("slow");
+        $(".modal").fadeOut("slow");
+    });
 </script>

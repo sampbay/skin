@@ -44,8 +44,11 @@
 	<div class="tips">
 		>>> The more products you add, the higher the accuracy of analysis.
 	</div>
+	<div class="tips">
+		>>> A maximum number of products you can add per safe or breakout products is 10. Adding too many will break the website!
+	</div>
 	<% if @safe_product.empty? and @breakout_product.empty? and @safe_product_manual.empty? and @breakout_product_manual.empty? %></br>
-		<div class="tips">Please add more products you want to analyze!
+		<div class="chart_container_alert"><%= image_tag("comedogenic_icon.png", alt: "Alert", size: "19") %> Add at least one (1) in each list to continue
 		</div>
 		<div class="product_content"> 	
 			<div class="product_safe">	
@@ -100,22 +103,26 @@
 					<p><h5>&nbsp;Safe Products: </h5></p>
 					<div class="col-md-3">
 						<div class="thumbnail">
-							<%= link_to new_safe_product_path do %>
-								<div class="add_btn">
-									Click To Add By Search
+							<% if (@safe_product.count + @safe_product_manual.count) < 10 %>
+								<%= link_to new_safe_product_path do %><div class="add_btn">Click To Add By Search</div><% end %>
+								
+							<% else %>
+								<div class="disabled_btn"><%= link_to new_safe_product_path :disabled => true do %>Max (10 products) Reached<% end %>
 								</div>
-							<% end %> 
+							<% end %>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="thumbnail">
-							<%= link_to new_safe_product_manual_path do %>
-								<div class="add_btn">
-									Click To Add Manually
+							<% if (@safe_product.count + @safe_product_manual.count) < 10 %>
+								<%= link_to new_safe_product_manual_path do %><div class="add_btn">Click To Add Manually</div><% end %>
+							<% else %>
+								<div class="disabled_btn"><%= link_to new_safe_product_manual_path :disabled => true do %>Max (10 products) Reached<% end %>
 								</div>
-							<% end %> 
+							<% end %>
 						</div>
 					</div>
+					<% if @safe_product.present? %><h5>&nbsp;Added By Search</h5><% end %>
 					<% @safe_product.all.each do |p| %>
 					  <div class="col-md-3">			
 					      <div class="thumbnail">	
@@ -130,6 +137,7 @@
 					  </div>
 					<% end %>
 					<!-- safe_product_manual -->
+					<% if @safe_product_manual.present? %><h5>&nbsp;Added Manually</h5><% end %>
 					<% @safe_product_manual.all.each do |m| %>
 						  <div class="col-md-3">			
 					      <div class="thumbnail">				      
@@ -146,7 +154,7 @@
 				</div>
 			<% elsif @safe_product.empty? or @safe_product_manual.empty? %>
 				<br><br>
-				Your safe product list is empty. Please add safe products!<br>
+				<div class="chart_container_alert">Your safe product list is empty. Please add safe products!<br></div>
 			<% end %> 
 
 			<% if @breakout_product or @breakout_product_manual %>
@@ -154,22 +162,25 @@
 					<p><h5>&nbsp;Breakout Products: </h5></p>
 					<div class="col-md-3">
 						<div class="thumbnail">
-							<%= link_to new_breakout_product_path do %>
-								<div class="add_btn">
-									Click To Add By Search
+							<% if (@breakout_product.count + @breakout_product_manual.count) < 10 %>
+								<%= link_to new_breakout_product_path do %><div class="add_btn">Click To Add By Search</div><% end %>
+							<% else %>
+								<div class="disabled_btn"><%= link_to new_breakout_product_path :disabled => true do %>Max (10 products) Reached<% end %>
 								</div>
-							<% end %> 
+							<% end %>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="thumbnail">
-							<%= link_to new_breakout_product_manual_path do %>
-								<div class="add_btn">
-									Click To Add Manually
-								</div>
+							<% if (@breakout_product.count + @breakout_product_manual.count) < 10 %>
+								<%= link_to new_breakout_product_manual_path do %><div class="add_btn">Click To Add Manualy</div><% end %> 
+							<% else %>
+								<div class="disabled_btn"><%= link_to new_breakout_product_manual_path :disabled => true do %>Max (10 products) Reached<% end %>
+									</div>
 							<% end %> 
 						</div>
 					</div>
+					<% if @breakout_product.present? %><h5>&nbsp;Added By Search</h5><% end %>
 					<% @breakout_product.all.each do |p| %>
 					  <div class="col-md-3">				    
 					      <div class="thumbnail">
@@ -184,6 +195,7 @@
 					  </div>
 					<% end %>
 					<!-- breakout_product_manual -->
+					<% if @breakout_product_manual.present? %><h5>&nbsp;Added Manually</h5><% end %>
 					<% @breakout_product_manual.all.each do |b| %>
 						  <div class="col-md-3">			
 					      <div class="thumbnail">				      
@@ -214,12 +226,6 @@ $(document).ready(function(){
 	  	$("#wait").css("display", "block");
 	  	$("#remove").css("display", "none");
 	});
-});
-
-// pressing back button removes #wait loading button
-$(window).bind("pageshow", function() {
-    $("#wait").css("display", "none");
-    $("#remove").css("display", "block");
 });
 
 /////$(document).ready(function(){ 

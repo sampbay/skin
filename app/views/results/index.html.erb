@@ -1,4 +1,10 @@
 <div class="horizontal_line"></div>
+
+<!-- runs until js fully loads -->
+<div class="modal"></div>
+<div class="loader_msg">loading...</div>
+<div class="loader"></div>
+
 <div class="row">
     <h3>Build Blacklist</h3>
     <div class="step123">
@@ -40,11 +46,11 @@
             <div class="tips"><span style="font-size: 18px">Stats not useful?</span></br>Invite your friends - stats get more accurate as the number of users grows.</div>
             
              <!-- alert if any of age, ethnicity, skin type missing in skin profile -->
-            <div class="chart_container_alert">
-                <% if Profile.where(user_id: current_user).pluck(:skin_type).first.nil? or Profile.where(user_id: current_user).pluck(:skin_type).first.blank? or Profile.where(user_id: current_user).pluck(:ethnicity).first.nil? or Profile.where(user_id: current_user).pluck(:ethnicity).first.blank? or Profile.where(user_id: current_user).pluck(:age).first.nil? or Profile.where(user_id: current_user).pluck(:age).first.blank? %>
+            <% if Profile.where(user_id: current_user).pluck(:skin_type).first.nil? or Profile.where(user_id: current_user).pluck(:skin_type).first.blank? or Profile.where(user_id: current_user).pluck(:ethnicity).first.nil? or Profile.where(user_id: current_user).pluck(:ethnicity).first.blank? or Profile.where(user_id: current_user).pluck(:age).first.nil? or Profile.where(user_id: current_user).pluck(:age).first.blank? %>
+                <div class="chart_container_alert">
                     <%= image_tag("comedogenic_icon.png", alt: "Alert", size: "19") %> Stats inaccurate due to incomplete skin profile (<%= link_to current_user do %><span style="color:rgba(255,0,0,1);">Click to Edit</span><% end %>).
-                <% end %>
-            </div>
+                </div>
+            <% end %>
 
             <!-- <div class="legend">
                 <span style="background: rgba(255,255,0,1);">&nbsp;&nbsp;&nbsp;</span>:Ingredients from Analysis | <#%= image_tag("canada_flag.png", alt: " [Health Canada] ", size: "19") %>:HC Hotlist | <#%= image_tag("eu_flag.png", alt: " [EU] ", size: "19") %>:EU Prohibited | <#%= image_tag("comedogenic_icon.png", alt: " [Comedogenic List] ", size: "19") %>:Comedogenic | <#%= link_to how_it_works_path do %>How It Works<#% end %>
@@ -453,6 +459,12 @@ $(document).ready(function(){
         }).trigger('change');
     });
 
+    // runs until js fully loads
+    $(window).load(function() {
+        $(".loader").fadeOut("slow");
+        $(".loader_msg").fadeOut("slow");
+        $(".modal").fadeOut("slow");
+    });
 // page overlay for next page load
 
 // Get the modal

@@ -79,6 +79,14 @@
 	background-color: rgba(255,255,255,0.5);
 }
 
+.disabled_btn {
+	background-color: rgba(218,218,218,1);
+	text-align: center;
+	padding: 8px;
+	pointer-events: none;
+}	
+
+
 /* override bootstrap */
 .col-md-3 {
 	padding-left: 8px;

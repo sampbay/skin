@@ -41,7 +41,7 @@ get '/results' => 'results#index'
 get '/recommend' => 'recommend#index'
 
 get '/suggest' => 'suggest#index'
-#get '/blacklist' => 'blacklist#index'
+get '/blacklist' => 'blacklist#index'
 match '/blacklist',  to: 'blacklist#index', via: :post
   # autocomplete & search function
 resources :favorites

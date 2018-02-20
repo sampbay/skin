@@ -23,14 +23,21 @@ class BreakoutProductsController < ApplicationController
 		# when it was array: Myproduct.find_by_sql(["UPDATE myproducts SET product_breakout = array_append(product_breakout, ?) WHERE user_id = ?", params[:myproduct][:product_breakout], current_user]);
 		
 
-		@breakout_product = BreakoutProduct.new(breakout_product_params)
-		@user_breakout_product = UserBreakoutProduct.new(user: current_user, breakout_product: @breakout_product)
-		@breakout_product.user = current_user
-		
-		if @breakout_product.save
+		@breakout_product = BreakoutProduct.where(user: current_user)
+		@breakout_product_manual = BreakoutProductManual.where(user: current_user)
 
-			@user_breakout_product.save
-			redirect_to '/myproducts'
+		if (@breakout_product.count + @breakout_product_manual.count) < 10 
+			@breakout_product = BreakoutProduct.new(breakout_product_params)
+			@user_breakout_product = UserBreakoutProduct.new(user: current_user, breakout_product: @breakout_product)
+			@breakout_product.user = current_user
+			
+			if @breakout_product.save
+
+				@user_breakout_product.save
+				redirect_to '/myproducts'
+			else 
+				redirect_to '/myproducts'
+			end
 		else 
 			redirect_to '/myproducts'
 		end

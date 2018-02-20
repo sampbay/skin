@@ -639,9 +639,9 @@ h3 {
 
 /* The Modal (background) */
 .modal {
-    display: none; /* Hidden by default */
+    display: block; /* Visible by default */
     position: fixed; /* Stay in place */
-    z-index: 1001; /* Sit on top */
+    z-index: 100000; /* Sit on top */
     padding-top: 100px; /* Location of the box */
     left: 0;
     top: 0;
@@ -691,6 +691,22 @@ h3 {
   left: 0;
   right: 0;
   margin: auto;
+  z-index: 100001;
+}
+
+.loader_msg {
+  font-size: 18px;
+  color: rgba(255,255,255,1);
+  width: 150px;
+  height: 0px;
+  position: fixed;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  transform: translate(30px, 30px);
+  z-index:100001;
 }
 
 @-webkit-keyframes spin {
@@ -701,20 +717,6 @@ h3 {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
-}
-
-.loader_msg {
-  font-size: 18px;
-  color: rgba(255,255,255,1);
-  width: 400px;
-  height: 30px;
-  position: fixed;
-  top:0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  transform: translate(30px, -60px);
 }
 
 .no_line_break {
