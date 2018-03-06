@@ -3,7 +3,7 @@
     <div class="why_login">
         >>> Why? Creating a profile helps you compare your analyis results with people who have a similar profile as yours!
     </div>
-    <%= form_for @profile, url: profiles_path do |f| %>
+    <%= form_for(@profile) do |f| %>
       <div class="the-basics">
         <%= f.label :age, "Age:" %><br>
         <%= f.select :age, [], {}, class: "profile_age" %>
