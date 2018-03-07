@@ -1,15 +1,15 @@
 class ProfilesController < ApplicationController
-	before_action :require_user, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+	before_action :require_user, only: [:index, :new, :create, :edit, :update, :destroy]
 	before_action :check_profile_presence, only: [:new, :create]
 	#before_action :require_user_profile_exists, only: [:edit, :update, :destroy]
 	#before_action :require_user_profile_nil, only: [:new, :create]
 	def welcome; end
-	def index
-		@profile = Profile.find(current_user.profile)
-		@myproduct = Myproduct.find(current_user.myproducts)
+	#def index
+	#	@profile = Profile.find(current_user.profile)
+	#	@myproduct = Myproduct.find(current_user.myproducts)
 		# @parsed_products = JSON.parse(@profile.products)
-		rescue ActiveRecord::RecordNotFound
-	end	
+	#	rescue ActiveRecord::RecordNotFound
+	#end	
 	#def show
 	#	@profile = Profile.find(params[:id])
 		# show ingredients by ingredients controller
@@ -54,6 +54,6 @@ class ProfilesController < ApplicationController
 	end
 
 	def check_profile_presence
-		redirect_to '/profiles' if Profile.exists?(current_user.profile)
+		redirect_to current_user if Profile.exists?(current_user.profile)
 	end
 end
