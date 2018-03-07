@@ -1,6 +1,6 @@
 <div class="row">
 <h3>Edit Skin Profile</h3>
-<%= form_for @profile do |f| %>
+<%= form_for @profile, url: profile_path(@profile), method: :patch do |f| %>
  
   <% if @profile.errors.any? %>
     <div id="error_explanation">

@@ -1,6 +1,6 @@
 class ProfilesController < ApplicationController
-	#before_action :require_user, only: [:new, :create, :edit, :update, :destroy]
-	#before_action :check_profile_presence, only: [:new, :create]
+	before_action :require_user, only: [:new, :create, :edit, :update, :destroy]
+	before_action :check_profile_presence, only: [:new, :create]
 	#before_action :require_user_profile_exists, only: [:edit, :update, :destroy]
 	#before_action :require_user_profile_nil, only: [:new, :create]
 	def welcome; end
@@ -24,7 +24,7 @@ class ProfilesController < ApplicationController
 		@profile = Profile.new(profile_params)
 		@profile.user = current_user
 		if @profile.save
-			redirect_to 'welcome'
+			redirect_to '/myproducts'
 		else
 			redirect_to 'new'
 		end
@@ -53,7 +53,7 @@ class ProfilesController < ApplicationController
 		params.require(:profile).permit(:age, :skin_type, :ethnicity, :user)
 	end
 
-#	def check_profile_presence
-#		redirect_to current_user if Profile.exists?(current_user.profile)
-#	end
+	def check_profile_presence
+		redirect_to current_user if Profile.exists?(current_user.profile)
+	end
 end
