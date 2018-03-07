@@ -24,7 +24,7 @@ class ProfilesController < ApplicationController
 		@profile = Profile.new(profile_params)
 		@profile.user = current_user
 		if @profile.save
-			redirect_to '/myproducts'
+			redirect_to 'welcome'
 		else
 			redirect_to 'new'
 		end
