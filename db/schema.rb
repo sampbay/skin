@@ -27,19 +27,14 @@ ActiveRecord::Schema.define(version: 20180128194356) do
   add_index "blacklists", ["user_id"], name: "index_blacklists_on_user_id", using: :btree
 
   create_table "breakout_product_manuals", force: :cascade do |t|
-    t.citext   "brand",        null: false
-    t.citext   "product",      null: false
-    t.citext   "ingredients"
     t.integer  "user_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.citext   "product_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "breakout_product_manuals", ["user_id"], name: "index_breakout_product_manuals_on_user_id", using: :btree
 
   create_table "breakout_products", force: :cascade do |t|
-    t.citext   "product",    null: false
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -48,37 +43,26 @@ ActiveRecord::Schema.define(version: 20180128194356) do
   add_index "breakout_products", ["user_id"], name: "index_breakout_products_on_user_id", using: :btree
 
   create_table "comedogeniclists", force: :cascade do |t|
-    t.citext   "ingredient"
-    t.citext   "cas"
-    t.citext   "rating"
-    t.citext   "fulton_1989"
-    t.citext   "morris_kwan_1983"
-    t.datetime "created_at",       default: '2017-10-23 08:38:00', null: false
-    t.datetime "updated_at",       default: '2017-10-23 08:38:00', null: false
+    t.datetime "created_at", default: '2017-10-23 08:38:00', null: false
+    t.datetime "updated_at", default: '2017-10-23 08:38:00', null: false
   end
 
   create_table "cosing_annex_iis", force: :cascade do |t|
     t.integer  "reference_number"
-    t.citext   "chemical_name_inn"
     t.text     "cas_number"
     t.text     "ec_number"
     t.text     "regulation"
     t.text     "regulated_by"
     t.text     "other_directives_regulations"
     t.text     "sccs_opinions"
-    t.citext   "chemical_iupac_name"
-    t.citext   "identified_ingredients_or_substances"
     t.text     "cmr"
     t.datetime "update_date"
-    t.datetime "created_at",                           default: '2017-10-23 08:38:00', null: false
-    t.datetime "updated_at",                           default: '2017-10-23 08:38:00', null: false
+    t.datetime "created_at",                   default: '2017-10-23 08:38:00', null: false
+    t.datetime "updated_at",                   default: '2017-10-23 08:38:00', null: false
   end
 
   create_table "cosings", force: :cascade do |t|
     t.integer  "COSING_Ref_No"
-    t.citext   "INCI_name"
-    t.citext   "INN_name"
-    t.citext   "Ph_Eur_Name"
     t.text     "CAS_No"
     t.text     "EINECS_ELINCS_No"
     t.string   "Chem_IUPAC_Name_Description"
@@ -97,18 +81,14 @@ ActiveRecord::Schema.define(version: 20180128194356) do
   end
 
   create_table "favorites", force: :cascade do |t|
-    t.citext   "product"
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "healthcanadahotlists", id: false, force: :cascade do |t|
-    t.citext   "ingredient"
     t.text     "cas"
-    t.citext   "synonyms"
     t.text     "status"
-    t.citext   "ingredient_original"
     t.text     "conditions_of_use"
     t.text     "maximum_concentration_permitted"
     t.text     "warnings_and_cautions"
@@ -118,7 +98,6 @@ ActiveRecord::Schema.define(version: 20180128194356) do
   end
 
   create_table "ingredients", force: :cascade do |t|
-    t.citext   "name"
     t.string   "name_href"
     t.string   "overall_hazard"
     t.string   "cancer"
@@ -128,13 +107,11 @@ ActiveRecord::Schema.define(version: 20180128194356) do
     t.string   "other_concerns"
     t.string   "animals"
     t.string   "score"
-    t.citext   "synonyms",       default: [],              array: true
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "myproducts", force: :cascade do |t|
-    t.citext   "product",    null: false
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -143,33 +120,23 @@ ActiveRecord::Schema.define(version: 20180128194356) do
   add_index "myproducts", ["user_id"], name: "index_myproducts_on_user_id", using: :btree
 
   create_table "potential_products", force: :cascade do |t|
-    t.citext   "product",    default: [],              array: true
     t.integer  "user_id"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "potential_products", ["user_id"], name: "index_potential_products_on_user_id", using: :btree
 
   create_table "products", force: :cascade do |t|
-    t.citext   "brand"
-    t.citext   "product"
-    t.citext   "product_type"
     t.text     "claims"
-    t.citext   "ingredients"
-    t.datetime "created_at",   default: '2017-10-23 08:38:00', null: false
-    t.datetime "updated_at",   default: '2017-10-23 08:38:00', null: false
-    t.citext   "img"
+    t.datetime "created_at", default: '2017-10-23 08:38:00', null: false
+    t.datetime "updated_at", default: '2017-10-23 08:38:00', null: false
   end
 
   create_table "profiles", force: :cascade do |t|
-    t.citext   "skin_type"
-    t.citext   "ethnicity"
-    t.citext   "age"
-    t.citext   "concerns",   default: [],              array: true
     t.integer  "user_id"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "profiles", ["user_id"], name: "index_profiles_on_user_id", using: :btree
@@ -185,19 +152,14 @@ ActiveRecord::Schema.define(version: 20180128194356) do
   end
 
   create_table "safe_product_manuals", force: :cascade do |t|
-    t.citext   "brand",        null: false
-    t.citext   "product",      null: false
-    t.citext   "ingredients"
     t.integer  "user_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.citext   "product_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "safe_product_manuals", ["user_id"], name: "index_safe_product_manuals_on_user_id", using: :btree
 
   create_table "safe_products", force: :cascade do |t|
-    t.citext   "product",    null: false
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -258,9 +220,6 @@ ActiveRecord::Schema.define(version: 20180128194356) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.citext   "first_name"
-    t.citext   "last_name"
-    t.citext   "email"
     t.string   "password_digest"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
