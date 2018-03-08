@@ -2,7 +2,7 @@ class CreateProfiles < ActiveRecord::Migration
   def change
   	enable_extension 'citext'
     create_table :profiles do |t|
-      t.citext :type
+      t.citext :skin_type
       t.citext :ethnicity
       t.citext :age 
       t.citext :concerns, array: true, default: []

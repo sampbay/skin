@@ -5,6 +5,7 @@ class CreateSafeProductManuals < ActiveRecord::Migration
       t.citext :brand, null: false
       t.citext :product, null: false
       t.citext :ingredients
+      t.citext :product_type
       t.belongs_to :user, index: true
       t.timestamps null: false
     end

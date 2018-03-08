@@ -13,6 +13,7 @@
 			<p>Age: <%= @profile.age %></p>
 			<p>Skin Type: <%= @profile.skin_type %></p>
 			<p>Ethnicity: <%= @profile.ethnicity %></p>
+			<p>Concerns: <%= @profile.concerns.join(', ') %></p>
 		<% elsif @profile == nil %>
 		<p>Your skin profile is empty. Please add your skin profile to compare with other users!</p>
 		</br>

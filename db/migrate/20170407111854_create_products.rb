@@ -7,6 +7,7 @@ class CreateProducts < ActiveRecord::Migration
       t.citext :product_type
       t.text :claims
       t.citext :ingredients
+      t.citext :img
       t.timestamps null: false, default: "now()"
     end
   end
