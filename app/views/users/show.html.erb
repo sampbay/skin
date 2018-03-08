@@ -19,9 +19,9 @@
 		</br>
 		<% end %>
 	</div>
-	<% if @profile == nil %>
-		<%= link_to 'Add Skin Profile', new_profile_path, :class => "submit_btn" %>
-	<% else %>
+	<%# if @profile == nil %>
+		<%#= link_to 'Add Skin Profile', new_profile_path, :class => "submit_btn" %>
+	<%# else %>
 		<%= link_to 'Edit Skin Profile', edit_profile_path(@profile), :class => "submit_btn" %>
-	<% end %>	
+	<%# end %>	
 </div>
