@@ -23,11 +23,9 @@ class ProfilesController < ApplicationController
 	def create
 		@profile = Profile.new(profile_params)
 		@profile.user = User.find(current_user)
-		if @profile.save
+		@profile.save
 			redirect_to '/myproducts'
-		else
-			redirect_to 'new'
-		end
+		
 	end
 	def edit
 		@profile = Profile.find_by(user_id: current_user)
