@@ -21,7 +21,7 @@ class UsersController < ApplicationController
 		#@user = current_user
 		# rescue ActiveRecord::RecordNotFound
 		# Skin Profile - acts as profiles_controller index
-		@profile = Profile.find(current_user.profile)
+		@profile = Profile.find_by(user_id: current_user)
 		
 	end
 
