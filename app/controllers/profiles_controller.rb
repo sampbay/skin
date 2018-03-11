@@ -22,7 +22,7 @@ class ProfilesController < ApplicationController
 	end
 	def create
 		@profile = Profile.new(profile_params)
-		#@profile.user = User.find(current_user)
+		@profile.user = User.find(current_user)
 		if @profile.save
 			redirect_to '/myproducts'
 		else
@@ -50,7 +50,7 @@ class ProfilesController < ApplicationController
 	
 	private
 	def profile_params
-		params.require(:profile).permit(:age, :skin_type, :ethnicity, :user_id, {:concerns => []})
+		params.require(:profile).permit(:age, :skin_type, :ethnicity, :user, {:concerns => []})
 	end
 
 	def check_profile_presence
