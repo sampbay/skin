@@ -9,19 +9,17 @@
 	</br>
 	<h3>Skin Profile</h3>
 	<div class="profile_content">
-		<% if @profile.present? %>
+		<% if @profile %>
 			<p>Age: <%= @profile.age %></p>
 			<p>Skin Type: <%= @profile.skin_type %></p>
 			<p>Ethnicity: <%= @profile.ethnicity %></p>
 			<p>Concerns: <%= @profile.concerns.join(', ') %></p>
+			</br>
+			<%= link_to 'Edit Skin Profile', edit_profile_path(@profile), :class => "submit_btn" %>
 		<% else %>
-		<p>Your skin profile is empty. Please add your skin profile to compare with other users!</p>
-		</br>
+			<p>Your skin profile is empty. Please add your skin profile to compare with other users!</p>
+			</br>
+			<%= link_to 'Add Skin Profile', new_profile_path(@profile), :class => "submit_btn" %>
 		<% end %>
 	</div>
-	<% if @profile %>
-		<%= link_to 'Edit Skin Profile', edit_profile_path(@profile), :class => "submit_btn" %>
-	<% else %>
-		<%= link_to 'Add Skin Profile', new_profile_path(@profile), :class => "submit_btn" %>
-	<% end %>	
 </div>
