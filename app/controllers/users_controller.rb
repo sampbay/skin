@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 		@user = User.new(user_params)
 		if @user.save
 			session[:user_id_session] = @user.id
-			redirect_to edit_profile_url
+			redirect_to new_profile_url(@profile)
 		else
 			render :new
 		end
@@ -20,7 +20,7 @@ class UsersController < ApplicationController
 		@user = current_user
 		# Skin Profile - acts as profiles_controller index
 		@profile = Profile.find(current_user.profile)
-		rescue ActiveRecord::RecordNotFound
+		#rescue ActiveRecord::RecordNotFound
 	end
 
 	def edit
