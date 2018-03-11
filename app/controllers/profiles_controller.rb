@@ -8,7 +8,7 @@ class ProfilesController < ApplicationController
 	#	@profile = Profile.find(current_user.profile)
 	#	@myproduct = Myproduct.find(current_user.myproducts)
 		# @parsed_products = JSON.parse(@profile.products)
-		rescue ActiveRecord::RecordNotFound
+		#rescue ActiveRecord::RecordNotFound
 	end	
 	#def show
 	#	@profile = Profile.find(params[:id])
