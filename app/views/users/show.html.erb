@@ -9,7 +9,7 @@
 	</br>
 	<h3>Skin Profile</h3>
 	<div class="profile_content">
-		<% if @profile %>
+		<% if @profile.present? %>
 			<p>Age: <%= @profile.age %></p>
 			<p>Skin Type: <%= @profile.skin_type %></p>
 			<p>Ethnicity: <%= @profile.ethnicity %></p>
