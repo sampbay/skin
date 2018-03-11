@@ -30,12 +30,13 @@ class ProfilesController < ApplicationController
 		end
 	end
 	def edit
-		@profile = Profile.find(current_user.profile)
+		@profile = Profile.find_by(user_id: current_user)
 		# @myproduct = Myproduct.find(current_user.myproducts)
 
 	end
 	def update
-		@profile = Profile.find(current_user.profile)
+		@profile = Profile.find_by(user_id: current_user)
+		#@profile = Profile.find(current_user.profile)
 		if @profile.update(profile_params) 
 			redirect_to '/myproducts'
 		else 
