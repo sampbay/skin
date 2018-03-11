@@ -37,7 +37,7 @@ class ProfilesController < ApplicationController
 	def update
 		@profile = Profile.find(current_user.profile)
 		if @profile.update(profile_params) 
-			redirect_to current_user
+			redirect_to '/myproducts'
 		else 
 			render 'edit'
 		end
@@ -50,7 +50,7 @@ class ProfilesController < ApplicationController
 	
 	private
 	def profile_params
-		params.require(:profile).permit(:age, :skin_type, :ethnicity, {:concerns => []})
+		params.require(:profile).permit(:age, :skin_type, :ethnicity, :user, {:concerns => []})
 	end
 
 	def check_profile_presence
