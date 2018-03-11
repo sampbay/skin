@@ -16,11 +16,12 @@ class UsersController < ApplicationController
 	end
 
 	def show
+		rescue ActiveRecord::RecordNotFound
 		# @user = User.find(params[:id])
 		@user = current_user
 		# Skin Profile - acts as profiles_controller index
 		@profile = Profile.find(current_user.profile)
-		#rescue ActiveRecord::RecordNotFound
+		
 	end
 
 	def edit
