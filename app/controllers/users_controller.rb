@@ -16,7 +16,7 @@ class UsersController < ApplicationController
 	end
 
 	def show
-		rescue ActiveRecord::RecordNotFound
+		#rescue ActiveRecord::RecordNotFound
 		# @user = User.find(params[:id])
 		@user = current_user
 		# Skin Profile - acts as profiles_controller index

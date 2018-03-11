@@ -9,7 +9,7 @@
 	</br>
 	<h3>Skin Profile</h3>
 	<div class="profile_content">
-		<% if @profile.exists? %>
+		<% if @profile %>
 			<p>Age: <%= @profile.age %></p>
 			<p>Skin Type: <%= @profile.skin_type %></p>
 			<p>Ethnicity: <%= @profile.ethnicity %></p>
@@ -19,9 +19,9 @@
 		</br>
 		<% end %>
 	</div>
-	<%# if @profile == nil %>
-		<%#= link_to 'Add Skin Profile', new_profile_path, :class => "submit_btn" %>
-	<%# else %>
+	<% if @profile %>
 		<%= link_to 'Edit Skin Profile', edit_profile_path(@profile), :class => "submit_btn" %>
-	<%# end %>	
+	<% else %>
+		<%= link_to 'Add Skin Profile', new_profile_path(@profile), :class => "submit_btn" %>
+	<% end %>	
 </div>
