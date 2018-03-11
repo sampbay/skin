@@ -50,7 +50,7 @@ class ProfilesController < ApplicationController
 	
 	private
 	def profile_params
-		params.require(:profile).permit(:age, :skin_type, :ethnicity, :user, {:concerns => []})
+		params.require(:profile).permit(:age, :skin_type, :ethnicity, :user_id, {:concerns => []})
 	end
 
 	def check_profile_presence
