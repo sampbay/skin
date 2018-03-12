@@ -1,5 +1,5 @@
 class ProfilesController < ApplicationController
-	before_action :require_user, only: [:new, :create, :edit, :update, :destroy]
+	before_action :require_user, only: [:index, :new, :create, :edit, :update, :destroy]
 	before_action :check_profile_presence, only: [:new, :create]
 	#before_action :require_user_profile_exists, only: [:edit, :update, :destroy]
 	#before_action :require_user_profile_nil, only: [:new, :create]
@@ -51,8 +51,8 @@ class ProfilesController < ApplicationController
 	private
 	def profile_params
 				# in case user sends empty array (i.e. remove all checkbox)
-		#params[:profile][:concerns] ||= []
-		params.require(:profile).permit(:age, :skin_type, :ethnicity, :user)
+		params[:profile][:concerns] ||= []
+		params.require(:profile).permit(:age, :skin_type, :ethnicity, :user, {:concerns => []})
 	end
 
 	def check_profile_presence

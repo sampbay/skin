@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 		@user = User.new(user_params)
 		if @user.save
 			session[:user_id_session] = @user.id
-			redirect_to new_profile_url(@profile)
+			redirect_to new_profile_url
 		else
 			render :new
 		end
