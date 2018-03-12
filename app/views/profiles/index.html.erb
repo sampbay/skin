@@ -1,0 +1,22 @@
+<div class="row">
+
+<h3>My Skin Profile</h3>
+	
+	<% if @profile == nil %>
+		<%= link_to 'Add Profile', new_profile_path, :class => "btn btn-primary" %>
+	<% else %>
+		<%= link_to 'Edit Profile', edit_profile_path(@profile), :class => "btn btn-primary" %>
+	<% end %>	
+ 
+<div class="profile_content">
+	<% if @profile %>
+	<h4>My Profile</h4><br>
+	<%= @profile.age %><br>
+	<%= @profile.skin_type %><br>
+	<%= @profile.ethnicity %><br>
+	<% elsif @profile == nil %>
+	<br>
+	Your profile is empty. Please add your profile!
+	<% end %>
+ </div>
+ </div>

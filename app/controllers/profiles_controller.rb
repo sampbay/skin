@@ -4,12 +4,12 @@ class ProfilesController < ApplicationController
 	#before_action :require_user_profile_exists, only: [:edit, :update, :destroy]
 	#before_action :require_user_profile_nil, only: [:new, :create]
 	def welcome; end
-	#def index
-	#	@profile = Profile.find(current_user.profile)
+	def index
+		@profile = Profile.find(current_user.profile)
 	#	@myproduct = Myproduct.find(current_user.myproducts)
 		# @parsed_products = JSON.parse(@profile.products)
-	#	rescue ActiveRecord::RecordNotFound
-	#end	
+		rescue ActiveRecord::RecordNotFound
+	end	
 	#def show
 	#	@profile = Profile.find(params[:id])
 		# show ingredients by ingredients controller
@@ -53,7 +53,7 @@ class ProfilesController < ApplicationController
 	def profile_params
 				# in case user sends empty array (i.e. remove all checkbox)
 		params[:profile][:concerns] ||= []
-		params.require(:profile).permit(:age, :skin_type, :ethnicity, :user, {:concerns => []})
+		params.require(:profile).permit(:age, :skin_type, :ethnicity, :user_id, {:concerns => []})
 	end
 
 	def check_profile_presence
