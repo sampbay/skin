@@ -24,7 +24,7 @@ resources :myproducts
 
 resources :suggest, only: [:index, :new, :create]
   resources :profiles
-  get '/profiles' => 'users#show'
+  #get '/profiles' => 'users#show'
   #resources :products do
   #  resources :ingredients
   #end
