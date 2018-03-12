@@ -15,16 +15,18 @@ class ProfilesController < ApplicationController
 		# show ingredients by ingredients controller
 	#end
 	def new
-		@profile = Profile.new(profile_params)
+		@profile = Profile.new
 	    # 3.times { @profile.products.build }
 	    # @product_search = Product.find_by_sql "SELECT row_to_json(row(name, brand)) FROM products"
 		
 	end
 	def create
 		@profile = Profile.new(profile_params)
-		@profile.user = User.find(current_user)
+		@profile.user = User.find_by(user_id: current_user)
 		if @profile.save
 			redirect_to '/myproducts'
+		else
+			render :new
 		end
 		
 	end
