@@ -1,6 +1,6 @@
 class ProfilesController < ApplicationController
-	before_action :require_user, only: [:index, :new, :create, :edit, :update, :destroy]
-	before_action :check_profile_presence, only: [:new, :create]
+	#before_action :require_user, only: [:index, :new, :create, :edit, :update, :destroy]
+	#before_action :check_profile_presence, only: [:new, :create]
 	#before_action :require_user_profile_exists, only: [:edit, :update, :destroy]
 	#before_action :require_user_profile_nil, only: [:new, :create]
 	def welcome; end
