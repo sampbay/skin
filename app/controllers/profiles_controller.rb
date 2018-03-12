@@ -22,7 +22,7 @@ class ProfilesController < ApplicationController
 	end
 	def create
 		@profile = Profile.new(profile_params)
-		@profile.user = current_user
+		@profile.user_id = current_user.id
 		if @profile.save
 			redirect_to '/myproducts'
 		else
@@ -31,12 +31,12 @@ class ProfilesController < ApplicationController
 		
 	end
 	def edit
-		@profile = Profile.find_by(user_id: current_user)
+		@profile = Profile.find_by(user_id: current_user.id)
 		# @myproduct = Myproduct.find(current_user.myproducts)
 
 	end
 	def update
-		@profile = Profile.find_by(user_id: current_user)
+		@profile = Profile.find_by(user_id: current_user.id)
 		#@profile = Profile.find(current_user.profile)
 		if @profile.update(profile_params) 
 			redirect_to '/myproducts'
