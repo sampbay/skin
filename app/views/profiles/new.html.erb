@@ -17,28 +17,7 @@
         <%= f.label :ethnicity, "Ethnicity:" %><br>
         <%= f.select :ethnicity, [], {}, class: "profile_ethnicity" %>
       </div>
-      <div class="the-basics">
-        <%= f.label :concerns, "Concerns (will be included in analysis soon):" %><br>
-    
-      <%= f.label "Acne/Blemish" %>
-      <%= f.check_box :concerns, {multiple: true}, "Acne/Blemish", nil %> | 
-      <%= f.label "Eczema" %>
-      <%= f.check_box :concerns, {multiple: true}, "Eczema", nil %> | 
-      <%= f.label "Sun-damaged" %>
-      <%= f.check_box :concerns, {multiple: true}, "Sun-damaged", nil %> | 
-      <%= f.label "Aging/Wrinkles" %>
-      <%= f.check_box :concerns, {multiple: true}, "Aging/Wrinkles", nil %> | 
-      <%= f.label "Dryness" %>
-      <%= f.check_box :concerns, {multiple: true}, "Dryness", nil %> | 
-      <%= f.label "Oiliness" %>
-      <%= f.check_box :concerns, {multiple: true}, "Oiliness", nil %> | 
-      <%= f.label "Pores" %>
-      <%= f.check_box :concerns, {multiple: true}, "Pores", nil %> | 
-      <%= f.label "Redness" %>
-      <%= f.check_box :concerns, {multiple: true}, "Redness", nil %> |
-      <%= f.label "Dark Spots" %>
-      <%= f.check_box :concerns, {multiple: true}, "Dark Spots", nil %>
-      </div>
+      
     </br>
     <%= f.submit "Create Profile", class: "submit_btn" %>
     <% end %>
