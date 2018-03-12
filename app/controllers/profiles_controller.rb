@@ -49,7 +49,9 @@ class ProfilesController < ApplicationController
 	
 	private
 	def profile_params
-		params.require(:profile).permit(:age, :skin_type, :ethnicity, :user, {:concerns => []})
+		# in case user sends empty array (i.e. remove all checkboxes)
+		params[:profile][:concerns] ||= []
+		params.require(:profile).permit(:age, :skin_type, :ethnicity, :user, concerns: [])
 	end
 
 	def check_profile_presence
