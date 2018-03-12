@@ -23,8 +23,9 @@ class ProfilesController < ApplicationController
 	def create
 		@profile = Profile.new(profile_params)
 		@profile.user = User.find(current_user)
-		@profile.save
+		if @profile.save
 			redirect_to '/myproducts'
+		end
 		
 	end
 	def edit
@@ -49,9 +50,9 @@ class ProfilesController < ApplicationController
 	
 	private
 	def profile_params
-		# in case user sends empty array (i.e. remove all checkboxes)
+				# in case user sends empty array (i.e. remove all checkbox)
 		params[:profile][:concerns] ||= []
-		params.require(:profile).permit(:age, :skin_type, :ethnicity, :user, concerns: [])
+		params.require(:profile).permit(:age, :skin_type, :ethnicity, :user, {:concerns => []})
 	end
 
 	def check_profile_presence

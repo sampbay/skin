@@ -13,7 +13,7 @@ $(document).ready(function(){
             });
         }
     });
-  $('.e11, .product_type_dropdown, .brand_dropdown').on('select2:unselecting', function() {
+  $('.e11, .product_type_dropdown, .brand_dropdown, .profile_age, .profile_skin_type, .profile_ethnicity').on('select2:unselecting', function() {
     var opts = $(this).data('select2').options;
     opts.set('disabled', true);
     setTimeout(function() {

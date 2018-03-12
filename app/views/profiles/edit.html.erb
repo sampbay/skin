@@ -1,6 +1,6 @@
 <div class="row">
 <h3>Edit Skin Profile</h3>
-<%= form_for @profile, url: profile_path(@profile), method: :patch do |f| %>
+<%= form_for (@profile) do |f| %>
     <div class="the-basics">
       <%= f.label :age, "Age:" %><br>
       <% if Profile.where(user_id: current_user).pluck(:age).first.present? %>
