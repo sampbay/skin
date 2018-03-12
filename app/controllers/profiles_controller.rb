@@ -5,10 +5,10 @@ class ProfilesController < ApplicationController
 	#before_action :require_user_profile_nil, only: [:new, :create]
 	def welcome; end
 	def index
-	#	@profile = Profile.find(current_user.profile)
+		@profile = Profile.find(current_user.profile)
 	#	@myproduct = Myproduct.find(current_user.myproducts)
 		# @parsed_products = JSON.parse(@profile.products)
-		#rescue ActiveRecord::RecordNotFound
+		rescue ActiveRecord::RecordNotFound
 	end	
 	#def show
 	#	@profile = Profile.find(params[:id])
