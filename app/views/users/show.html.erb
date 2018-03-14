@@ -15,11 +15,11 @@
 			<p>Ethnicity: <%= @profile.ethnicity %></p>
 			<p>Concerns: <%= @profile.concerns.join(', ') %></p>
 			</br>
-			<%= link_to 'Edit Skin Profile', edit_profile_path(@profile), :class => "submit_btn" %>
+			<%= link_to 'Edit Skin Profile', edit_profile_path, :class => "submit_btn" %>
 		<% else %>
 			<p>Your skin profile is empty. Please add your skin profile to compare with other users!</p>
 			</br>
-			<%= link_to 'Add Skin Profile', new_profile_path(@profile), :class => "submit_btn" %>
+			<%= link_to 'Add Skin Profile', new_profile_path, :class => "submit_btn" %>
 		<% end %>
 	</div>
 </div>
