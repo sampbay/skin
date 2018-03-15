@@ -69,21 +69,21 @@
                         <% @users_skin_type.each do |p| %>
                         <% @users_skin_type_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
                         <% end %>
-                        <% @percent_skin_type = @users_skin_type_ing.to_f / @users_skin_type.count * 100.0 %> 
+                        <% @percent_skin_type = (@users_skin_type_ing / @users_skin_type.count * 100.0) if @users_skin_type.any? %> 
 
                         <% @users_ethnicity_ing = 0 %>
                         <% @users_ethnicity = Profile.where(ethnicity: Profile.where(user_id: current_user).pluck(:ethnicity).first).pluck(:user_id) %>
                         <% @users_ethnicity.each do |p| %>
                         <% @users_ethnicity_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
                         <% end %>
-                        <% @percent_ethnicity = @users_ethnicity_ing.to_f / @users_ethnicity.count * 100.0 %> 
+                        <% @percent_ethnicity = (@users_ethnicity_ing / @users_ethnicity.count * 100.0) if @users_ethnicity.any? %> 
 
                         <% @users_age_ing = 0 %>
                         <% @users_age = Profile.where(age: Profile.where(user_id: current_user).pluck(:age).first).pluck(:user_id) %>
                         <% @users_age.each do |p| %>
                         <% @users_age_ing += 1 if PotentialProduct.where(user_id: p).pluck(:product).flatten.include?(inci) %>
                         <% end %>
-                        <% @percent_age = @users_age_ing.to_f / @users_age.count * 100.0 %> 
+                        <% @percent_age = (@users_age_ing / @users_age.count * 100.0) if @users_age.any? %> 
 
 
                         <% unless @potential_list.blank? %>
