@@ -2,11 +2,9 @@
 <html>
 <head>
   <title>Cosmedict</title>
-    
-    <!-- <link href='http://fonts.googleapis.com/css?family=Roboto:100,300,400,700,500' rel='stylesheet' type='text/css'> -->
-   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css?family=Nunito:400,400i,700" rel="stylesheet">
+   <!-- <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"> -->
    <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> -->
-   <!-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet"> -->
    <!-- <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">-->
 
 
@@ -56,6 +54,9 @@
           </div>
         </div>
         <div class="sidenav_bottom">
+          <p><%= link_to "How It Works", how_it_works_path %></p>
+          <p><%= link_to "Suggest Product", new_suggest_path %></p>
+          <p><%= link_to "Report Error", new_suggest_path %></p>
           <p><%= image_tag "if_icon-6-mail-envelope-closed_314900.png", size: "30", alt: "Email" %>&nbsp;admin@cosmedict.com</p>
           <p><%= link_to image_tag("if_1_social_2609541.png", height: "30px", width: "30px"), "https://facebook.com", target: :_blank, size: "15", alt: "Facebook" %>&nbsp;<%= link_to image_tag("if_25_social_2609558.png", height: "30px", width: "30px"), "https://instagram.com", target: :_blank, size: "20", alt: "Instagram" %></p>
           <div class="fineprints">
